@@ -5,6 +5,9 @@
 @import './sidebar.scss';
 @import './btn.scss';
 
+.clear{
+    clear: both;
+}
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -191,3 +194,102 @@ code {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+//icon
+.passwordIcon{
+    display: inline-block;
+    width:20px;
+    height: 20px;
+    background: url(../../static/images/icon.png) no-repeat -523px -12px #a0d468;
+    border-radius: 3px;
+}
+.exitIcon{
+     display: inline-block;
+    width:20px;
+    height: 20px;
+    background: url(../../static/images/icon.png) no-repeat -492px -11px #a0d468;
+    border-radius: 3px;
+}
+.emailIcon{
+     display: inline-block;
+    width:25px;
+    height: 25px;
+    background: url(../../static/images/icon.png) no-repeat -453px -8px #8793b2;
+    border-radius: 3px;
+}
+.homeIcon{
+      display: inline-block;
+    width:35px;
+    height: 35px;
+    background: url(../../static/images/icon.png) no-repeat -406px -5px #8793b2;
+    border-radius: 5px;
+}
+.peopleIcon{
+    display: inline-block;
+    width:45px;
+    height: 35px;
+    background: url(../../static/images/icon.png) no-repeat 0px 0px;
+    border-radius: 5px;
+}
+.moneyIcon{
+    display: inline-block;
+    width:45px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -87px 0px;
+    border-radius: 5px;
+}
+.orderIcon{
+      display: inline-block;
+    width:45px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -275px 0px;
+    border-radius: 5px;
+}
+.jineIcon{
+      display: inline-block;
+    width:45px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -183px 0px;
+    border-radius: 5px;
+}
+.userIcon{
+     display: inline-block;
+    width:25px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -366px 24px;
+   
+}
+.copyright{
+    background: #b0bdd6;
+    color:white;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-size: 14px;
+}
+.rightIcon{
+   display: inline-block;
+    width:35px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -695px 8px;
+}
+.el-table th{
+    background: #616a87;
+    font-weight: normal;
+   color:white;
+   text-align: center;
+}
+.el-table td{
+    text-align: center;
+}
+.pageBox{
+    margin-top: 50px;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active{
+    background: #616a87;
+}
+.tags-view-container .tags-view-wrapper .tags-view-item.active{
+    background-color: #616a87 !important;
+    border-color: #616a87 !important;
+}
+

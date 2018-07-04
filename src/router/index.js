@@ -13,6 +13,17 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/errorPage/404'), hidden:true },
   { path: '/401', component: () => import('@/views/errorPage/401'), hidden: true },
   {
+    path: '/documentation',
+    component: Layout,
+    redirect: '/documentation/index',
+    children: [{
+      path: 'index',
+      component: () => import('@/views/documentation/index'),
+      name: 'documentation',
+      meta: { title: '消息提醒', icon: 'documentation'}
+    }], hidden: true
+},
+  {
     path: '',
     component: Layout,
     redirect: 'dashboard',
@@ -22,29 +33,7 @@ export const constantRouterMap = [
       name: 'dashboard',
       meta: { title: '首页', icon: 'dashboard', noCache: true }
     }]
-  },
-//{
-//  path: '/documentation',
-//  component: Layout,
-//  redirect: '/documentation/index',
-//  children: [{
-//    path: 'index',
-//    component: () => import('@/views/documentation/index'),
-//    name: 'documentation',
-//    meta: { title: 'documentation', icon: 'documentation', noCache: true }
-//  }]
-//},
-//{
-//  path: '/guide',
-//  component: Layout,
-//  redirect: '/guide/index',
-//  children: [{
-//    path: 'index',
-//    component: () => import('@/views/guide/index'),
-//    name: 'guide',
-//    meta: { title: 'guide', icon: 'guide', noCache: true }
-//  }]
-//}
+  }
 ]
 
 export default new Router({
@@ -60,25 +49,29 @@ export const asyncRouterMap = [
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
-      title: 'permission',
+      title: '财务管理',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
     },
     children: [{
       path: 'page',
       component: () => import('@/views/permission/page'),
       name: 'pagePermission',
       meta: {
-        title: 'pagePermission',
-        roles: ['admin'] // or you can only set roles in sub nav
+        title: '代理佣金管理',
       }
     }, {
       path: 'directive',
       component: () => import('@/views/permission/directive'),
       name: 'directivePermission',
       meta: {
-        title: 'directivePermission'
-        // if do not set roles, means: this page does not require permission
+        title: '订单手续费管理'
+      }
+    }, {
+      path: 'cash',
+      component: () => import('@/views/permission/directive'),
+      name: 'cashPermission',
+      meta: {
+        title: '佣金体现'
       }
     }]
   },

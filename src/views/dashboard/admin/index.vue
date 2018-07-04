@@ -1,7 +1,5 @@
 <template>
   <div class="dashboard-editor-container">
-    <github-corner></github-corner>
-
     <panel-group @handleSetLineChartData="handleSetLineChartData"></panel-group>
 
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
@@ -11,46 +9,78 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <raddar-chart></raddar-chart>
+           <div class='chartName yellowSty'>
+           	  <div class='inspan'>
+           	  	 <span class="userIcon"></span>
+            	   <span>团队一</span>
+           	  </div>
+           </div>
+           
+           <div class="chartCont" v-for="item in tableData">
+            	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.name}}</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.cont}}</div>
+                </el-col>
+             </el-row>
+           </div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      
+            <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <pie-chart></pie-chart>
+           <div class='chartName greenSty'>
+           	  <div class='inspan'>
+           	  	 <span class="userIcon"></span>
+            	   <span>团队一</span>
+           	  </div>
+           </div>
+           
+           <div class="chartCont" v-for="item in tableData">
+            	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.name}}</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.cont}}</div>
+                </el-col>
+             </el-row>
+           </div>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
+      
+            <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <bar-chart></bar-chart>
+           <div class='chartName blueSty'>
+           	  <div class='inspan'>
+           	  	 <span class="userIcon"></span>
+            	   <span>团队一</span>
+           	  </div>
+           </div>
+           
+           <div class="chartCont" v-for="item in tableData">
+            	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.name}}</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.cont}}</div>
+                </el-col>
+             </el-row>
+           </div>
         </div>
       </el-col>
-    </el-row>
 
-    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table></transaction-table>
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 5}" style="margin-bottom:30px;">
-        <todo-list></todo-list>
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 5}" style="margin-bottom:30px;" >
-        <box-card></box-card>
-      </el-col>
     </el-row>
-
   </div>
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
+
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
-import TransactionTable from './components/TransactionTable'
-import TodoList from './components/TodoList'
-import BoxCard from './components/BoxCard'
 
 const lineChartData = {
   newVisitis: {
@@ -74,18 +104,24 @@ const lineChartData = {
 export default {
   name: 'dashboard-admin',
   components: {
-    GithubCorner,
     PanelGroup,
     LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart,
-    TransactionTable,
-    TodoList,
-    BoxCard
   },
   data() {
     return {
+    	  tableData: [{
+            name: '团队名称：',
+            cont: '名称一'
+          },{
+            name: '累计成交订单金额：',
+            cont: '1340000'
+          },{
+            name: '累计订单笔数：',
+            cont: '10'
+          },{
+            name: '团队人数：',
+            cont: '50'
+          }],
       lineChartData: lineChartData.newVisitis
     }
   },
@@ -103,8 +139,52 @@ export default {
   background-color: rgb(240, 242, 245);
   .chart-wrapper {
     background: #fff;
-    padding: 16px 16px 0;
+/*    padding: 16px 16px 0;*/
     margin-bottom: 32px;
   }
+}
+.chartName{
+	height: 60px;
+	text-align: center;
+  line-height: 60px;
+  color:#fff;
+}
+.chartCont{
+	width: 100%;
+}
+.el-table .hidden-columns{
+	width:50%;
+}
+.el-table__body, .el-table__footer, .el-table__header{
+	width:100% !important;
+}
+.el-table__body, .el-table__footer, .el-table__header{
+	width:100% !important;
+}
+.el-table__row{
+	width: 50% !important;
+}
+.yellowSty{
+	background:#ff9666;
+}
+.greenSty{
+	background:#a0d468;
+}
+.blueSty{
+	background:#46c1de;
+}
+.chartName span{
+	float: left;
+	display: inline-block;
+}
+.inspan{
+	display: inline-block;
+}
+.colspan{
+	border:1px solid #ebeef5;
+	height: 50px;
+	line-height: 50px;
+	text-indent: 10px;
+	color:#606266;
 }
 </style>

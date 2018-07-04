@@ -74,12 +74,19 @@ export default {
   methods: {
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
+      	color:['#fe9a5c','#4adcc2'],
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['10000', '15482', '6952', '7822', '1456', '4785', '24852'],
           boundaryGap: false,
           axisTick: {
             show: false
-          }
+          },
+           axisLine:{
+		       lineStyle:{
+		         color:'#000',
+		         width:1
+		       }
+		     }
         },
         grid: {
           left: 10,
@@ -98,17 +105,24 @@ export default {
         yAxis: {
           axisTick: {
             show: false
-          }
+          },
+          axisLine:{
+		       lineStyle:{
+		         color:'#000',
+		         width:1
+		       }
+		     }
+
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['订单笔数（成交、申诉）', '订单金额（成交、申诉）']
         },
         series: [{
-          name: 'expected', itemStyle: {
+          name: '订单笔数（成交、申诉）', itemStyle: {
             normal: {
-              color: '#FF005A',
+//            color: '#FF005A',
               lineStyle: {
-                color: '#FF005A',
+//              color: '#FF005A',
                 width: 2
               }
             }
@@ -120,19 +134,19 @@ export default {
           animationEasing: 'cubicInOut'
         },
         {
-          name: 'actual',
+          name: '订单金额（成交、申诉）',
           smooth: true,
           type: 'line',
           itemStyle: {
             normal: {
-              color: '#3888fa',
+//            color: '#3888fa',
               lineStyle: {
-                color: '#3888fa',
+//              color: '#3888fa',
                 width: 2
               },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
+//            areaStyle: {
+//              color: '#f3f8ff'
+//            }
             }
           },
           data: actualData,

@@ -1,47 +1,123 @@
 <template>
   <div class="app-container documentation-container">
-    <a class="document-btn" target='_blank' href="https://panjiachen.github.io/vue-element-admin-site/#/">{{$t('documentation.documentation')}}</a>
-    <a class="document-btn" target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">{{$t('documentation.github')}}</a>
-    <dropdown-menu style="float:left;margin-left:50px;" title='系列文章' :items='articleList'></dropdown-menu>
+     <el-table
+    :data="tableData"
+    border
+    style="width: 100%">
+    <el-table-column
+      prop="date"
+      label="时间">
+       <template slot-scope="scope">
+         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.date}}</div>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="style"
+      label="消息类型">
+        <template slot-scope="scope">
+         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.style}}</div>
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="cont"
+      label="消息内容">
+        <template slot-scope="scope">
+         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.cont}}</div>
+      </template>
+    </el-table-column>
+      <el-table-column
+      prop="flag"
+      label="标志">
+      <template slot-scope="scope">
+      	<div class="flgStyle">
+      		   <span class="emailIcon" v-if="scope.row.flag==1"></span>
+             <span class="rightIcon" v-if="scope.row.flag==2"></span>
+      	</div>
+      
+      </template>
+    </el-table-column>
+  </el-table>
+  
+  <div class='pageBox'>
+  	  <el-pagination
+  background
+  layout="prev, pager, next"
+  :total="100">
+</el-pagination>
+  </div>
+
   </div>
 </template>
 <script>
-import DropdownMenu from '@/components/Share/dropdownMenu'
+
 
 export default {
   name: 'documentation',
-  components: { DropdownMenu },
+ 
   data() {
     return {
-      articleList: [
-        { title: '基础篇', href: 'https://segmentfault.com/a/1190000009275424' },
-        { title: '登录权限篇', href: 'https://segmentfault.com/a/1190000009506097' },
-        { title: '实战篇', href: 'https://segmentfault.com/a/1190000009762198' },
-        { title: 'vueAdmin-template 篇', href: 'https://segmentfault.com/a/1190000010043013' },
-        { title: '自行封装 component', href: 'https://segmentfault.com/a/1190000009090836' },
-        { title: '优雅的使用 icon', href: 'https://segmentfault.com/a/1190000012213278' }
-      ]
+    	yjSty:'yjSty',
+    	ycSty:'ycSty',
+     tableData:[{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'1',
+     	  type:0
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'2',
+     	  type:0
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'1',
+     	  type:1
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'2',
+     	  type:2
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'2',
+     	  type:0
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'1',
+     	  type:1
+     },{
+     	  date:'2017-06-11 15:10:56',
+     	  style:'通知',
+     	  cont:'张三用户发起补卡请求',
+     	  flag:'2',
+     	  type:2
+     }]
     }
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-.documentation-container {
-  margin: 50px;
-  .document-btn {
-    float: left;
-    margin-left: 50px;
-    vertical-align: middle;
-    display: block;
-    cursor: pointer;
-    background: black;
-    color: white;
-    height: 60px;
-    width: 200px;
-    line-height: 60px;
-    font-size: 20px;
-    text-align: center;
-  }
+.documentation-container{
+	min-height: 800px;
 }
+.yjSty{
+	color:#2ab0db;
+}
+.ycSty{
+	color:#ff9666;
+}
+.flgStyle{
+	text-align: center;
+}
+
 </style>

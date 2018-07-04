@@ -1,50 +1,97 @@
 <template>
   <el-row class="panel-group" :gutter="40">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class='card-panel' @click="handleSetLineChartData('newVisitis')">
+      <div class='card-panel'>
         <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+           <span class="peopleIcon"></span>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">New Visits</div>
+          <div class="card-panel-text">昨日新增代理人</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="102400" :duration="2600"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('messages')">
+      <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+          <span class="moneyIcon"></span>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Messages</div>
+          <div class="card-panel-text">昨日新增消费者</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="81212" :duration="3000"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+      <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-money">
-          <svg-icon icon-class="money" class-name="card-panel-icon" />
+          <span class="orderIcon"></span>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Purchases</div>
+          <div class="card-panel-text">昨日新增订单笔数</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="9280" :duration="3200"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+      <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-shoppingCard">
-          <svg-icon icon-class="shoppingCard" class-name="card-panel-icon" />
+          <span class="jineIcon"></span>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Shoppings</div>
+          <div class="card-panel-text">昨日新增订单金额</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="13600" :duration="3600"></count-to>
+        </div>
+      </div>
+    </el-col>
+    
+     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class='card-panel'>
+        <div class="card-panel-icon-wrapper icon-people">
+           <span class="peopleIcon"></span>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">累计代理人</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="102400" :duration="2600"></count-to>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-message">
+          <span class="moneyIcon"></span>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">累计消费者</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="81212" :duration="3000"></count-to>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-money">
+          <span class="orderIcon"></span>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">累计订单笔数</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="9280" :duration="3200"></count-to>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-shoppingCard">
+          <span class="jineIcon"></span>
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">昨日新增订单金额</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="13600" :duration="3600"></count-to>
         </div>
       </div>
     </el-col>
   </el-row>
+  
+  
 </template>
 
 <script>
@@ -74,11 +121,12 @@ export default {
     font-size: 12px;
     position: relative;
     overflow: hidden;
-    color: #666;
+    color: #fff;
     background: #fff;
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     border-color: rgba(0, 0, 0, .05);
-    &:hover {
+    background: #4ab9dc;
+    /*&:hover {
       .card-panel-icon-wrapper {
         color: #fff;
       }
@@ -94,7 +142,7 @@ export default {
       .icon-shoppingCard {
         background: #34bfa3
       }
-    }
+    }*/
     .icon-people {
       color: #40c9c6;
     }
@@ -109,10 +157,13 @@ export default {
     }
     .card-panel-icon-wrapper {
       float: left;
-      margin: 14px 0 0 14px;
-      padding: 16px;
+      padding:0px 30px;
       transition: all 0.38s ease-out;
       border-radius: 6px;
+      background: #2ab0db;
+      height: 108px;
+      display: flex;
+      align-items: center;
     }
     .card-panel-icon {
       float: left;
@@ -120,19 +171,21 @@ export default {
     }
     .card-panel-description {
       float: right;
-      font-weight: bold;
       margin: 26px;
       margin-left: 0px;
+      text-align: right;
       .card-panel-text {
         line-height: 18px;
-        color: rgba(0, 0, 0, 0.45);
+        color: white;
         font-size: 16px;
         margin-bottom: 12px;
       }
       .card-panel-num {
         font-size: 20px;
+        
       }
     }
   }
+
 }
 </style>
