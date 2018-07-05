@@ -33,7 +33,7 @@
               <el-button type="primary" icon="el-icon-download">导出</el-button>
           </el-form-item>
            <el-form-item>
-              <el-button type="primary">代理人提现</el-button>
+              <el-button type="primary" @click="cashVisible = true">代理人提现</el-button>
           </el-form-item>
       </div>
   
@@ -91,7 +91,7 @@
       label="佣金状态">
     </el-table-column>
       <el-table-column
-      label="操作">
+      label="操作" width='150'>
       
        <template slot-scope="scope">
         <el-button
@@ -101,7 +101,7 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete()">删除</el-button>
+          @click="deleteVisible = true">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -181,6 +181,59 @@
   </span>
 </el-dialog>
 
+<!--提现-->
+<el-dialog
+  title="提现"
+  :visible.sync="cashVisible"
+  width="30%">
+  <div style="width:80%;">
+  	 <el-form  label-width="100px" :model="sendForm">
+  	 	  <el-form-item label="序号">
+          <el-input></el-input>
+        </el-form-item>
+  	 	
+        <el-form-item label="代理人ID">
+          <el-input></el-input>
+        </el-form-item>
+        
+        <el-form-item label="代理人姓名">
+           <el-input></el-input>
+        </el-form-item>
+        
+         <el-form-item label="提现时间">
+           <el-input></el-input>
+         </el-form-item>
+         
+          <el-form-item label="提现金额">
+           <el-input></el-input>
+         </el-form-item>
+         
+          <el-form-item label="操作">
+            <el-select v-model='sendForm.status' placeholder="">
+               <el-option label="通过" value="1"></el-option>
+               <el-option label="驳回" value="2"></el-option>
+           </el-select>
+          </el-form-item>
+      </el-form>
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="cashVisible = false">取 消</el-button>
+    <el-button type="primary" @click="cashVisible = false">提现</el-button>
+  </span>
+</el-dialog>
+
+<!--删除-->
+<el-dialog
+  title="删除"
+  :visible.sync="deleteVisible"
+  width="30%">
+  <span>确定要删除吗？</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="deleteVisible = false">取 消</el-button>
+    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
+  </span>
+</el-dialog>
+
 
 </div>
 </template>
@@ -195,6 +248,8 @@ export default{
   	return{ 
   		    editVisible:false,
   		    addVisible:false,
+  		    cashVisible:false,
+  		    deleteVisible:false,
   		     sendForm:{
   		     	 status:''
   		     },

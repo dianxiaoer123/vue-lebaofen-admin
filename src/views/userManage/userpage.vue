@@ -3,40 +3,47 @@
   	
   	<div class='inputBox'>
   	<el-form :inline="true" :model="formInline">
-  	  <el-form-item label="订单编号">
-         <el-input></el-input>
-      </el-form-item>
-      
-     <el-form-item label="代理人姓名">
-         <el-input></el-input>
-      </el-form-item>
   		
-      <el-form-item label="代理人ID">
-         <el-input></el-input>
+  		<div>
+  			  <el-form-item label="消费者ID">
+           <el-input></el-input>
       </el-form-item>
       
-      <el-form-item label="消费者姓名">
-         <el-input></el-input>
+       <el-form-item label="姓名">
+           <el-input></el-input>
       </el-form-item>
-
-        <el-form-item label="手续费状态">
-            <el-select  v-model='formInline.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+      
+       <el-form-item label="用户状态">
+            <el-select  v-model='formInline.status' placeholder="用户状态">
+                <el-option label="正常" value="1"></el-option>
+                <el-option label="黑名单" value="2"></el-option>
             </el-select>
       </el-form-item>
+  
+  		</div>
+  		
       
+    
       <div>
       	  <el-form-item>
               <el-button type="primary" icon="el-icon-search">查询</el-button>
           </el-form-item>
-          <el-form-item>
-              <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
-          </el-form-item>
+      
            <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
           </el-form-item>
+          
+             <el-form-item>
+              <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
+          </el-form-item>
+          
+               <el-form-item>
+               	 <router-link to="/userManage/dataChart">
+                    <el-button type="primary">数据统计</el-button>
+                </router-link>
+            
+          </el-form-item>
+       
       </div>
   
     </el-form>
@@ -54,38 +61,60 @@
     </el-table-column>
     <el-table-column
       property="bh"
-      label="订单编号">
+      label="消费者ID">
     </el-table-column>
     <el-table-column
       property="date"
-      label="订单时间">
+      label="生成时间">
     </el-table-column>
     <el-table-column
       property="name"
-      label="代理人姓名">
+      label="姓名">
     </el-table-column>
       <el-table-column
       property="tc"
-      label="代理人ID">
+      label="手机">
     </el-table-column>
       <el-table-column
       property="ddje"
-      label="订单金额">
+      label="开户银行">
     </el-table-column>
       <el-table-column
       property="tjr"
-      label="消费者姓名">
+      label="银行账号">
     </el-table-column>
+     </el-table-column>
       <el-table-column
-      property="tjje"
-      label="订单手续费">
+      property="tjr"
+      label="账户密码">
     </el-table-column>
-      <el-table-column
-      property="jjtrj"
-      label="手续费状态">
+        <el-table-column
+      property="tjr"
+      label="已成交订单数量">
     </el-table-column>
+        <el-table-column
+      property="tjr"
+      label="订单已还款金额">
+    </el-table-column>
+         <el-table-column
+      property="tjr"
+      label="订单未还款金额">
+    </el-table-column>
+         <el-table-column
+      property="tjr"
+      label="性别">
+    </el-table-column>
+       <el-table-column
+      property="tjr"
+      label="区域">
+    </el-table-column>
+       <el-table-column
+      property="tjr"
+      label="用户状态">
+    </el-table-column>
+   
       <el-table-column
-      label="操作" min-width='150'>
+      label="操作" width='150'>
       
        <template slot-scope="scope">
         <el-button
@@ -99,6 +128,7 @@
       </template>
     </el-table-column>
   </el-table>
+  
      
 <div class='pageBox'>
  <el-pagination
@@ -116,34 +146,24 @@
   width="30%">
   <div style="width:80%;">
   	 <el-form  label-width="100px" :model="sendForm">
-  	 	           
-         <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
-        </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
+        <el-form-item label="姓名">
           <el-input></el-input>
         </el-form-item>
         
-                
-        <el-form-item label="消费者姓名">
+        <el-form-item label="手机">
            <el-input></el-input>
         </el-form-item>
-
-
+        
+         <el-form-item label="性别">
+           <el-input></el-input>
+         </el-form-item>
          
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
+           <el-form-item label="银行账号">
+           <el-input></el-input>
+         </el-form-item>
+         
+    
+       
       </el-form>
   </div>
   <span slot="footer" class="dialog-footer">
@@ -159,33 +179,24 @@
   width="30%">
   <div style="width:80%;">
   	 <el-form  label-width="100px" :model="sendForm">
-          <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
-        </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
+        <el-form-item label="姓名">
           <el-input></el-input>
         </el-form-item>
         
-                
-        <el-form-item label="消费者姓名">
+        <el-form-item label="手机">
            <el-input></el-input>
         </el-form-item>
-
-
+        
+         <el-form-item label="性别">
+           <el-input></el-input>
+         </el-form-item>
          
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
+           <el-form-item label="银行账号">
+           <el-input></el-input>
+         </el-form-item>
+         
+    
+       
       </el-form>
   </div>
   <span slot="footer" class="dialog-footer">
@@ -203,7 +214,7 @@
   <span>确定要删除吗？</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">删除</el-button>
+    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
   </span>
 </el-dialog>
 
@@ -215,13 +226,14 @@
 
 
 export default{
-  name: 'directivePermission',
+  name: 'productManage',
   
   data(){
   	return{ 
   		    editVisible:false,
   		    addVisible:false,
   		    deleteVisible:false,
+  
   		     sendForm:{
   		     	 status:''
   		     },
@@ -231,7 +243,7 @@ export default{
   		     
   		     tableData: [{
   		     	bh:1234544,
-            date: '2016-05-02 14:00',
+            date: '1111111',
             name: '王小虎',
             tc:33333,
             ddje:123,

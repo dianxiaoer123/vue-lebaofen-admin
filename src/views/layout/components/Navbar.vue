@@ -1,6 +1,7 @@
 <template>
 
-  	<el-menu class="navbar" mode="horizontal">
+<div>
+	  	<el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     
     <!--<breadcrumb class="breadcrumb-container"></breadcrumb>-->
@@ -15,7 +16,7 @@
     	  </div>
     	  
     	  <div class="elAlikLi">
-    	     <span class="passwordIcon"></span>
+    	     <span class="passwordIcon"  @click="dialogVisible = true"></span>
     	  </div>
     	  
     	  <div class="elAlikLi">
@@ -40,6 +41,34 @@
     </div>
   </el-menu>
   
+  <el-dialog
+  title="password"
+  :visible.sync="dialogVisible"
+  width="30%"
+ >
+
+  <span>
+ 
+  	<el-form>
+  	 <el-form-item label="新密码" label-width="80px">
+       <el-input type="password"></el-input>
+     </el-form-item>
+     
+      <el-form-item label="旧密码" label-width="80px">
+       <el-input type="password"></el-input>
+     </el-form-item>
+  	</el-form>
+  
+  </span>
+
+
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
+</div>
+  
 
 
 </template>
@@ -56,7 +85,7 @@ import ThemePicker from '@/components/ThemePicker'
 export default {
 	data(){
 		 return {
-//    dialogFormVisible: true,
+      dialogVisible: false,
    }
 	},
   components: {

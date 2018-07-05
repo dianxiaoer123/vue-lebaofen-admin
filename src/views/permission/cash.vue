@@ -11,19 +11,10 @@
          <el-input></el-input>
       </el-form-item>
   		
-      <el-form-item label="代理人ID">
-         <el-input></el-input>
-      </el-form-item>
-      
-      <el-form-item label="消费者姓名">
-         <el-input></el-input>
-      </el-form-item>
-
-        <el-form-item label="手续费状态">
-            <el-select  v-model='formInline.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+        <el-form-item label="提现状态">
+            <el-select  v-model='formInline.status' placeholder="提现状态">
+                <el-option label="成功" value="1"></el-option>
+                <el-option label="失败" value="2"></el-option>
             </el-select>
       </el-form-item>
       
@@ -54,11 +45,11 @@
     </el-table-column>
     <el-table-column
       property="bh"
-      label="订单编号">
+      label="代理人ID">
     </el-table-column>
     <el-table-column
       property="date"
-      label="订单时间">
+      label="提现时间">
     </el-table-column>
     <el-table-column
       property="name"
@@ -66,26 +57,19 @@
     </el-table-column>
       <el-table-column
       property="tc"
-      label="代理人ID">
+      label="提现科目">
     </el-table-column>
       <el-table-column
       property="ddje"
-      label="订单金额">
+      label="提现金额">
     </el-table-column>
-      <el-table-column
-      property="tjr"
-      label="消费者姓名">
-    </el-table-column>
-      <el-table-column
-      property="tjje"
-      label="订单手续费">
-    </el-table-column>
+  
       <el-table-column
       property="jjtrj"
-      label="手续费状态">
+      label="提现状态">
     </el-table-column>
       <el-table-column
-      label="操作" min-width='150'>
+      label="操作" min-width='180'>
       
        <template slot-scope="scope">
         <el-button
@@ -96,6 +80,7 @@
           size="mini"
           type="danger"
           @click="deleteVisible = true">删除</el-button>
+          <el-button>通过</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -125,23 +110,11 @@
         <el-form-item label="代理人姓名">
            <el-input></el-input>
         </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
-          <el-input></el-input>
-        </el-form-item>
-        
-                
-        <el-form-item label="消费者姓名">
-           <el-input></el-input>
-        </el-form-item>
 
-
-         
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+          <el-form-item label="提现状态">
+            <el-select v-model='sendForm.status' placeholder="提现状态">
+                <el-option label="成功" value="1"></el-option>
+                <el-option label="失败" value="2"></el-option>
            </el-select>
           </el-form-item>
       </el-form>
@@ -159,7 +132,7 @@
   width="30%">
   <div style="width:80%;">
   	 <el-form  label-width="100px" :model="sendForm">
-          <el-form-item label="订单编号">
+           <el-form-item label="订单编号">
            <el-input></el-input>
          </el-form-item>
          
@@ -167,23 +140,11 @@
         <el-form-item label="代理人姓名">
            <el-input></el-input>
         </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
-          <el-input></el-input>
-        </el-form-item>
-        
-                
-        <el-form-item label="消费者姓名">
-           <el-input></el-input>
-        </el-form-item>
 
-
-         
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+          <el-form-item label="提现状态">
+            <el-select v-model='sendForm.status' placeholder="提现状态">
+                <el-option label="成功" value="1"></el-option>
+                <el-option label="失败" value="2"></el-option>
            </el-select>
           </el-form-item>
       </el-form>
@@ -215,7 +176,7 @@
 
 
 export default{
-  name: 'directivePermission',
+  name: 'cashPermission',
   
   data(){
   	return{ 

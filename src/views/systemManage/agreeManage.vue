@@ -2,41 +2,39 @@
   <div class="app-container">
   	
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="formInline">
-  	  <el-form-item label="订单编号">
-         <el-input></el-input>
-      </el-form-item>
-      
-     <el-form-item label="代理人姓名">
-         <el-input></el-input>
-      </el-form-item>
+  	<el-form :inline="true" :model="sendForm">
   		
-      <el-form-item label="代理人ID">
-         <el-input></el-input>
-      </el-form-item>
-      
-      <el-form-item label="消费者姓名">
-         <el-input></el-input>
-      </el-form-item>
+  		<div>
 
-        <el-form-item label="手续费状态">
-            <el-select  v-model='formInline.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-            </el-select>
+       <el-form-item label="序号">
+           <el-input></el-input>
       </el-form-item>
       
+        <el-form-item label="日期">
+           <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+           </el-date-picker>
+      </el-form-item>
+      
+       <el-form-item label="作者">
+           <el-input></el-input>
+      </el-form-item>
+       
+  		</div>
+  		
+      
+    
       <div>
       	  <el-form-item>
               <el-button type="primary" icon="el-icon-search">查询</el-button>
           </el-form-item>
+       
           <el-form-item>
               <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
           </el-form-item>
            <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
           </el-form-item>
+       
       </div>
   
     </el-form>
@@ -54,38 +52,33 @@
     </el-table-column>
     <el-table-column
       property="bh"
-      label="订单编号">
+      label="作者">
     </el-table-column>
     <el-table-column
       property="date"
-      label="订单时间">
+      label="日期">
     </el-table-column>
     <el-table-column
-      property="name"
-      label="代理人姓名">
+     
+      label="地位">
+        <template slot-scope="scope">
+           <el-button type="warning" plain>草案</el-button>
+      </template>
     </el-table-column>
       <el-table-column
       property="tc"
-      label="代理人ID">
+      label="标题">
     </el-table-column>
       <el-table-column
-      property="ddje"
-      label="订单金额">
+      label="重要性">
+       <template slot-scope="scope">
+         <span class="el-icon-star-on"></span>
+      </template>
     </el-table-column>
+    
+   
       <el-table-column
-      property="tjr"
-      label="消费者姓名">
-    </el-table-column>
-      <el-table-column
-      property="tjje"
-      label="订单手续费">
-    </el-table-column>
-      <el-table-column
-      property="jjtrj"
-      label="手续费状态">
-    </el-table-column>
-      <el-table-column
-      label="操作" min-width='150'>
+      label="操作" width='150'>
       
        <template slot-scope="scope">
         <el-button
@@ -99,6 +92,7 @@
       </template>
     </el-table-column>
   </el-table>
+  
      
 <div class='pageBox'>
  <el-pagination
@@ -109,90 +103,131 @@
 </div>
 
 
-<!--添加-->
-<el-dialog
-  title="添加"
-  :visible.sync="addVisible"
-  width="30%">
-  <div style="width:80%;">
-  	 <el-form  label-width="100px" :model="sendForm">
-  	 	           
-         <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
-        </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
-          <el-input></el-input>
-        </el-form-item>
-        
-                
-        <el-form-item label="消费者姓名">
-           <el-input></el-input>
-        </el-form-item>
-
-
-         
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
-      </el-form>
-  </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="addVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addVisible = false">添加</el-button>
-  </span>
-</el-dialog>
-
+ 
 <!--编辑-->
 <el-dialog
   title="编辑"
   :visible.sync="editVisible"
-  width="30%">
-  <div style="width:80%;">
-  	 <el-form  label-width="100px" :model="sendForm">
-          <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
-        </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
+  width="80%">
+  <div style="width:90%;">
+     	 <el-form  label-width="100px" :model="sendForm">
+        <el-form-item label="标题">
           <el-input></el-input>
         </el-form-item>
         
-                
-        <el-form-item label="消费者姓名">
+        <el-form-item label="标题">
+           <el-row :gutter="5">
+             <el-col :span="4">
+             	  <el-form-item >
+                 <el-input></el-input>
+               </el-form-item>
+             </el-col>
+             <el-col :span="4">
+             	   <el-form-item label="发布时间">
+                 <el-input></el-input>
+               </el-form-item>
+             </el-col>
+             <el-col :span="8">
+             	   <el-form-item label="重要性">
+                  <el-rate v-model="value"></el-rate>
+               </el-form-item>
+             	
+             </el-col>
+    
+        </el-row>
+        </el-form-item>
+        <el-form-item label='摘要'>
            <el-input></el-input>
         </el-form-item>
-
-
+        
+           <el-form-item label=''>
+           	<el-button type="warning">发布</el-button>
+            <el-button type="success">草稿</el-button>
+        </el-form-item>
+        
+         <div>
+         	  <tinymce></tinymce>
+         </div>
          
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
+         <div style="margin-top: 30px;">
+         	<el-upload
+  class="upload-demo"
+  drag
+  action=" "
+  multiple>
+  <i class="el-icon-upload"></i>
+  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+         </div>
+      </el-form>
+      
+      
+  </div>
+ 
+</el-dialog>
+
+<!--添加-->
+<el-dialog
+  title="添加"
+  :visible.sync="addVisible"
+  width="80%">
+  <div style="width:100%;">
+         	 <el-form  label-width="100px" :model="sendForm">
+        <el-form-item label="标题">
+          <el-input></el-input>
+        </el-form-item>
+        
+        <el-form-item label="标题">
+           <el-row :gutter="5">
+             <el-col :span="4">
+             	  <el-form-item >
+                 <el-input></el-input>
+               </el-form-item>
+             </el-col>
+             <el-col :span="4">
+             	   <el-form-item label="发布时间">
+                 <el-input></el-input>
+               </el-form-item>
+             </el-col>
+             <el-col :span="8">
+             	   <el-form-item label="重要性">
+                  <el-rate v-model="value"></el-rate>
+               </el-form-item>
+             	
+             </el-col>
+    
+        </el-row>
+        </el-form-item>
+        <el-form-item label='摘要'>
+           <el-input></el-input>
+        </el-form-item>
+        
+           <el-form-item label=''>
+           	<el-button type="warning">发布</el-button>
+            <el-button type="success">草稿</el-button>
+        </el-form-item>
+        
+         <div>
+         	  <tinymce></tinymce>
+         </div>
+         
+         <div style="margin-top: 30px;">
+         	<el-upload
+  class="upload-demo"
+  drag
+  action=" "
+  multiple>
+  <i class="el-icon-upload"></i>
+  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+         </div>
       </el-form>
   </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="editVisible = false">取 消</el-button>
-    <el-button type="primary" @click="editVisible = false">确 定</el-button>
-  </span>
+
 </el-dialog>
+
 
 
 <!--删除-->
@@ -203,7 +238,7 @@
   <span>确定要删除吗？</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">删除</el-button>
+    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
   </span>
 </el-dialog>
 
@@ -212,16 +247,20 @@
 </template>
 
 <script>
-
+import tinymce from '@/components/Tinymce'
 
 export default{
-  name: 'directivePermission',
-  
+  name: 'agreeManage',
+  components: {tinymce},
   data(){
   	return{ 
+  		    value1:'',
+  		    svalue:5,
+  		    value:'',
   		    editVisible:false,
   		    addVisible:false,
   		    deleteVisible:false,
+  
   		     sendForm:{
   		     	 status:''
   		     },
@@ -231,7 +270,7 @@ export default{
   		     
   		     tableData: [{
   		     	bh:1234544,
-            date: '2016-05-02 14:00',
+            date: '1111111',
             name: '王小虎',
             tc:33333,
             ddje:123,
@@ -334,5 +373,8 @@ export default{
  }
  .app-container{
  	min-height: 800px;
+ }
+ .el-rate{
+ 	margin-top: 10px;
  }
 </style>
