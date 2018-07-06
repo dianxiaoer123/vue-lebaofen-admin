@@ -1,5 +1,9 @@
 <template>
   <el-scrollbar wrapClass="scrollbar-wrapper">
+  	<div class="logoBox">
+  		<img src="../../../../../static/images/logo.png" alt="" />
+  		<div class='tip'>项目管理平台</div>
+  	</div>
     <el-menu
       mode="vertical"
       :show-timeout="200"

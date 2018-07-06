@@ -292,4 +292,29 @@ code {
     background-color: #616a87 !important;
     border-color: #616a87 !important;
 }
+.logoBox{
+    font-size: 14px;
+    text-align: center;
+    padding-top: 30px;
+    width:100%;
+    color:white;
+    background: #57607D;
+    padding-bottom: 30px;
+    img{
+      display: block;
+      margin:0 auto;
+   }
+   .tip{
+       margin-top: 5px;
+   }
+}
 
+#app .sidebar-container .scrollbar-wrapper .el-scrollbar__view{
+    height: auto;
+}
+.el-scrollbar__view{
+    background-color: rgb(48, 65, 86);
+}
+#app .sidebar-container{
+    background-color: rgb(48, 65, 86);
+}
