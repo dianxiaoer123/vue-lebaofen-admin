@@ -7,7 +7,7 @@
     <!--<breadcrumb class="breadcrumb-container"></breadcrumb>-->
     <div class="breadcrumb-container">
     	<span>欢迎使用乐保分项目管理平台</span>
-    	<span>现在时间：2018.06.22  15:06:00</span>
+    	<span>现在时间：{{time}}</span>
     </div>
 
     <div class="right-menu">
@@ -86,8 +86,18 @@ export default {
 	data(){
 		 return {
       dialogVisible: false,
+      time:''
    }
 	},
+	mounted(){
+		var that = this;
+	    that.getnowTime();
+		setInterval(function(){
+			that.getnowTime();
+		},1000);
+	},
+
+	
   components: {
     Breadcrumb,
     Hamburger,
@@ -104,6 +114,10 @@ export default {
     ])
   },
   methods: {
+  	getnowTime:function(){
+  		var timestamp = new Date();
+		 this.time = timestamp.toLocaleTimeString();
+  	},
     toggleSideBar() {
       this.$store.dispatch('toggleSideBar')
     },

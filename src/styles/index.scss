@@ -200,28 +200,28 @@ code {
     display: inline-block;
     width:20px;
     height: 20px;
-    background: url(../../static/images/icon.png) no-repeat -523px -12px #a0d468;
+    background: url(../../static/images/icon.png) no-repeat -523px -12px #4ac7f3;
     border-radius: 3px;
 }
 .exitIcon{
      display: inline-block;
     width:20px;
     height: 20px;
-    background: url(../../static/images/icon.png) no-repeat -492px -11px #a0d468;
+    background: url(../../static/images/icon.png) no-repeat -492px -11px #4ac7f3;
     border-radius: 3px;
 }
 .emailIcon{
      display: inline-block;
     width:25px;
     height: 25px;
-    background: url(../../static/images/icon.png) no-repeat -453px -8px #8793b2;
+    background: url(../../static/images/icon.png) no-repeat -453px -8px #1f6fd0;
     border-radius: 3px;
 }
 .homeIcon{
       display: inline-block;
     width:35px;
     height: 35px;
-    background: url(../../static/images/icon.png) no-repeat -406px -5px #8793b2;
+    background: url(../../static/images/icon.png) no-repeat -406px -5px #1f6fd0;
     border-radius: 5px;
 }
 .peopleIcon{
@@ -288,7 +288,7 @@ code {
    
 }
 .copyright{
-    background: #b0bdd6;
+    background: #66b7ef;
     color:white;
     text-align: center;
     height: 50px;
@@ -302,7 +302,7 @@ code {
     background: url(../../static/images/icon.png) no-repeat -695px 8px;
 }
 .el-table th{
-    background: #616a87;
+    background: #0063d6;
     font-weight: normal;
    color:white;
    text-align: center;
@@ -314,7 +314,7 @@ code {
     margin-top: 50px;
 }
 .el-pagination.is-background .el-pager li:not(.disabled).active{
-    background: #616a87;
+    background: #3e8de9;
 }
 .tags-view-container .tags-view-wrapper .tags-view-item.active{
     background-color: #1f6fd0 !important;
@@ -326,7 +326,7 @@ code {
     padding-top: 30px;
     width:100%;
     color:white;
-    background: #57607D;
+    background: #033d63;
     padding-bottom: 30px;
     img{
       display: block;
@@ -342,5 +342,8 @@ code {
 }
 
 #app .sidebar-container{
-    background-color: rgb(48, 65, 86);
+    background-color: #1d4f8a;
+}
+#app .sidebar-container .el-submenu .el-menu-item{
+    background-color: #033d63 !important;
 }

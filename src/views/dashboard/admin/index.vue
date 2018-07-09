@@ -11,9 +11,23 @@
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8" v-for='item in topGroups'>
+      <el-col :xs="24" :sm="24" :lg="8" v-for='(item,index) in topGroups'>
         <div class="chart-wrapper">
-           <div class='chartName yellowSty'>
+           <div class='chartName redSty' v-if='index == 0'>
+           	  <div class='inspan'>
+           	  	 <span class="userIcon"></span>
+            	   <span>{{item.name}}</span>
+           	  </div>
+           </div>
+           
+             <div class='chartName greenSty' v-if='index == 1'>
+           	  <div class='inspan'>
+           	  	 <span class="userIcon"></span>
+            	   <span>{{item.name}}</span>
+           	  </div>
+           </div>
+           
+             <div class='chartName yellowSty' v-if='index == 2'>
            	  <div class='inspan'>
            	  	 <span class="userIcon"></span>
             	   <span>{{item.name}}</span>
@@ -65,46 +79,7 @@
            </div>
         </div>
       </el-col>
-<!--      
-            <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-           <div class='chartName greenSty'>
-           	  <div class='inspan'>
-           	  	 <span class="userIcon"></span>
-            	   <span>团队一</span>
-           	  </div>
-           </div>
-           
-           <div class="chartCont" v-for="item in tableData">
-            	<el-row :gutter="0">
-                <el-col :span="12">
-                	 <div class='colspan'>{{item.name}}</div>
-                </el-col>
-                <el-col :span="12">
-                	 <div class='colspan'>{{item.cont}}</div>
-                </el-col>
-             </el-row>
-           </div>
-        </div>
-      </el-col>
-      
-            <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-           <div class='chartName blueSty'>
-           	  <div class='inspan'>
-           	  	 <span class="userIcon"></span>
-            	   <span>团队一</span>
-           	  </div>
-           </div>
-           
-           <div class="chartCont" v-for="item in tableData">
-            	<el-row :gutter="0">
-                <el-col :span="12">
-                	 <div class='colspan'>{{item.name}}</div>
-                </el-col>
-                <el-col :span="12">
-                	 <div class='colspan'>{{item.cont}}</div>
-                </el-col>-->
+
              </el-row>
            </div>
         </div>
@@ -221,14 +196,15 @@ export default {
 .el-table__row{
 	width: 50% !important;
 }
+
 .yellowSty{
-	background:#ff9666;
+	background:#f7c258;
 }
 .greenSty{
-	background:#a0d468;
+	background:#a5c562;
 }
-.blueSty{
-	background:#46c1de;
+.redSty{
+	background:#f56d61;
 }
 .chartName span{
 	float: left;
