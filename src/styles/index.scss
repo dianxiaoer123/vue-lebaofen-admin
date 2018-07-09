@@ -229,28 +229,56 @@ code {
     width:45px;
     height: 35px;
     background: url(../../static/images/icon.png) no-repeat 0px 0px;
-    border-radius: 5px;
+  
+}
+.peopleIcon1{
+    display: inline-block;
+    width:45px;
+    height: 35px;
+    background: url(../../static/images/icon1.png) no-repeat 0px 0px;
+  
 }
 .moneyIcon{
     display: inline-block;
     width:45px;
     height: 40px;
     background: url(../../static/images/icon.png) no-repeat -87px 0px;
-    border-radius: 5px;
+   
+}
+.moneyIcon1{
+    display: inline-block;
+    width:55px;
+    height: 40px;
+    background: url(../../static/images/icon1.png) no-repeat -87px 0px;
+   
 }
 .orderIcon{
       display: inline-block;
     width:45px;
     height: 40px;
     background: url(../../static/images/icon.png) no-repeat -275px 0px;
-    border-radius: 5px;
+   
+}
+.orderIcon1{
+      display: inline-block;
+    width:45px;
+    height: 40px;
+    background: url(../../static/images/icon1.png) no-repeat -182px 0px;
+   
 }
 .jineIcon{
       display: inline-block;
     width:45px;
     height: 40px;
     background: url(../../static/images/icon.png) no-repeat -183px 0px;
-    border-radius: 5px;
+   
+}
+.jineIcon1{
+      display: inline-block;
+    width:55px;
+    height: 40px;
+    background: url(../../static/images/icon.png) no-repeat -270px 0px;
+   
 }
 .userIcon{
      display: inline-block;
@@ -289,8 +317,8 @@ code {
     background: #616a87;
 }
 .tags-view-container .tags-view-wrapper .tags-view-item.active{
-    background-color: #616a87 !important;
-    border-color: #616a87 !important;
+    background-color: #1f6fd0 !important;
+    border-color: #1f6fd0 !important;
 }
 .logoBox{
     font-size: 14px;

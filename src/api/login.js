@@ -2,11 +2,11 @@ import request from '@/utils/request'
 
 export function loginByUsername(username, password) {
   const data = {
-    username,
-    password
+    account:username,
+    password:password
   }
   return request({
-    url: '/login/login',
+    url: '/manageapi/login',
     method: 'post',
     data
   })
@@ -14,16 +14,15 @@ export function loginByUsername(username, password) {
 
 export function logout() {
   return request({
-    url: '/login/logout',
+    url: '/manageapi/logout',
     method: 'post'
   })
 }
-
 export function getUserInfo(token) {
-  return request({
+return request({
     url: '/user/info',
     method: 'get',
     params: { token }
-  })
+})
 }
 

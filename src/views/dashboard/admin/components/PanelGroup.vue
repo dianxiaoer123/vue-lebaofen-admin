@@ -7,7 +7,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增代理人</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="102400" :duration="2600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.yd.addAgentNum" :duration="1000"></count-to>
         </div>
       </div>
     </el-col>
@@ -18,7 +18,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增消费者</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="81212" :duration="3000"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.yd.addConsumerNum" :duration="1000"></count-to>
         </div>
       </div>
     </el-col>
@@ -29,7 +29,7 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增订单笔数</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="9280" :duration="3200"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.yd.addOrderNum" :duration="1200"></count-to>
         </div>
       </div>
     </el-col>
@@ -40,55 +40,56 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增订单金额</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="13600" :duration="3600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.yd.addOrderAmount" :duration="1600"></count-to>
         </div>
       </div>
     </el-col>
     
      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class='card-panel'>
+      <div class='card-panel1'>
         <div class="card-panel-icon-wrapper icon-people">
-           <span class="peopleIcon"></span>
+           <span class="peopleIcon1"></span>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">累计代理人</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="102400" :duration="2600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.total.agentNum" :duration="2600"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel1">
         <div class="card-panel-icon-wrapper icon-message">
-          <span class="moneyIcon"></span>
+          <span class="moneyIcon1"></span>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">累计消费者</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="81212" :duration="3000"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.total.consumerNum" :duration="1000"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel1">
         <div class="card-panel-icon-wrapper icon-money">
-          <span class="orderIcon"></span>
+          <span class="orderIcon1"></span>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">累计订单笔数</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="9280" :duration="3200"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.total.orderNum" :duration="1200"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel">
+      <div class="card-panel1">
         <div class="card-panel-icon-wrapper icon-shoppingCard">
-          <span class="jineIcon"></span>
+          <span class="jineIcon1"></span>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">昨日新增订单金额</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="13600" :duration="3600"></count-to>
+          <count-to class="card-panel-num" :startVal="0" :endVal="panelData.total.orderAmount" :duration="2600"></count-to>
         </div>
       </div>
     </el-col>
+    
   </el-row>
   
   
@@ -98,6 +99,27 @@
 import CountTo from 'vue-count-to'
 
 export default {
+	name:'panelgroup',
+
+	props: {
+    panelData: {
+      type: Object
+    }
+  },
+	data(){
+		return {
+			 
+		}
+	},
+
+	watch:{
+  	panelData:function(val, oldVal){
+  	
+  		if(val != null){
+  			this.panelData = val;
+  		}
+  	}
+  },
   components: {
     CountTo
   },
@@ -115,7 +137,7 @@ export default {
   .card-panel-col{
     margin-bottom: 32px;
   }
-  .card-panel {
+  .card-panel,.card-panel1 {
     height: 108px;
     cursor: pointer;
     font-size: 12px;
@@ -125,24 +147,8 @@ export default {
     background: #fff;
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     border-color: rgba(0, 0, 0, .05);
-    background: #4ab9dc;
-    /*&:hover {
-      .card-panel-icon-wrapper {
-        color: #fff;
-      }
-      .icon-people {
-         background: #40c9c6;
-      }
-      .icon-message {
-        background: #36a3f7;
-      }
-      .icon-money {
-        background: #f4516c;
-      }
-      .icon-shoppingCard {
-        background: #34bfa3
-      }
-    }*/
+    background: #3E8DE9;
+
     .icon-people {
       color: #40c9c6;
     }
@@ -157,13 +163,14 @@ export default {
     }
     .card-panel-icon-wrapper {
       float: left;
-      padding:0px 30px;
+      width:120px;
       transition: all 0.38s ease-out;
-      border-radius: 6px;
-      background: #2ab0db;
+   
+      background: #0063D5;
       height: 108px;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
     .card-panel-icon {
       float: left;
@@ -185,6 +192,13 @@ export default {
         
       }
     }
+  }
+  
+  .card-panel1{
+  	 background: #4ac7f3;
+  	.card-panel-icon-wrapper {
+  		background: #0092c6;
+  	}
   }
 
 }

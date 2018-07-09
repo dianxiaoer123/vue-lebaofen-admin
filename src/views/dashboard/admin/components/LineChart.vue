@@ -72,11 +72,11 @@ export default {
     }
   },
   methods: {
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({ dateData,expectedData, actualData } = {}) {
       this.chart.setOption({
-      	color:['#fe9a5c','#4adcc2'],
+      	color:['#f96e98','#3981d6'],
         xAxis: {
-          data: ['10000', '15482', '6952', '7822', '1456', '4785', '24852'],
+          data: dateData,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -120,9 +120,7 @@ export default {
         series: [{
           name: '订单笔数（成交、申诉）', itemStyle: {
             normal: {
-//            color: '#FF005A',
               lineStyle: {
-//              color: '#FF005A',
                 width: 2
               }
             }
@@ -139,14 +137,10 @@ export default {
           type: 'line',
           itemStyle: {
             normal: {
-//            color: '#3888fa',
               lineStyle: {
-//              color: '#3888fa',
                 width: 2
               },
-//            areaStyle: {
-//              color: '#f3f8ff'
-//            }
+
             }
           },
           data: actualData,

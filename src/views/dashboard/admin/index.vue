@@ -1,34 +1,71 @@
 <template>
   <div class="dashboard-editor-container">
-    <panel-group @handleSetLineChartData="handleSetLineChartData"></panel-group>
+    <panel-group @handleSetLineChartData="handleSetLineChartData" :panel-data='panelData'></panel-group>
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData"></line-chart>
+    <el-row>
+    	<div class="chartTitle">七日累计数据</div>
+    	<div style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+    		 <line-chart :chart-data="lineChartData"></line-chart>
+    	</div>
+     
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="8" v-for='item in topGroups'>
         <div class="chart-wrapper">
            <div class='chartName yellowSty'>
            	  <div class='inspan'>
            	  	 <span class="userIcon"></span>
-            	   <span>团队一</span>
+            	   <span>{{item.name}}</span>
            	  </div>
            </div>
            
-           <div class="chartCont" v-for="item in tableData">
+           <div class="chartCont">
             	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>团队名称</div>
+                </el-col>
                 <el-col :span="12">
                 	 <div class='colspan'>{{item.name}}</div>
                 </el-col>
+             </el-row>
+           </div>
+           
+              <div class="chartCont">
+            	<el-row :gutter="0">
                 <el-col :span="12">
-                	 <div class='colspan'>{{item.cont}}</div>
+                	 <div class='colspan'>累计订单笔数</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.orderNum}}</div>
+                </el-col>
+             </el-row>
+           </div>
+           
+              <div class="chartCont">
+            	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>累计成交订单金额</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.orderAmount}}</div>
+                </el-col>
+             </el-row>
+           </div>
+           
+              <div class="chartCont">
+            	<el-row :gutter="0">
+                <el-col :span="12">
+                	 <div class='colspan'>团队人数</div>
+                </el-col>
+                <el-col :span="12">
+                	 <div class='colspan'>{{item.memberNum}}</div>
                 </el-col>
              </el-row>
            </div>
         </div>
       </el-col>
-      
+<!--      
             <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
            <div class='chartName greenSty'>
@@ -67,7 +104,7 @@
                 </el-col>
                 <el-col :span="12">
                 	 <div class='colspan'>{{item.cont}}</div>
-                </el-col>
+                </el-col>-->
              </el-row>
            </div>
         </div>
@@ -82,24 +119,7 @@
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
+
 
 export default {
   name: 'dashboard-admin',
@@ -109,6 +129,20 @@ export default {
   },
   data() {
     return {
+    	 topGroups:[],
+    	  panelData:{
+    	  	yd:{
+    	  		addConsumerNum:0,
+    	  		addOrderNum:0,
+    	  		addOrderAmount:0
+    	  	},
+    	  	total:{
+    	  		agentNum:0,
+    	  		consumerNum:0,
+    	  		orderAmount:0,
+    	  		orderNum:0
+    	  	}
+    	  },
     	  tableData: [{
             name: '团队名称：',
             cont: '名称一'
@@ -122,9 +156,32 @@ export default {
             name: '团队人数：',
             cont: '50'
           }],
-      lineChartData: lineChartData.newVisitis
+      lineChartData: {
+      	dateData:[],
+      	expectedData:[],
+      	actualData:[]
+      }
     }
   },
+  mounted(){
+  	var that = this;
+  	  this.$store.dispatch('GetCount').then((data) => {
+         console.log(data);
+         var count = data.data;
+         that.panelData={yd:count.yd,total:count.total};
+         that.topGroups = count.topGroups;
+
+         count.sevenDaysOrderStatistics.forEach(function (element, index, array) {
+
+            that.lineChartData.dateData.push(element.date);  
+            that.lineChartData.expectedData.push(element.orderNum+element.returnNum);  
+            that.lineChartData.actualData.push(element.orderAmount+element.returnAmount);  
+        });
+         
+        
+     })
+  },
+
   methods: {
     handleSetLineChartData(type) {
       this.lineChartData = lineChartData[type]
@@ -186,5 +243,12 @@ export default {
 	line-height: 50px;
 	text-indent: 10px;
 	color:#606266;
+}
+.chartTitle{
+	height: 50px;
+	line-height: 50px;
+	background: #0063d6;
+	color:white;
+	text-align: center;
 }
 </style>
