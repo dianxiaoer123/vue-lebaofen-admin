@@ -59,8 +59,12 @@
       label="标志">
       <template slot-scope="scope">
       	<div class="flgStyle">
-      		   <span class="emailsn" v-if="!scope.row.read"></span>
-             <span class="rightIcon" v-if="scope.row.read"></span>
+            <a href="javascript:void(0)">
+               <span class="emailsn" v-if="!scope.row.read" @click="isRead" :data-id='scope.row.id'></span>
+            </a>
+            <a href="javascript:void(0)">
+              <span class="rightIcon" v-if="scope.row.read"></span>
+            </a>  
       	</div>
       
       </template>
@@ -94,6 +98,11 @@ export default {
      funcName:'MessageList',
      searchData:{}
     }
+  },
+  methods:{
+    isRead(){
+
+    }
   }
 }
 </script>
@@ -110,6 +119,9 @@ export default {
 }
 .flgStyle{
 	text-align: center;
+}
+.flgStyle a:hover{
+  cursor: pointer;
 }
 
 </style>

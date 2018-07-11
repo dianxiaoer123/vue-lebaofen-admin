@@ -30,11 +30,11 @@
     
       <div>
       	  <el-form-item>
-              <el-button type="primary" icon="el-icon-search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
       
            <el-form-item>
-              <el-button type="primary" icon="el-icon-download">导出</el-button>
+              <el-button type="primary" icon="el-icon-download" @click="exportFile">导出</el-button>
           </el-form-item>
                <el-form-item>
                	 <router-link to="/userManage/dataChart">
@@ -133,6 +133,23 @@
 
   </div>
 
+  <!-- 导出弹窗 -->
+  <el-dialog
+  title=""
+  :visible.sync="dialogVisible"
+  width="30%">
+  <el-form enctype="text/plain">
+  <div>
+      <el-checkbox-group v-model="checkedList">
+        <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
+     </el-checkbox-group>
+  </div>
+  <el-button @click="dialogVisible = false">取 消</el-button>
+    
+    <el-button type="success" @click="exportClick">导出</el-button>
+  </el-form>
+</el-dialog>
+
 </div>
 </template>
 
@@ -144,12 +161,54 @@ export default {
   
   data(){
     return{
+     checkedList:[],
+     nameList:['序号', '用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态','操作'],
+     dialogVisible:true,
      funcName:'AgentList',
      searchData:{
-      //  id:'',name:'',company:'',status:''
-     }
+       id:'',name:'',company:'',status:''
+     },
+     exportData:{
+       responseType: 'arraybuffer',
+        cols:[{
+          name:"id",
+          checked:true
+        },{
+           name:"createTime",
+           checked:true
+        },{
+           name:"name",
+           checked:true
+        },{
+           name:"mobile",
+           checked:true
+        },{
+           name:"company",
+           checked:true
+        },{
+           name:"bank",
+           checked:true
+        },{
+           name:"cardNo",
+           checked:true
+        },{
+           name:"accountPassword",
+           checked:true
+        },{
+           name:"status",
+           checked:true
+        }]
+     },
+     exportFunc:'AgentExport'
+    }
+  },
+  methods:{
+    exportClick(){
+      this.exportFile();
+      //  console.log(this.checkedList);
     }
   }
+ 
 }
 
 </script>

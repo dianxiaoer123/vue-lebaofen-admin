@@ -8,14 +8,25 @@ export default {
       pageSize:20,//每页条数
       tableData:[],
       loading:true,
+      
     }
   },
    methods:{
+     exportFile(){
+      let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
+     
+      var obj = Object.assign(formdata, this.exportData, this.searchData);
+    
+      this.$store.dispatch(this.exportFunc,obj).then((data) => {
+        let fileName = data.headers['content-disposition'].match(/fushun(\S*)xls/)[0];
+         console.log(fileName);
+     })
+     },
       getPage(){
         let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
-        console.log(this.searchData);
+     
         var obj = Object.assign(formdata, this.searchData);
-        console.log(obj);
+      
         this.$store.dispatch(this.funcName,obj).then((data) => {
           this.loading = false;
           this.tableData = data.data.dataList;
