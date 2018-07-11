@@ -16,6 +16,7 @@ service.interceptors.request.use(config => {
   if (store.getters.token) {
     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     config.headers['Ticket'] = getToken();
+   
   }
   return config
 }, error => {
@@ -33,6 +34,13 @@ service.interceptors.response.use(
   		  	location.hash = "#/login";
        })
   	}else{
+      if(response.data.code != 200){
+        Message({
+          message: response.data.msg,
+          type: 'error',
+          duration: 5 * 1000
+       })
+      }
   		return response;
   	}
   	

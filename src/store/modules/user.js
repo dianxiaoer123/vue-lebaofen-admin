@@ -1,5 +1,7 @@
 import { loginByUsername, logout, getUserInfo} from '@/api/login'
 import {getCount} from '@/api/maincount'
+import {changePassword} from '@/api/changePassword'
+import {messageList} from '@/api/messageList'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -72,32 +74,31 @@ const user = {
         })
       })
     },
-    
-    
 
-    // 获取用户信息
-    GetUserInfo({ commit, state }) {
+    // 修改密码
+    ChangePassword({ commit }, data) {
+    
       return new Promise((resolve, reject) => {
-
-        getUserInfo(state.token).then(response => {
-          if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            reject('error')
-          }
-          const data = response.data
-
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-  
-
-          resolve(data);
+        changePassword(data).then(response => {
+       
+          resolve(response.data)
         }).catch(error => {
           reject(error)
         })
       })
     },
+
+    // 信息列表
+    MessageList({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        messageList(data).then(response => {   
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    
 
 
     // 登出

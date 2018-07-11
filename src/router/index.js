@@ -44,6 +44,40 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    path: '/userManage',
+    component: Layout,
+    redirect: '/userManage/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '用户管理',
+      icon: 'component',
+    },
+    children: [{
+      path: 'page',
+      component: () => import('@/views/userManage/page'),
+      name: 'user',
+      meta: {
+        title: '代理人管理',
+      }
+    },{
+      path: 'dataChart',
+      component: () => import('@/views/userManage/dataChart'),
+      name: 'dataChart',
+      meta: {
+        title: '数据统计'
+      }, hidden:true 
+    },{
+      path: 'userpage',
+      component: () => import('@/views/userManage/userpage'),
+      name: 'userpage',
+      meta: {
+        title: '消费者管理'
+      }
+    }
+  
+    ]
+  },
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/index',
@@ -152,43 +186,6 @@ export const asyncRouterMap = [
     }
     ]
   },
-  
-    {
-    path: '/userManage',
-    component: Layout,
-    redirect: '/userManage/index',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: '用户管理',
-      icon: 'component',
-    },
-    children: [{
-      path: 'page',
-      component: () => import('@/views/userManage/page'),
-      name: 'user',
-      meta: {
-        title: '代理人管理',
-      }
-    },{
-      path: 'dataChart',
-      component: () => import('@/views/userManage/dataChart'),
-      name: 'dataChart',
-      meta: {
-        title: '数据统计'
-      }, hidden:true 
-    },{
-      path: 'userpage',
-      component: () => import('@/views/userManage/userpage'),
-      name: 'userpage',
-      meta: {
-        title: '消费者管理'
-      }
-    }
-  
-    ]
-  },
-
- 
 
   { path: '*', redirect: '/404', hidden: true }
 ]

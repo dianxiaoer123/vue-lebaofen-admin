@@ -217,6 +217,13 @@ code {
     background: url(../../static/images/icon.png) no-repeat -453px -8px #1f6fd0;
     border-radius: 3px;
 }
+.emailsn{
+  display: inline-block;
+ width:30px;
+ height: 25px;
+ background: url(../../static/images/icon.png) no-repeat -791px -13px;
+ border-radius: 3px;
+}
 .homeIcon{
       display: inline-block;
     width:35px;
@@ -298,8 +305,8 @@ code {
 .rightIcon{
    display: inline-block;
     width:35px;
-    height: 40px;
-    background: url(../../static/images/icon.png) no-repeat -695px 8px;
+    height: 25px;
+    background: url(../../static/images/icon.png) no-repeat -711px -18px;
 }
 .el-table th{
     background: #0063d6;
@@ -346,4 +353,15 @@ code {
 }
 #app .sidebar-container .el-submenu .el-menu-item{
     background-color: #033d63 !important;
+
+}
+
+.yjStyle{
+  color:#a5c562;
+}
+.ycStyle{
+  color:#f56d61;
+}
+label{
+  font-weight: normal;
 }

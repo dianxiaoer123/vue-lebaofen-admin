@@ -4,7 +4,7 @@
 	  	<el-menu class="navbar" mode="horizontal">
     <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
     
-    <!--<breadcrumb class="breadcrumb-container"></breadcrumb>-->
+
     <div class="breadcrumb-container">
     	<span>欢迎使用乐保分项目管理平台</span>
     	<span>现在时间：{{time}}</span>
@@ -42,20 +42,20 @@
   </el-menu>
   
   <el-dialog
-  title="password"
+  title="修改密码"
   :visible.sync="dialogVisible"
   width="30%"
  >
 
   <span>
  
-  	<el-form>
-  	 <el-form-item label="新密码" label-width="80px">
-       <el-input type="password"></el-input>
+  	<el-form :model='pwForm' :rules="rules" ref="pwForm">
+  	 <el-form-item label="旧密码" label-width="80px" prop="oldPwd">
+       <el-input type="password" v-model="pwForm.oldPwd" auto-complete="off"></el-input>
      </el-form-item>
      
-      <el-form-item label="旧密码" label-width="80px">
-       <el-input type="password"></el-input>
+      <el-form-item label="新密码"  label-width="80px" prop="newPwd">
+       <el-input type="password" v-model="pwForm.newPwd" @keyup.enter.native="changePw" auto-complete="off"></el-input>
      </el-form-item>
   	</el-form>
   
@@ -64,7 +64,7 @@
 
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+    <el-button type="primary" @click="changePw">确 定</el-button>
   </span>
 </el-dialog>
 </div>
@@ -75,37 +75,43 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
-import ErrorLog from '@/components/ErrorLog'
-import Screenfull from '@/components/Screenfull'
-import LangSelect from '@/components/LangSelect'
-import ThemePicker from '@/components/ThemePicker'
+import { Message } from 'element-ui';
 
 export default {
 	data(){
+     var validatePassword = (rule, value, callback) => {
+        if(value.length == 0){
+           callback(new Error('密码不能为空'))
+        }else if (value.length < 6) {
+           callback(new Error('密码不能少于六位数'))
+        } else {
+           callback()
+        }
+      };
 		 return {
+       pwForm:{
+         oldPwd:'',
+         newPwd:''
+       },
+       rules: {
+           oldPwd: [{ required: true, trigger: 'blur', validator: validatePassword }],
+           newPwd: [{ required: true, trigger: 'blur', validator: validatePassword }]
+       },
+     
       dialogVisible: false,
       time:''
    }
 	},
 	mounted(){
+    // 当前时间
 		var that = this;
 	    that.getnowTime();
 		setInterval(function(){
 			that.getnowTime();
 		},1000);
 	},
-
-	
-  components: {
-    Breadcrumb,
-    Hamburger,
-    ErrorLog,
-    Screenfull,
-    LangSelect,
-    ThemePicker
-  },
+  components: {Hamburger},
   computed: {
     ...mapGetters([
       'sidebar',
@@ -114,6 +120,30 @@ export default {
     ])
   },
   methods: {
+    changePw:function(){
+       var form = this.pwForm;
+       this.$refs.pwForm.validate(valid => {
+           if(valid){
+             
+             this.$store.dispatch('ChangePassword',this.pwForm).then((data) => {
+             console.log(data);
+              console.log(form);
+             if(data.code == 200){
+                   Message({
+                     message: "密码修改成功，请重新登录！",
+                     type: 'success',
+                     duration: 5 * 1000
+                   })
+                   this.logout();
+             }
+            })
+           }else{
+            
+             return false
+           }
+       })
+   
+    },
   	getnowTime:function(){
   		var timestamp = new Date();
 		 this.time = timestamp.toLocaleTimeString();

@@ -3,35 +3,64 @@
      <el-table
     :data="tableData"
     border
+    v-loading="loading"
     style="width: 100%">
     <el-table-column
-      prop="date"
+      prop="createTime"
       label="时间">
        <template slot-scope="scope">
-         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.date}}</div>
+          <div v-if='scope.row.type==1'>
+             <div>{{scope.row.createTime}}</div>
+          </div>
+
+          <div v-else>
+             <div :class='scope.row.type==2?"ycStyle":"yjStyle"'>{{scope.row.createTime}}</div>
+          </div>  
       </template>
     </el-table-column>
     <el-table-column
-      prop="style"
+      prop="type"
       label="消息类型">
         <template slot-scope="scope">
-         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.style}}</div>
+          <!-- 1:通知,2:异常f56d61,3:预警a5c562 -->
+          <div v-if='scope.row.type==1'>
+            <div v-if='scope.row.type==1'>通知</div>
+            <div v-if='scope.row.type==2'>异常</div>
+            <div v-if='scope.row.type==3'>预警</div>      
+          </div>
+
+          <div v-else>
+             <div :class='scope.row.type==2?"ycStyle":"yjStyle"'>
+               <div v-if='scope.row.type==1'>通知</div>
+               <div v-if='scope.row.type==2'>异常</div>
+               <div v-if='scope.row.type==3'>预警</div>    
+             </div>
+          </div>
+          
+      
       </template>
     </el-table-column>
     <el-table-column
-      prop="cont"
+      prop="content"
       label="消息内容">
         <template slot-scope="scope">
-         <div v-bind:class='[scope.row.type == 1?yjSty:"",scope.row.type == 2?ycSty:""]'>{{scope.row.cont}}</div>
+          <div v-if='scope.row.type==1'>
+             <div>{{scope.row.content}}</div>
+          </div>
+
+          <div v-else>
+             <div :class='scope.row.type==2?"ycStyle":"yjStyle"'>{{scope.row.content}}</div>
+          </div>  
+  
       </template>
     </el-table-column>
       <el-table-column
-      prop="flag"
+      prop="read"
       label="标志">
       <template slot-scope="scope">
       	<div class="flgStyle">
-      		   <span class="emailIcon" v-if="scope.row.flag==1"></span>
-             <span class="rightIcon" v-if="scope.row.flag==2"></span>
+      		   <span class="emailsn" v-if="!scope.row.read"></span>
+             <span class="rightIcon" v-if="scope.row.read"></span>
       	</div>
       
       </template>
@@ -39,68 +68,31 @@
   </el-table>
   
   <div class='pageBox'>
-  	  <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="100">
-</el-pagination>
+       <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalPage">
+    </el-pagination>
+
   </div>
 
   </div>
 </template>
 <script>
-
-
+import mixin from '@/utils/tablemixin.js';
 export default {
   name: 'documentation',
- 
-  data() {
-    return {
-    	yjSty:'yjSty',
-    	ycSty:'ycSty',
-     tableData:[{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'1',
-     	  type:0
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'2',
-     	  type:0
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'1',
-     	  type:1
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'2',
-     	  type:2
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'2',
-     	  type:0
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'1',
-     	  type:1
-     },{
-     	  date:'2017-06-11 15:10:56',
-     	  style:'通知',
-     	  cont:'张三用户发起补卡请求',
-     	  flag:'2',
-     	  type:2
-     }]
+  mixins: [mixin],
+  
+  data(){
+    return{
+     funcName:'MessageList',
+     searchData:{}
     }
   }
 }

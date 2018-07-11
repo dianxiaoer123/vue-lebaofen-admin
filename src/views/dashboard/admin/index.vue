@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-editor-container">
-    <panel-group @handleSetLineChartData="handleSetLineChartData" :panel-data='panelData'></panel-group>
+    <panel-group :panel-data='panelData'></panel-group>
 
     <el-row>
     	<div class="chartTitle">七日累计数据</div>
@@ -11,7 +11,8 @@
     </el-row>
 
     <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8" v-for='(item,index) in topGroups'>
+     
+      <el-col :xs="24" :sm="24" :lg="8" :key="index" v-for='(item, index) in topGroups'>
         <div class="chart-wrapper">
            <div class='chartName redSty' v-if='index == 0'>
            	  <div class='inspan'>
@@ -80,13 +81,9 @@
         </div>
       </el-col>
 
-             </el-row>
-           </div>
-        </div>
-      </el-col>
-
     </el-row>
-  </div>
+</div>
+
 </template>
 
 <script>
@@ -118,19 +115,7 @@ export default {
     	  		orderNum:0
     	  	}
     	  },
-    	  tableData: [{
-            name: '团队名称：',
-            cont: '名称一'
-          },{
-            name: '累计成交订单金额：',
-            cont: '1340000'
-          },{
-            name: '累计订单笔数：',
-            cont: '10'
-          },{
-            name: '团队人数：',
-            cont: '50'
-          }],
+
       lineChartData: {
       	dateData:[],
       	expectedData:[],
@@ -141,7 +126,7 @@ export default {
   mounted(){
   	var that = this;
   	  this.$store.dispatch('GetCount').then((data) => {
-         console.log(data);
+        
          var count = data.data;
          that.panelData={yd:count.yd,total:count.total};
          that.topGroups = count.topGroups;
@@ -158,9 +143,7 @@ export default {
   },
 
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
-    }
+  
   }
 }
 </script>
