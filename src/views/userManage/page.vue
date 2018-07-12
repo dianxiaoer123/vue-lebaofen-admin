@@ -37,7 +37,7 @@
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
                <el-form-item>
-               	 <router-link to="dataChart">
+               	 <router-link to="dataChart/AgentStatistics">
                     <el-button type="primary">数据统计</el-button>
                 </router-link>
             
@@ -50,7 +50,7 @@
   	</div>
      
  <el-table
-    
+     v-loading="loading"
     :data="tableData"
     highlight-current-row
     style="width: 100%">
@@ -106,10 +106,7 @@
       label="操作" width='150'>
       
        <template slot-scope="scope">
-        <!-- <el-button
-          size="mini"
-          type='success'
-          @click="changeStatus" data-status='scope.row.status' data-id='scope.row.id' v-if='scope.row.status == 2'>启用</el-button> -->
+
         <el-button
           size="mini"
           :type="scope.row.status == 1?'danger':'success'"

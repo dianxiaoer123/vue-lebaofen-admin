@@ -45,7 +45,7 @@
   	</div>
      
  <el-table
-    ref="singleTable"
+     v-loading="loading"
     :data="tableData"
     highlight-current-row
     style="width: 100%">
@@ -86,8 +86,8 @@
        <template slot-scope="scope">
         <el-button
           size="mini"
-          type='primary'
-          @click="editVisible = true"">编辑</el-button>
+          type='success'
+          @click="editVisible = true">编辑</el-button>
         <el-button
           size="mini"
           type="danger"
@@ -218,11 +218,11 @@
 </template>
 
 <script>
-
+import mixin from '@/utils/tablemixin.js';
 
 export default{
   name: 'wayManage',
-  
+  mixins: [mixin],
   data(){
   	return{ 
   		    svalue:5,
@@ -233,99 +233,10 @@ export default{
   		     sendForm:{
   		     	 status:''
   		     },
-  		     formInline:{
-  		     	status:''
-  		     },
-  		     
-  		     tableData: [{
-  		     	bh:1234544,
-            date: '1111111',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        }],
+  		    funcName:'ConsumerList',
+       searchData:{
+         userCode:'',name:'',status:''
+       },
   	}
   },
  

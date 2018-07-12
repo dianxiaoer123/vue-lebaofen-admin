@@ -60,7 +60,7 @@ export const asyncRouterMap = [
         title: '代理人管理',
       }
     },{
-      path: 'dataChart',
+      path: 'dataChart/:name',
       component: () => import('@/views/dataChart/dataChart'),
       name: 'dataChart',
       meta: {
@@ -75,6 +75,53 @@ export const asyncRouterMap = [
       }
     }
   
+    ]
+  },
+  {
+    path: '/systemManage',
+    component: Layout,
+    redirect: '/orderManage/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '系统管理',
+      icon: 'component',
+    },
+    children: [{
+      path: 'page',
+      component: () => import('@/views/systemManage/page'),
+      name:'productManage',
+      meta: {
+        title: '产品管理',
+      }
+    },{
+      path: 'riskManage',
+      component: () => import('@/views/systemManage/riskManage'),
+      name:'riskManage',
+      meta: {
+        title: '风控管理',
+      }
+    },{
+      path: 'wayManage',
+      component: () => import('@/views/systemManage/wayManage'),
+      name:'wayManage',
+      meta: {
+        title: '通道管理',
+      }
+    },{
+      path: 'agreeManage',
+      component: () => import('@/views/systemManage/agreeManage'),
+      name:'agreeManage',
+      meta: {
+        title: '协议管理',
+      }
+    },{
+      path: 'businessManage',
+      component: () => import('@/views/systemManage/businessManage'),
+      name:'businessManage',
+      meta: {
+        title: '运营管理',
+      }
+    }
     ]
   },
   {
@@ -138,54 +185,7 @@ export const asyncRouterMap = [
     ]
   },
 
-  
-  {
-    path: '/systemManage',
-    component: Layout,
-    redirect: '/orderManage/index',
-    alwaysShow: true, // will always show the root menu
-    meta: {
-      title: '系统管理',
-      icon: 'component',
-    },
-    children: [{
-      path: 'page',
-      component: () => import('@/views/systemManage/page'),
-      name:'productManage',
-      meta: {
-        title: '产品管理',
-      }
-    },{
-      path: 'riskManage',
-      component: () => import('@/views/systemManage/riskManage'),
-      name:'riskManage',
-      meta: {
-        title: '风控管理',
-      }
-    },{
-      path: 'wayManage',
-      component: () => import('@/views/systemManage/wayManage'),
-      name:'wayManage',
-      meta: {
-        title: '通道管理',
-      }
-    },{
-      path: 'agreeManage',
-      component: () => import('@/views/systemManage/agreeManage'),
-      name:'agreeManage',
-      meta: {
-        title: '协议管理',
-      }
-    },{
-      path: 'businessManage',
-      component: () => import('@/views/systemManage/businessManage'),
-      name:'businessManage',
-      meta: {
-        title: '运营管理',
-      }
-    }
-    ]
-  },
+
 
   { path: '*', redirect: '/404', hidden: true }
 ]

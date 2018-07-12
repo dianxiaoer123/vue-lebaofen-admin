@@ -9,11 +9,10 @@ export function messageList(data) {
   })
 }
 
-export function msgRead(data) {
+export function msgRead(id) {
 
   return request({
-    url: '/manageapi/message/read', 
-    method: 'post',
-    data
+    url: '/manageapi/message/read?id='+id, 
+    method: 'get'
   })
 }

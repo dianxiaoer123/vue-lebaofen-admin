@@ -2,27 +2,27 @@
   <div class="app-container">
   	
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="formInline">
+  	<el-form :inline="true" :model="searchData">
   		
   		<div>
-  			  <el-form-item label="序号">
-           <el-input></el-input>
+  			  <el-form-item label="产品ID">
+           <el-input v-model="searchData.id" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
        <el-form-item label="产品名称">
-           <el-input></el-input>
+           <el-input v-model="searchData.name" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
         <el-form-item label="产品期数">
-           <el-input></el-input>
+           <el-input v-model="searchData.qs" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
      <el-form-item label="支付周期">
-           <el-input></el-input>
+           <el-input v-model="searchData.backCycle" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
         <el-form-item label="产品率费">
-           <el-input></el-input>
+           <el-input v-model="searchData.rate" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
   		</div>
   		
@@ -30,7 +30,7 @@
     
       <div>
       	  <el-form-item>
-              <el-button type="primary" icon="el-icon-search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
           <el-form-item>
               <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
@@ -46,7 +46,7 @@
   	</div>
      
  <el-table
-    ref="singleTable"
+    v-loading="loading"
     :data="tableData"
     highlight-current-row
     style="width: 100%">
@@ -55,11 +55,11 @@
       label="序号">
     </el-table-column>
     <el-table-column
-      property="bh"
+      property="id"
       label="产品ID">
     </el-table-column>
     <el-table-column
-      property="date"
+      property="createTime"
       label="产品设置时间">
     </el-table-column>
     <el-table-column
@@ -67,15 +67,15 @@
       label="产品名称">
     </el-table-column>
       <el-table-column
-      property="tc"
+      property="qs"
       label="产品期数">
     </el-table-column>
       <el-table-column
-      property="ddje"
+      property="backCycle"
       label="支付周期">
     </el-table-column>
       <el-table-column
-      property="tjr"
+      property="rate"
       label="产品费率">
     </el-table-column>
    
@@ -85,8 +85,8 @@
        <template slot-scope="scope">
         <el-button
           size="mini"
-          type='primary'
-          @click="editVisible = true"">编辑</el-button>
+          type='success'
+          @click="editVisible = true">编辑</el-button>
         <el-button
           size="mini"
           type="danger"
@@ -94,15 +94,20 @@
       </template>
     </el-table-column>
   </el-table>
-  
-     
-<div class='pageBox'>
- <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="100">
- </el-pagination>
-</div>
+
+  <div class='pageBox'>
+       <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalPage">
+    </el-pagination>
+
+  </div>
 
 
 <!--添加-->
@@ -206,11 +211,11 @@
 </template>
 
 <script>
-
+import mixin from '@/utils/tablemixin.js';
 
 export default{
   name: 'productManage',
-  
+  mixins: [mixin],
   data(){
   	return{ 
   		    editVisible:false,
@@ -220,99 +225,13 @@ export default{
   		     sendForm:{
   		     	 status:''
   		     },
-  		     formInline:{
-  		     	status:''
-  		     },
+  		  
+          funcName:'ProductList',
+          searchData:{
+            id:'',name:'',backCycle:'',qs:'',rate:''
+          },
   		     
-  		     tableData: [{
-  		     	bh:1234544,
-            date: '1111111',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        }],
+  		  
   	}
   },
  

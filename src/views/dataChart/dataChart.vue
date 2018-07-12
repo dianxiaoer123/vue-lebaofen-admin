@@ -49,12 +49,14 @@ export default{
         },
         areaData:{},
         sexData:{},
+        typeFunc:''
   	}
   },
 
   mounted(){
-	this.$store.dispatch('AgentStatistics').then((data) => {
-         console.log(data);
+  this.typeFunc = this.$route.params.name;
+  console.log(this.$route);
+	this.$store.dispatch(this.typeFunc).then((data) => {
          if(data.code == 200){
          var age = data.data.age;
          var area = data.data.area;

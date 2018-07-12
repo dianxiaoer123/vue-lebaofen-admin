@@ -31,8 +31,8 @@
         </el-form>   
         
         <div>
-        	 <el-button type="warning">确认</el-button>
-        	 <el-button type="success">修改</el-button>
+        	 <el-button type="success">确认</el-button>
+        	 <el-button type="warning">修改</el-button>
         </div>
        </el-tab-pane>
        
@@ -55,8 +55,8 @@
         </el-form>   
         
         <div>
-        	 <el-button type="warning">确认</el-button>
-        	 <el-button type="success">修改</el-button>
+        	 <el-button type="success">确认</el-button>
+        	 <el-button type="warning">修改</el-button>
         </div>
        </el-tab-pane>
        

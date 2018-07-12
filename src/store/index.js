@@ -6,6 +6,7 @@ import permission from './modules/permission'
 import tagsView from './modules/tagsView'
 import user from './modules/user'
 import userManage from './modules/userManage'
+import systemrManage from './modules/systemManage'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
     permission,
     tagsView,
     userManage,
+    systemrManage,
     user
   },
   getters

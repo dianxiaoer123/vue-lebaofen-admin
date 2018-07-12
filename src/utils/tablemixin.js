@@ -26,8 +26,11 @@ export default {
       
         this.$store.dispatch(this.funcName,obj).then((data) => {
           this.loading = false;
-          this.tableData = data.data.dataList;
-          this.totalPage = data.data.total;
+          if(data.code == 200){
+            this.tableData = data.data.dataList;
+            this.totalPage = data.data.total;
+          }
+        
        })
       },
       handleSizeChange(val) {

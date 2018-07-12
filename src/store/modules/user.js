@@ -89,9 +89,9 @@ const user = {
     },
 
     // 信息列表
-    MessageList({ commit }, data) {
+    MessageList({ commit }, id) {
       return new Promise((resolve, reject) => {
-        messageList(data).then(response => {   
+        messageList(id).then(response => {   
           resolve(response.data)
         }).catch(error => {
           reject(error)

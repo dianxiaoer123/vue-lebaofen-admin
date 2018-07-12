@@ -101,8 +101,8 @@ export default {
   },
   methods:{
     isRead(id){
-      var obj = {id:id};
-      this.$store.dispatch('MsgRead',obj).then((data) => {
+    
+      this.$store.dispatch('MsgRead',id).then((data) => {
            if(data.code == 200){
              this.getPage();
            }
