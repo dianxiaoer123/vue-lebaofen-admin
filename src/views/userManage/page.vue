@@ -34,10 +34,10 @@
           </el-form-item>
       
            <el-form-item>
-              <el-button type="primary" icon="el-icon-download" @click="exportFile">导出</el-button>
+              <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
                <el-form-item>
-               	 <router-link to="/userManage/dataChart">
+               	 <router-link to="dataChart">
                     <el-button type="primary">数据统计</el-button>
                 </router-link>
             
@@ -106,14 +106,14 @@
       label="操作" width='150'>
       
        <template slot-scope="scope">
-        <el-button
+        <!-- <el-button
           size="mini"
           type='success'
-          @click="editVisible = true" v-if='scope.row.status == 2'>启用</el-button>
+          @click="changeStatus" data-status='scope.row.status' data-id='scope.row.id' v-if='scope.row.status == 2'>启用</el-button> -->
         <el-button
           size="mini"
-          type="danger"
-          @click="deleteVisible = true" v-if='scope.row.status == 1'>停用</el-button>
+          :type="scope.row.status == 1?'danger':'success'"
+          @click="changeStatus(scope.row.status,scope.row.id)">{{scope.row.status == 1?"停用":"启用"}}</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -138,16 +138,18 @@
   title=""
   :visible.sync="dialogVisible"
   width="30%">
-  <el-form enctype="text/plain">
+
   <div>
       <el-checkbox-group v-model="checkedList">
         <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
      </el-checkbox-group>
   </div>
-  <el-button @click="dialogVisible = false">取 消</el-button>
-    
+  <span slot="footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>    
     <el-button type="success" @click="exportClick">导出</el-button>
-  </el-form>
+  </span>
+
+
 </el-dialog>
 
 </div>
@@ -161,15 +163,25 @@ export default {
   
   data(){
     return{
-     checkedList:[],
-     nameList:['序号', '用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态','操作'],
-     dialogVisible:true,
+     checkedList:['用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态'],
+     nameList:['用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态'],
+     matchObj:{
+       '用户ID':"id",
+       '申请时间':"createTime",
+       '姓名':"name",
+       '手机':"mobile",
+       '所在公司':"company",
+       '开启银行':"bank",
+       '银行账号':"cardNo",
+       '账户密码':"accountPassword",
+       '状态':"status"
+     },
+     dialogVisible:false,
      funcName:'AgentList',
      searchData:{
        id:'',name:'',company:'',status:''
      },
      exportData:{
-       responseType: 'arraybuffer',
         cols:[{
           name:"id",
           checked:true
@@ -199,13 +211,43 @@ export default {
            checked:true
         }]
      },
-     exportFunc:'AgentExport'
+     exportUrl:'/manageapi/agent/export2'
     }
   },
+
   methods:{
+    changeStatus(status,id){
+        var obj = {
+          status:status==1?2:1,
+          id:id
+        }
+         this.$store.dispatch('AgentUpstatus',obj).then((data) => {
+           if(data.code == 200){
+             this.getPage();
+           }
+       })
+    },
+    // 导出文件
     exportClick(){
+      var clist = this.checkedList;
+      var eplist = this.exportData;
+      clist.map((key) => {
+        var a = this.getName(key,this.matchObj);
+         this.exportData.cols.map((value, index, array) => {
+           if(value.name == a){
+              value.checked = true;
+           }
+        })    
+      })
       this.exportFile();
-      //  console.log(this.checkedList);
+    },
+    // 获取每个列的对应的英文名
+    getName(name,array){
+       for(var key in array){
+         if(key == name){
+           return array[key];
+         }
+       }
     }
   }
  

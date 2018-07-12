@@ -8,3 +8,12 @@ export function messageList(data) {
     data
   })
 }
+
+export function msgRead(data) {
+
+  return request({
+    url: '/manageapi/message/read', 
+    method: 'post',
+    data
+  })
+}

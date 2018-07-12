@@ -38,45 +38,50 @@ export default {
     }
   },
   mounted() {
-    this.initChart()
-    this.__resizeHanlder = debounce(() => {
-      if (this.chart) {
-        this.chart.resize()
-      }
-    }, 100)
-    window.addEventListener('resize', this.__resizeHanlder)
+
   },
-  beforeDestroy() {
-    if (!this.chart) {
-      return
+  watch:{
+    dataBar:function(val, oldval){
+        this.dataBar=val;
+        this.initChart();
     }
-    window.removeEventListener('resize', this.__resizeHanlder)
-    this.chart.dispose()
-    this.chart = null
   },
+
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
        let {xdata,ydata} = this.dataBar;
       this.chart.setOption({
-      	color:['#FF9666','#A0D468','#40CACC','#45C1DD'],
-         tooltip: {
-            trigger: 'item',
-            formatter: '{b}<br/>{c} (p / km2)'
+      	color:['#F56D61','#A5C562','#F7C258','#4AC7F3'],
+          tooltip: {
+           trigger: 'item',
+           formatter: "{a} <br/>{b}: {c} ({d}%)"
+         },
+          legend: {
+             data:xdata,
+             itemWidth: 10,
+             itemHeight: 10
         },
- 
-         series: [
-            {
-                name: '中国',
-                type: 'map',
-                mapType: 'china', 
-                itemStyle:{
-                    normal:{label:{show:true}},
-                    emphasis:{label:{show:true}}
-                },
-          
-            }
-        ]
+    
+      series: [
+        {
+            name:'所占比例 ',
+            type:'pie',
+            radius: ['30%', '70%'],
+            avoidLabelOverlap: false,
+            label: {      
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '30',
+                        fontWeight: 'bold'
+                    }
+                }
+            },
+           
+            data:ydata
+        }
+    ]
       })
     }
   }

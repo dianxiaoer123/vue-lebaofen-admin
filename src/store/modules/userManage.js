@@ -1,5 +1,5 @@
-import {agentList} from '@/api/agentList'
-import {agentExport} from '@/api/agentExport'
+import {agentList,agentUpstatus,agentStatistics} from '@/api/agent'
+
 const agent = {
   state: {
      
@@ -19,16 +19,30 @@ const agent = {
         })
       },
 
-        // 代理人管理列表导出
-        AgentExport({ commit }, data) {
-          return new Promise((resolve, reject) => {
-            agentExport(data).then(response => {   
-              resolve(response.data)
-            }).catch(error => {
-              reject(error)
-            })
+      // 代理人状态修改
+      AgentUpstatus({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          agentUpstatus(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
           })
-        },
+        })
+      },
+
+       // 代理人数据统计
+       AgentStatistics({ commit }, state) {
+        return new Promise((resolve, reject) => {
+          agentStatistics().then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
+      
+      
   }
 }
 

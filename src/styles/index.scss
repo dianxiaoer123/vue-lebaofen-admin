@@ -365,3 +365,11 @@ code {
 label{
   font-weight: normal;
 }
+.el-checkbox{
+  margin-right: 30px;
+  margin-left: 0px;
+}
+.el-checkbox+.el-checkbox{
+  margin-right: 30px;
+  margin-left: 0px;
+}

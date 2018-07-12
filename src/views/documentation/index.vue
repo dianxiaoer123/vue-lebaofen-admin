@@ -60,7 +60,7 @@
       <template slot-scope="scope">
       	<div class="flgStyle">
             <a href="javascript:void(0)">
-               <span class="emailsn" v-if="!scope.row.read" @click="isRead" :data-id='scope.row.id'></span>
+               <span class="emailsn" v-if="!scope.row.read" @click="isRead(scope.row.id)"></span>
             </a>
             <a href="javascript:void(0)">
               <span class="rightIcon" v-if="scope.row.read"></span>
@@ -100,8 +100,13 @@ export default {
     }
   },
   methods:{
-    isRead(){
-
+    isRead(id){
+      var obj = {id:id};
+      this.$store.dispatch('MsgRead',obj).then((data) => {
+           if(data.code == 200){
+             this.getPage();
+           }
+       })
     }
   }
 }

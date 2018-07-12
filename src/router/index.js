@@ -61,7 +61,7 @@ export const asyncRouterMap = [
       }
     },{
       path: 'dataChart',
-      component: () => import('@/views/userManage/dataChart'),
+      component: () => import('@/views/dataChart/dataChart'),
       name: 'dataChart',
       meta: {
         title: '数据统计'

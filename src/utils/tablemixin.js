@@ -1,3 +1,5 @@
+
+import {Export} from '@/api/export'
 export default {
   name: 'tablemixin',
  
@@ -14,13 +16,8 @@ export default {
    methods:{
      exportFile(){
       let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
-     
       var obj = Object.assign(formdata, this.exportData, this.searchData);
-    
-      this.$store.dispatch(this.exportFunc,obj).then((data) => {
-        let fileName = data.headers['content-disposition'].match(/fushun(\S*)xls/)[0];
-         console.log(fileName);
-     })
+      Export(this.exportUrl,obj);      
      },
       getPage(){
         let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};

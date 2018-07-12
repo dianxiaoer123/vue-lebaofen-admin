@@ -1,7 +1,7 @@
 import { loginByUsername, logout, getUserInfo} from '@/api/login'
 import {getCount} from '@/api/maincount'
 import {changePassword} from '@/api/changePassword'
-import {messageList} from '@/api/messageList'
+import {messageList,msgRead} from '@/api/messageList'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -98,6 +98,17 @@ const user = {
         })
       })
     },
+
+        // 信息已读
+        MsgRead({ commit }, data) {
+          return new Promise((resolve, reject) => {
+            msgRead(data).then(response => {   
+              resolve(response.data)
+            }).catch(error => {
+              reject(error)
+            })
+          })
+        },
     
 
 
