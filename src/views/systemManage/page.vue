@@ -33,7 +33,7 @@
               <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
           <el-form-item>
-              <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
+              <el-button type="primary" icon="el-icon-edit" @click="addForm()">添加</el-button>
           </el-form-item>
            <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
@@ -86,11 +86,11 @@
         <el-button
           size="mini"
           type='success'
-          @click="editVisible = true">编辑</el-button>
+          @click="editForm(scope.row.id)">编辑</el-button>
         <el-button
           size="mini"
           type="danger"
-          @click="deleteVisible = true">删除</el-button>
+          @click="deleteForm(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -110,32 +110,29 @@
   </div>
 
 
-<!--添加-->
+<!--添加/修改-->
 <el-dialog
-  title="添加"
+  title="信息填写"
   :visible.sync="addVisible"
   width="30%">
   <div style="width:80%;">
-  	 <el-form  label-width="100px" :model="sendForm">
-        <el-form-item label="序号">
-          <el-input></el-input>
+     <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
+  	 <el-form label-width="100px" :model="sendForm" :rules="rules" ref="sendForm">
+        <el-form-item label="产品名称" prop='name'>
+           <el-input v-model="sendForm.name"></el-input>
         </el-form-item>
         
-        <el-form-item label="产品名称">
-           <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="支付周期">
-           <el-input></el-input>
+         <el-form-item label="支付周期" prop="backCycle">
+           <el-input v-model="sendForm.backCycle"></el-input>
          </el-form-item>
          
-           <el-form-item label="产品费率">
-           <el-input></el-input>
+           <el-form-item label="产品费率" prop="rate">
+           <el-input v-model="sendForm.rate"></el-input>
          </el-form-item>
          
-         <el-form-item label="产品期数">
+         <el-form-item label="产品期数" prop="qs">
          	 <el-tooltip class="item" effect="dark" content="期数不能冲突" placement="right-end">
-              <el-input >
+              <el-input v-model="sendForm.qs">
                	<template slot="append"><span class="el-icon-question"></span></template>
              </el-input>
           </el-tooltip>
@@ -147,49 +144,7 @@
   </div>
   <span slot="footer" class="dialog-footer">
     <el-button @click="addVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addVisible = false">添加</el-button>
-  </span>
-</el-dialog>
-
-<!--编辑-->
-<el-dialog
-  title="编辑"
-  :visible.sync="editVisible"
-  width="30%">
-  <div style="width:80%;">
-   <el-form  label-width="100px" :model="sendForm">
-        <el-form-item label="序号">
-          <el-input></el-input>
-        </el-form-item>
-        
-        
-        <el-form-item label="产品名称">
-           <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="支付周期">
-           <el-input></el-input>
-         </el-form-item>
-         
-           <el-form-item label="产品费率">
-           <el-input></el-input>
-         </el-form-item>
-         
-         <el-form-item label="产品期数">
-         	 <el-tooltip class="item" effect="dark" content="期数不能冲突" placement="right-end">
-              <el-input >
-               	<template slot="append"><span class="el-icon-question"></span></template>
-             </el-input>
-          </el-tooltip>
-          
-         </el-form-item>
-         
-       
-      </el-form>
-  </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="editVisible = false">取 消</el-button>
-    <el-button type="primary" @click="editVisible = false">确 定</el-button>
+    <el-button type="success" @click="submitForm('sendForm')">确定</el-button>
   </span>
 </el-dialog>
 
@@ -202,7 +157,7 @@
   <span>确定要删除吗？</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
+    <el-button type="success" @click="deleteData">删除</el-button>
   </span>
 </el-dialog>
 
@@ -218,25 +173,36 @@ export default{
   mixins: [mixin],
   data(){
   	return{ 
-  		    editVisible:false,
   		    addVisible:false,
   		    deleteVisible:false,
-  
-  		     sendForm:{
-  		     	 status:''
-  		     },
-  		  
           funcName:'ProductList',
           searchData:{
             id:'',name:'',backCycle:'',qs:'',rate:''
           },
+          rules:{
+            name: [{ required: true, message: '请输入产品名称', trigger: 'change' }],
+            backCycle: [{ required: true, message: '请输入支付周期', trigger: 'change' }],
+            rate: [{ required: true, message: '请输入产品费率', trigger: 'change' }],
+            qs: [{ required: true, message: '请输入产品期数', trigger: 'change' }],
+          },
+          sendForm:{
+              id:'',
+              status:'',
+              name:'',
+              qs:'',
+              backCycle:'',
+              rate:''
+          },
+          saveName:'ProductSave',
+          delName:'ProductDel',
+          editName:'ProductDetail'
+         
   		     
-  		  
   	}
   },
  
   methods: {
- 
+   
   }
 }
 </script>

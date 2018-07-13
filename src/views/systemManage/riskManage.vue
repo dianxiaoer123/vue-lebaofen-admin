@@ -32,7 +32,7 @@
         
         <div>
         	 <el-button type="success">确认</el-button>
-        	 <el-button type="warning">修改</el-button>
+        	 <el-button type="danger">修改</el-button>
         </div>
        </el-tab-pane>
        
@@ -56,7 +56,7 @@
         
         <div>
         	 <el-button type="success">确认</el-button>
-        	 <el-button type="warning">修改</el-button>
+        	 <el-button type="danger">修改</el-button>
         </div>
        </el-tab-pane>
        
@@ -70,10 +70,10 @@
 
 <script>
 
-
+import mixin from '@/utils/tablemixin.js';
 export default{
   name: 'riskManage',
-  
+   mixins: [mixin],
   data(){
   	 
   },

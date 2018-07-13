@@ -1,25 +1,25 @@
 <template>
   <div class="app-container">
-  	
+  	 
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="sendForm">
+  	<el-form :inline="true" :model="searchData">
   		
   		<div>
   			 <el-form-item label="类型">
-           <el-select v-model="sendForm.status" placeholder="类型">
-              <el-option label="1" value="1"></el-option>
-              <el-option label="2" value="2"></el-option>
+           <el-select v-model="searchData.type" placeholder="类型">
+              <el-option :label="item" :value="index+1" v-for="(item,index) in typeList" :key='index'></el-option>
            </el-select>
         </el-form-item>
+       
       
        <el-form-item label="通道ID">
-           <el-input></el-input>
+           <el-input v-model="searchData.id" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
          <el-form-item label="状态">
-           <el-select v-model="sendForm.status" placeholder="状态">
+           <el-select v-model="searchData.status" placeholder="状态">
               <el-option label="启用" value="1"></el-option>
-              <el-option label="停用" value="2"></el-option>
+              <el-option label="禁用" value="2"></el-option>
            </el-select>
         </el-form-item>
   		</div>
@@ -28,11 +28,11 @@
     
       <div>
       	  <el-form-item>
-              <el-button type="primary" icon="el-icon-search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
        
           <el-form-item>
-              <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
+              <el-button type="primary" icon="el-icon-edit" @click="addForm()">添加</el-button>
           </el-form-item>
            <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
@@ -54,11 +54,11 @@
       label="序号">
     </el-table-column>
     <el-table-column
-      property="bh"
+      property="id"
       label="通道ID">
     </el-table-column>
     <el-table-column
-      property="date"
+      property="createTime"
       label="创建时间">
     </el-table-column>
     <el-table-column
@@ -66,18 +66,25 @@
       label="名称">
     </el-table-column>
       <el-table-column
-      property="tc"
+      property="type"
       label="类型">
-    </el-table-column>
-      <el-table-column
-      label="优先级">
-       <template slot-scope="scope">
-         <span class="el-icon-star-on"></span>
+      <template slot-scope="scope">
+         <span>{{typeList[scope.row.type-1]}}</span>
       </template>
     </el-table-column>
       <el-table-column
-      property="tjr"
+      prop="priorityLevel"
+      label="优先级">
+      <template slot-scope="scope">
+         <span>{{scope.row.priorityLevel}}</span>
+      </template>
+    </el-table-column>
+      <el-table-column
+      property="status"
       label="状态">
+        <template slot-scope="scope">
+         <span>{{scope.row.status==1?'启用':'停用'}}</span>
+      </template>
     </el-table-column>
    
       <el-table-column
@@ -87,107 +94,59 @@
         <el-button
           size="mini"
           type='success'
-          @click="editVisible = true">编辑</el-button>
+          @click="editForm(scope.row.id)">编辑</el-button>
         <el-button
           size="mini"
           type="danger"
-          @click="deleteVisible = true">删除</el-button>
+          @click="deleteForm(scope.row.id)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
   
      
-<div class='pageBox'>
- <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="100">
- </el-pagination>
-</div>
+  <div class='pageBox'>
+       <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalPage">
+    </el-pagination>
+
+  </div>
 
 
  
-<!--编辑-->
+<!--添加编辑-->
 <el-dialog
-  title="编辑"
-  :visible.sync="editVisible"
-  width="30%">
-  <div style="width:80%;">
-     	 <el-form  label-width="100px" :model="sendForm">
-        <el-form-item label="通道ID">
-          <el-input></el-input>
-        </el-form-item>
-        
-        <el-form-item label="名称">
-           <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="类型">
-              <el-select v-model="sendForm.status" placeholder="类型">
-              <el-option label="预授权" value="1"></el-option>
-              <el-option label="代付" value="2"></el-option>
-               <el-option label="资方" value="3"></el-option>
-                <el-option label="短信" value="4"></el-option>
-           </el-select>
-         </el-form-item>
-         
-          <el-form-item label="优先级">
-          
-            	<el-rate v-model="svalue">
-              </el-rate>
-         
-         </el-form-item>
-         
-        <el-form-item label="状态">
-             <el-select v-model="sendForm.status" placeholder="状态">
-              <el-option label="停用" value="1"></el-option>
-              <el-option label="启动" value="2"></el-option>
-           </el-select>
-         </el-form-item>
-
-      </el-form>
-  </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="editVisible = false">取 消</el-button>
-    <el-button type="primary" @click="editVisible = false">确 定</el-button>
-  </span>
-</el-dialog>
-
-<!--添加-->
-<el-dialog
-  title="添加"
+  title="信息填写"
   :visible.sync="addVisible"
   width="30%">
   <div style="width:80%;">
-     	 <el-form  label-width="100px" :model="sendForm">
-        <el-form-item label="通道ID">
-          <el-input></el-input>
+       <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
+     	 <el-form  label-width="100px" :model="sendForm" :rules="rules" ref="sendForm">
+    
+        <el-form-item label="名称" prop='name'>
+           <el-input v-model="sendForm.name"></el-input>
         </el-form-item>
         
-        <el-form-item label="名称">
-           <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="类型">
-              <el-select v-model="sendForm.status" placeholder="类型">
-              <el-option label="预授权" value="1"></el-option>
-              <el-option label="代付" value="2"></el-option>
-               <el-option label="资方" value="3"></el-option>
-                <el-option label="短信" value="4"></el-option>
+         <el-form-item label="类型" prop="type">
+           <el-select v-model="sendForm.type" placeholder="类型">
+             <el-option :label="item" :value="index+1" v-for="(item,index) in typeList" :key='index'></el-option>
            </el-select>
          </el-form-item>
          
-          <el-form-item label="优先级">
-          
-            	<el-rate v-model="svalue">
-              </el-rate>
-         
+        <el-form-item label="优先级" prop="priorityLevel">
+           <el-input v-model="sendForm.priorityLevel"></el-input>
          </el-form-item>
          
-        <el-form-item label="状态">
+        <el-form-item label="状态" prop="status">
              <el-select v-model="sendForm.status" placeholder="状态">
-              <el-option label="停用" value="1"></el-option>
-              <el-option label="启动" value="2"></el-option>
+              <el-option label="启用" :value="1" :key='1'></el-option>
+              <el-option label="停用" :value="2" :key="2"></el-option>
            </el-select>
          </el-form-item>
 
@@ -195,10 +154,9 @@
   </div>
   <span slot="footer" class="dialog-footer">
     <el-button @click="addVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addVisible = false">添加</el-button>
+    <el-button type="primary" @click="submitForm('sendForm')">确 定</el-button>
   </span>
 </el-dialog>
-
 
 
 <!--删除-->
@@ -209,7 +167,7 @@
   <span>确定要删除吗？</span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
+    <el-button type="success" @click="deleteData">删除</el-button>
   </span>
 </el-dialog>
 
@@ -226,17 +184,25 @@ export default{
   data(){
   	return{ 
   		    svalue:5,
-  		    editVisible:false,
   		    addVisible:false,
   		    deleteVisible:false,
-  
-  		     sendForm:{
-  		     	 status:''
-  		     },
-  		    funcName:'ConsumerList',
-       searchData:{
-         userCode:'',name:'',status:''
-       },
+  		    sendForm:{
+  		     	 status:'',id:'',name:'',type:'',priorityLevel:''
+           },
+          saveName:'ChannelSave',
+          delName:'ChannelDel',
+          funcName:'ChannelList',
+          editName:'ChannelDetail',
+          searchData:{
+           type:'',id:'',status:''
+          },
+          typeList:['预授权','代付','资方','短信','电子发票','支付','身份证识别','银行卡识别','保单效验','四要素效验','电子签章','数据存证'],
+          rules:{
+            name: [{ required: true, message: '请输入名称', trigger: 'change' }],
+            type: [{required: true, message: '请选择类型', trigger: 'change' }],
+            priorityLevel: [{required: true, message: '请输入优先级', trigger: 'change' }],
+            status: [{required: true, message: '请选择状态', trigger: 'change' }],
+          },
   	}
   },
  

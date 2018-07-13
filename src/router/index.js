@@ -115,6 +115,13 @@ export const asyncRouterMap = [
         title: '协议管理',
       }
     },{
+      path: 'agree/:name',
+      component: () => import('@/views/systemManage/agreeCreate'),
+      name:'agreeCreate',
+      meta: {
+        title: '协议信息',
+      }, hidden: true
+    },{
       path: 'businessManage',
       component: () => import('@/views/systemManage/businessManage'),
       name:'businessManage',
@@ -161,7 +168,6 @@ export const asyncRouterMap = [
     path: '/orderManage',
     component: Layout,
     redirect: '/orderManage/index',
-    alwaysShow: true, // will always show the root menu
     meta: {
       title: '订单管理',
       icon: 'component',
@@ -169,7 +175,7 @@ export const asyncRouterMap = [
     children: [{
       path: 'page',
       component: () => import('@/views/orderManage/page'),
-      name: 'pagePermission',
+      name: 'orderList',
       meta: {
         title: '订单列表',
       }
@@ -177,7 +183,7 @@ export const asyncRouterMap = [
     {
       path: 'dataChart',
       component: () => import('@/views/orderManage/dataChart'),
-      name: 'dataChart',
+      name: 'orderchart',
       meta: {
         title: '数据统计',
       }

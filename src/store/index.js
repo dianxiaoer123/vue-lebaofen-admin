@@ -7,6 +7,7 @@ import tagsView from './modules/tagsView'
 import user from './modules/user'
 import userManage from './modules/userManage'
 import systemrManage from './modules/systemManage'
+import order from './modules/orderManage'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -19,6 +20,7 @@ const store = new Vuex.Store({
     tagsView,
     userManage,
     systemrManage,
+    order,
     user
   },
   getters
