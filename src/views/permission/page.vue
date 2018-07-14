@@ -3,6 +3,11 @@
   	
   	<div class='inputBox'>
   	<el-form :inline="true" :model="searchData">
+
+       <el-form-item label="订单编号">
+           <el-input  v-model="searchData.orderNo" @keyup.enter.native="getPage"></el-input>
+      </el-form-item>
+
       <el-form-item label="代理人ID">
            <el-input  v-model="searchData.agentCode" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
@@ -14,8 +19,9 @@
       
         <el-form-item label="佣金状态">
             <el-select  v-model='searchData.withDrawStatus' placeholder="佣金状态">
-                <el-option label="成功" value="1"></el-option>
-                <el-option label="失败" value="2"></el-option>
+                <el-option label="" value=""></el-option>
+                <el-option label="已结算" value="1"></el-option>
+                <el-option label="待结算" value="2"></el-option>
             </el-select>
       </el-form-item>
       
@@ -46,46 +52,47 @@
       label="序号">
     </el-table-column>
     <el-table-column
-      property="agentCode"
-      label="代理人ID">
+      property="orderNo"
+      label="订单编号">
+    </el-table-column>
+     <el-table-column
+      property="orderTime"
+      label="订单时间">
     </el-table-column>
     <el-table-column
       property="agentName"
       label="代理人姓名">
     </el-table-column>
       <el-table-column
-      property="withDrawTime"
-      label="提现时间">
+      property="stageReward"
+      label="分期提成">
     </el-table-column>
       <el-table-column
-      property="type"
-      label="类别">
-      <template slot-scope="scope">
-         <div v-if='scope.row.type == 1'>分期</div>
-         <div v-if='scope.row.type == 2'>推荐</div>
-         <div v-if='scope.row.type == 3'>增值</div>
-      </template>
+      property="orderAmount"
+      label="订单金额">
     </el-table-column>
       <el-table-column
-      property="amount"
-      label="单笔佣金金额">
+      property="directRcmdName"
+      label="直接推荐人">
     </el-table-column>
       <el-table-column
-      property="withDrawStatus"
-      label="提现状态">
-       <template slot-scope="scope">
-         <div v-if='scope.row.withDrawStatus == 1'>成功</div>
-         <div v-if='scope.row.withDrawStatus == 2'>失败</div>
-      </template>
+      property="directRcmdReward"
+      label="直接推荐奖励金额">
+    </el-table-column>
+      <el-table-column
+      property="indirectRcmdName"
+      label="间接推荐人">
+    </el-table-column>
+      <el-table-column
+      property="indirectRcmdReward"
+      label="间接推荐奖励金额">
     </el-table-column>
       <el-table-column
       property="status"
-      label="操作状态">
+      label="结算状态">
       <template slot-scope="scope">
-         <div v-if='scope.row.status == 1'>无操作</div>
-         <div v-if='scope.row.status == 2'>通过</div>
-         <div v-if='scope.row.status == 3'>驳回</div>
-         <div v-if='scope.row.status == 4'>通过和驳回</div>
+         <div v-if='scope.row.status == 1'>已结算</div>
+         <div v-if='scope.row.status == 2'>待结算</div>
       </template>
     </el-table-column>
   </el-table>
@@ -165,7 +172,7 @@ export default{
   		   
   		    funcName:'RcmdrewardList',
           searchData:{
-            agentName:'',agentCode:'',withDrawStatus:''
+            agentName:'',agentCode:'',orderNo:'',status:''
           },
   		     
   	}

@@ -1,62 +1,41 @@
 <template>
   <div class="app-container">
-  	
   	<el-tabs type="border-card">
        <el-tab-pane>
          <span slot="label">代理风控</span>
-         <el-form :inline="true" :model="formInline">
-  		     <el-form-item label="单日累计订单生成笔数：">
-              <el-input></el-input>
-           </el-form-item>
-      
-          <el-form-item label="单日提现次数：">
-             <el-input></el-input>
-          </el-form-item>
-      
-         <el-form-item label="单笔订单最小金额设置：">
-            <el-input></el-input>
-         </el-form-item>
-      
-        <el-form-item label="单日单卡累计订单生成笔数：">
-            <el-input></el-input>
-         </el-form-item>
-      
-        <el-form-item label="单笔订单最大金额设置：">
-            <el-input></el-input>
-        </el-form-item>
-        
-       <el-form-item label="单日提取金额上限：">
-            <el-input></el-input>
-        </el-form-item>
+           <el-form :inline="true" label-width="220px">
+  		     <el-form-item :label="item.label" :key="item.key" v-for="item in agentConfig">
+  		     	<el-input v-model="item.value"></el-input>
+             </el-form-item>
+
         </el-form>   
         
         <div>
-        	 <el-button type="success">确认</el-button>
-        	 <el-button type="danger">修改</el-button>
+        	 <el-button type="success" @click="saveList(1)">确认</el-button>
+        	 <el-button type="danger" @click="saveList(1)">修改</el-button>
         </div>
+
+
        </el-tab-pane>
        
         <el-tab-pane>
          <span slot="label">消费者风控</span>
-         <el-form :inline="true" :model="formInline">
-  		     <el-form-item label="单卡累计未完结分期笔数上限：：">
-  		     	  <el-input>
+         <el-form :inline="true">
+  		     <el-form-item :label="item.label" :key="item.key" v-for="item in comConfig">
+  		     	  <el-input v-model="item.value">
   		     	  	 <template slot="append">
   		     	  	 	  <el-tooltip class="item" effect="dark" content="逾期者名下所有卡片均不支持新增分期" placement="right-end">
   		     	  	 	  	<el-button><span class="el-icon-question"></span></el-button>
                    </el-tooltip>
   		     	  	 </template>
-  		     	
   		     	  </el-input>
-  		     
-         
            </el-form-item>
-
         </el-form>   
+
         
         <div>
-        	 <el-button type="success">确认</el-button>
-        	 <el-button type="danger">修改</el-button>
+        	 <el-button type="success" @click="saveList(2)">确认</el-button>
+        	 <el-button type="danger" @click="saveList(2)">修改</el-button>
         </div>
        </el-tab-pane>
        
@@ -69,17 +48,23 @@
 </template>
 
 <script>
+import mixin from '@/utils/configmixin.js';
 
-import mixin from '@/utils/tablemixin.js';
 export default{
   name: 'riskManage',
-   mixins: [mixin],
+  mixins: [mixin],
   data(){
-  	 
+      return{
+        agentConfig:[],
+        comConfig:[]
+    }
+     
   },
-  methods: {
+  created(){
+     this.getList(1);
+     this.getList(2);
+  },
  
-  }
 }
 </script>
 

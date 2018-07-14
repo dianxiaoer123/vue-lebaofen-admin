@@ -82,10 +82,13 @@
       property="status"
       label="操作状态">
       <template slot-scope="scope">
-         <div v-if='scope.row.status == 1'>无操作</div>
-         <div v-if='scope.row.status == 2'>通过</div>
-         <div v-if='scope.row.status == 3'>驳回</div>
-         <div v-if='scope.row.status == 4'>通过和驳回</div>
+         <div v-if='scope.row.status == 1'>无</div>
+         <div v-if='scope.row.status == 2'> <el-button type="success" @click="pass(scope.row.id)">通过</el-button></div>
+         <div v-if='scope.row.status == 3'> <el-button type="danger" @click="reject(scope.row.id)">驳回</el-button></div>
+         <div v-if='scope.row.status == 4'>
+           <el-button type="success" @click="pass(scope.row.id)">通过</el-button>
+           <el-button type="danger" @click="reject(scope.row.id)">驳回</el-button>
+           </div>
       </template>
     </el-table-column>
   </el-table>
@@ -156,6 +159,7 @@
 
 <script>
 import mixin from '@/utils/tablemixin.js';
+import { Message } from 'element-ui'
 
 export default{
   name: 'pagePermission',
@@ -163,7 +167,7 @@ export default{
   data(){
   	return{ 
   		   
-  		    funcName:'FinanceList',
+  		    funcName:'CommissionList',
           searchData:{
             agentName:'',agentCode:'',withDrawStatus:''
           },
@@ -172,7 +176,34 @@ export default{
   },
  
   methods: {
- 
+     pass(id){
+        this.$store.dispatch('CommissionPass',id).then((data) => {
+          if(data.code == 200){
+            //  刷新表格
+             this.getPage();
+            Message({
+             message: '操作成功！',
+             type: 'success',
+             duration: 5 * 1000
+            })
+          }
+        
+        })
+     },
+     reject(id){
+        this.$store.dispatch('CommissionReject',id).then((data) => {
+          if(data.code == 200){
+            //  刷新表格
+             this.getPage();
+            Message({
+             message: '操作成功！',
+             type: 'success',
+             duration: 5 * 1000
+            })
+          }
+        
+        })
+     }
   }
 }
 </script>

@@ -1,4 +1,4 @@
-import {agentList,agentUpstatus,agentStatistics,rcmdrewardList} from '@/api/agent'
+import {agentList,agentUpstatus,agentStatistics,rcmdrewardList,feeList,commissionList,commissionPass,commissionReject} from '@/api/agent'
 import {consumerList,consumerStatistics} from '@/api/consumer'
 
 const agent = {
@@ -64,7 +64,7 @@ const agent = {
         })
       },
 
-               // 消费者数据统计
+       // 佣金列表 奖励
        RcmdrewardList({ commit }, data) {
          return new Promise((resolve, reject) => {
           rcmdrewardList(data).then(response => {   
@@ -74,9 +74,50 @@ const agent = {
         })
         })
      },
-        
 
-      
+     FeeList({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        feeList(data).then(response => {   
+         resolve(response.data)
+      }).catch(error => {
+          reject(error)
+     })
+     })
+    },
+
+     CommissionList({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        commissionList(data).then(response => {   
+         resolve(response.data)
+      }).catch(error => {
+          reject(error)
+     })
+     })
+  },
+
+  // 通过
+  CommissionPass({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      commissionPass(data).then(response => {   
+       resolve(response.data)
+    }).catch(error => {
+        reject(error)
+   })
+   })
+},
+
+  // 驳回
+  CommissionReject({ commit }, data) {
+    return new Promise((resolve, reject) => {
+      commissionReject(data).then(response => {   
+       resolve(response.data)
+    }).catch(error => {
+        reject(error)
+   })
+   })
+},
+
+    
       
   }
 }

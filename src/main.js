@@ -1,4 +1,4 @@
-/* eslint-disable */
+
 
 import Vue from 'vue'
 
@@ -6,7 +6,7 @@ import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+
 
 import '@/styles/index.scss' // global css
 

@@ -1,68 +1,40 @@
 <template>
   <div class="app-container">
   	
-  	    <el-form :inline="true" :model="formInline" label-width="210px">
-  		     <el-form-item label="分期提成比例：">
-              <el-input></el-input>
-           </el-form-item>
-      
-          <el-form-item label="增值奖金首次发放触发金额：">
-             <el-input></el-input>
-          </el-form-item>
-      
-         <el-form-item label="直接推荐奖励比例：">
-            <el-input></el-input>
-         </el-form-item>
-      
-        <el-form-item label="间接推荐奖励比例：">
-            <el-input></el-input>
-         </el-form-item>
-      
-        <el-form-item label="增值奖金首次金额：">
-            <el-input></el-input>
-        </el-form-item>
-        
-       <el-form-item label="增值奖金发放递增金额：">
-            <el-input></el-input>
-        </el-form-item>
-        
-      <el-form-item label="增值奖金递增金额：">
-            <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="产品激活原始定价：">
-            <el-input></el-input>
-        </el-form-item>
-        
-        <el-form-item label="产品激活优惠价：">
-            <el-input></el-input>
-        </el-form-item>
-        
-             <el-form-item label="消费者保证金比例：">
-            <el-input></el-input>
-        </el-form-item>
-        
-             <el-form-item label="提现税金比例：">
-            <el-input></el-input>
-        </el-form-item>
+  	    <el-form :inline="true" label-width="250px">
+  		     <el-form-item :label="item.label" :key="item.key" v-for="item in busyConfig">
+  		     	<el-input v-model="item.value"></el-input>
+             </el-form-item>
+
+             <el-form-item :label="item.label" :key="item.key" v-for="item in payConfig">
+  		     	<el-input v-model="item.value"></el-input>
+             </el-form-item>
+
         </el-form>   
         
            <div>
-        	 <el-button type="warning">确认</el-button>
-        	 <el-button type="success">返回</el-button>
+        	 <el-button type="success" @click="saveList(3)">确认</el-button>
+        	 <el-button type="danger" @click="saveList(3)">修改</el-button>
         </div>
 
 </div>
 </template>
 
 <script>
-
+import mixin from '@/utils/configmixin.js';
 
 export default{
   name: 'businessManage',
-  
+  mixins: [mixin],
   data(){
-  	 
+  	 return{
+           busyConfig:[],
+           payConfig:[]
+       }
+  },
+  created(){
+       this.getList(3);
+       this.getList(4);
   },
   methods: {
  

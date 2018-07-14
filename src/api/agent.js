@@ -36,13 +36,40 @@ export function rcmdrewardList(data) {
   })
 }
 
-// 代理人佣金列表
-export function financeList(data) {
+// 代理人手续费列表
+export function feeList(data) {
+  return request({
+    url: '/manageapi/finance/agent/fee/list', 
+    method: 'post',
+    data
+  })
+}
+
+// 佣金清单
+export function commissionList(data) {
   return request({
     url: '/manageapi/finance/agent/commission/list', 
     method: 'post',
     data
   })
 }
+
+// 通过 佣金清单
+export function commissionPass(id) {
+  return request({
+    url: '/manageapi/finance/agent/commission/pass', 
+    method: 'get',
+  })
+}
+
+// 驳回 佣金清单
+export function commissionReject(id) {
+  return request({
+    url: '/manageapi/finance/agent/commission/reject', 
+    method: 'get',
+  })
+}
+
+
 
 

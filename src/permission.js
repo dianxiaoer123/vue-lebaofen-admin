@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
 	NProgress.start();
 	
 	if(getToken() =='undefined'){
-
+     console.log("dddd");
 		 next('/login')
 	}else{
 		NProgress.done()

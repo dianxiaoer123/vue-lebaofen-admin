@@ -55,7 +55,7 @@ const agent = {
         })
       },
 
-         // 风控保存
+         // 风控列表
          ConfigList({ commit }, data) {
           return new Promise((resolve, reject) => {
             configList(data).then(response => {   
