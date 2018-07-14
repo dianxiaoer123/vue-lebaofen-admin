@@ -10,19 +10,11 @@ export function orderList(data) {
 }
 
 
-// 代理状态修改
-export function agentUpstatus(data) {
+// 累计订单金额
+export function orderStatistics() {
   return request({
-    url: '/manageapi/agent/updsta', 
-    method: 'post',
-    data
+    url: '/manageapi/order/statistics', 
+    method: 'post'
   })
 }
 
-//代理人数据统计
-export function agentStatistics() {
-  return request({
-    url: '/manageapi/agent/statistics', 
-    method: 'post',
-  })
-}

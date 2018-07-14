@@ -2,41 +2,34 @@
   <div class="app-container">
   	
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="formInline">
-  	  <el-form-item label="订单编号">
-         <el-input></el-input>
-      </el-form-item>
-      
-     <el-form-item label="代理人姓名">
-         <el-input></el-input>
-      </el-form-item>
-  		
+  	<el-form :inline="true" :model="searchData">
       <el-form-item label="代理人ID">
-         <el-input></el-input>
+           <el-input  v-model="searchData.agentCode" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
-      <el-form-item label="消费者姓名">
-         <el-input></el-input>
+       <el-form-item label="代理人姓名">
+           <el-input v-model="searchData.agentName" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
-
-        <el-form-item label="手续费状态">
-            <el-select  v-model='formInline.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+      
+      
+        <el-form-item label="佣金状态">
+            <el-select  v-model='searchData.withDrawStatus' placeholder="佣金状态">
+                <el-option label="成功" value="1"></el-option>
+                <el-option label="失败" value="2"></el-option>
             </el-select>
       </el-form-item>
       
       <div>
       	  <el-form-item>
-              <el-button type="primary" icon="el-icon-search">查询</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
-          <el-form-item>
-              <el-button type="primary" icon="el-icon-edit" @click="addVisible = true">添加</el-button>
-          </el-form-item>
+
            <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
           </el-form-item>
+           <!-- <el-form-item>
+              <el-button type="primary" @click="cashVisible = true">代理人提现</el-button>
+          </el-form-item> -->
       </div>
   
     </el-form>
@@ -44,7 +37,7 @@
   	</div>
      
  <el-table
-    ref="singleTable"
+    v-loading="loading"
     :data="tableData"
     highlight-current-row
     style="width: 100%">
@@ -53,271 +46,128 @@
       label="序号">
     </el-table-column>
     <el-table-column
-      property="bh"
-      label="订单编号">
+      property="agentCode"
+      label="代理人ID">
     </el-table-column>
     <el-table-column
-      property="date"
-      label="订单时间">
-    </el-table-column>
-    <el-table-column
-      property="name"
+      property="agentName"
       label="代理人姓名">
     </el-table-column>
       <el-table-column
-      property="tc"
-      label="代理人ID">
+      property="withDrawTime"
+      label="提现时间">
     </el-table-column>
       <el-table-column
-      property="ddje"
-      label="订单金额">
+      property="type"
+      label="类别">
+      <template slot-scope="scope">
+         <div v-if='scope.row.type == 1'>分期</div>
+         <div v-if='scope.row.type == 2'>推荐</div>
+         <div v-if='scope.row.type == 3'>增值</div>
+      </template>
     </el-table-column>
       <el-table-column
-      property="tjr"
-      label="消费者姓名">
+      property="amount"
+      label="单笔佣金金额">
     </el-table-column>
       <el-table-column
-      property="tjje"
-      label="订单手续费">
-    </el-table-column>
-      <el-table-column
-      property="jjtrj"
-      label="手续费状态">
-    </el-table-column>
-      <el-table-column
-      label="操作" min-width='150'>
-      
+      property="withDrawStatus"
+      label="提现状态">
        <template slot-scope="scope">
-        <el-button
-          size="mini"
-          type='primary'
-          @click="editVisible = true"">编辑</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="deleteVisible = true">删除</el-button>
+         <div v-if='scope.row.withDrawStatus == 1'>成功</div>
+         <div v-if='scope.row.withDrawStatus == 2'>失败</div>
+      </template>
+    </el-table-column>
+      <el-table-column
+      property="status"
+      label="操作状态">
+      <template slot-scope="scope">
+         <div v-if='scope.row.status == 1'>无操作</div>
+         <div v-if='scope.row.status == 2'>通过</div>
+         <div v-if='scope.row.status == 3'>驳回</div>
+         <div v-if='scope.row.status == 4'>通过和驳回</div>
       </template>
     </el-table-column>
   </el-table>
      
-<div class='pageBox'>
- <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="100">
- </el-pagination>
-</div>
+     
+  <div class='pageBox'>
+       <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalPage">
+    </el-pagination>
+
+  </div>
 
 
-<!--添加-->
-<el-dialog
-  title="添加"
-  :visible.sync="addVisible"
+
+
+<!--提现-->
+<!-- <el-dialog
+  title="提现"
+  :visible.sync="cashVisible"
   width="30%">
   <div style="width:80%;">
   	 <el-form  label-width="100px" :model="sendForm">
-  	 	           
-         <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
+  	 	  <el-form-item label="序号">
+          <el-input></el-input>
         </el-form-item>
   	 	
         <el-form-item label="代理人ID">
           <el-input></el-input>
         </el-form-item>
         
-                
-        <el-form-item label="消费者姓名">
-           <el-input></el-input>
-        </el-form-item>
-
-
-         
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
-      </el-form>
-  </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="addVisible = false">取 消</el-button>
-    <el-button type="primary" @click="addVisible = false">添加</el-button>
-  </span>
-</el-dialog>
-
-<!--编辑-->
-<el-dialog
-  title="编辑"
-  :visible.sync="editVisible"
-  width="30%">
-  <div style="width:80%;">
-  	 <el-form  label-width="100px" :model="sendForm">
-          <el-form-item label="订单编号">
-           <el-input></el-input>
-         </el-form-item>
-         
-                 
         <el-form-item label="代理人姓名">
            <el-input></el-input>
         </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
-          <el-input></el-input>
-        </el-form-item>
         
-                
-        <el-form-item label="消费者姓名">
+         <el-form-item label="提现时间">
            <el-input></el-input>
-        </el-form-item>
-
-
+         </el-form-item>
          
-          <el-form-item label="手续费状态">
-            <el-select v-model='sendForm.status' placeholder="手续费状态">
-                <el-option label="已支付" value="1"></el-option>
-                <el-option label="未支付" value="2"></el-option>
-                <el-option label="已退回" value="2"></el-option>
+          <el-form-item label="提现金额">
+           <el-input></el-input>
+         </el-form-item>
+         
+          <el-form-item label="操作">
+            <el-select v-model='sendForm.status' placeholder="">
+               <el-option label="通过" value="1"></el-option>
+               <el-option label="驳回" value="2"></el-option>
            </el-select>
           </el-form-item>
       </el-form>
   </div>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="editVisible = false">取 消</el-button>
-    <el-button type="primary" @click="editVisible = false">确 定</el-button>
+    <el-button @click="cashVisible = false">取 消</el-button>
+    <el-button type="primary" @click="cashVisible = false">提现</el-button>
   </span>
 </el-dialog>
-
-
-<!--删除-->
-<el-dialog
-  title="删除"
-  :visible.sync="deleteVisible"
-  width="30%">
-  <span>确定要删除吗？</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">删除</el-button>
-  </span>
-</el-dialog>
+ -->
 
 
 </div>
 </template>
 
 <script>
-
+import mixin from '@/utils/tablemixin.js';
 
 export default{
-  name: 'directivePermission',
-  
+  name: 'pagePermission',
+   mixins: [mixin],
   data(){
   	return{ 
-  		    editVisible:false,
-  		    addVisible:false,
-  		    deleteVisible:false,
-  		     sendForm:{
-  		     	 status:''
-  		     },
-  		     formInline:{
-  		     	status:''
-  		     },
+  		   
+  		    funcName:'FinanceList',
+          searchData:{
+            agentName:'',agentCode:'',withDrawStatus:''
+          },
   		     
-  		     tableData: [{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        },{
-  		     	bh:1234544,
-            date: '2016-05-02 14:00',
-            name: '王小虎',
-            tc:33333,
-            ddje:123,
-            tjr:'王小明',
-            tjje:124,
-            jjtrj:'赵丽颖',
-            jjje:234,
-            status:'已结算'
-        }],
   	}
   },
  

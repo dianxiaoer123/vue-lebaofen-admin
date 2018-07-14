@@ -26,3 +26,23 @@ export function agentStatistics() {
     method: 'post',
   })
 }
+
+// 代理人佣金管理==推荐奖励
+export function rcmdrewardList(data) {
+  return request({
+    url: '/manageapi/finance/agent/rcmdreward/list', 
+    method: 'post',
+    data
+  })
+}
+
+// 代理人佣金列表
+export function financeList(data) {
+  return request({
+    url: '/manageapi/finance/agent/commission/list', 
+    method: 'post',
+    data
+  })
+}
+
+

@@ -36,8 +36,17 @@ export default {
       chart: null
     }
   },
+  watch:{
+    dataBar:{ 
+       handler(val, oldVal){
+          this.initChart();
+      },
+      deep:true
+    }
+ 
+  },
   mounted() {
-    this.initChart()
+  
     this.__resizeHanlder = debounce(() => {
       if (this.chart) {
         this.chart.resize()
@@ -58,7 +67,7 @@ export default {
       this.chart = echarts.init(this.$el, 'macarons')
        let {xdata,ydata} = this.dataBar;
       this.chart.setOption({
-      	color:['#5BB0F0'],
+      	color:['#a6c462'],
         grid: {
           top: 10,
           left: '2%',

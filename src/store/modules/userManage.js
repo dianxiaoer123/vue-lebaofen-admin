@@ -1,4 +1,4 @@
-import {agentList,agentUpstatus,agentStatistics} from '@/api/agent'
+import {agentList,agentUpstatus,agentStatistics,rcmdrewardList} from '@/api/agent'
 import {consumerList,consumerStatistics} from '@/api/consumer'
 
 const agent = {
@@ -63,6 +63,18 @@ const agent = {
           })
         })
       },
+
+               // 消费者数据统计
+       RcmdrewardList({ commit }, data) {
+         return new Promise((resolve, reject) => {
+          rcmdrewardList(data).then(response => {   
+            resolve(response.data)
+         }).catch(error => {
+             reject(error)
+        })
+        })
+     },
+        
 
       
       

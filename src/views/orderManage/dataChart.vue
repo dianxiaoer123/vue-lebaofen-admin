@@ -4,7 +4,7 @@
   <el-row :gutter="20">
     <el-col :span="16">
     	 <div class="chartBox">
-    	 	  <div class="chartName greenStyl">笔数</div>
+    	 	  <div class="chartName blueStyl">笔数</div>
     	 	  <bar-chart :dataBar='bar1Data'></bar-chart>
     	 </div>
     </el-col>
@@ -22,7 +22,7 @@
 	<el-row>
    	   <el-col :span="24">
   		  <div class="chartBox">
-    	 	  <div class="chartName greenStyl">持卡号订单比例</div>
+    	 	  <div class="chartName blueStyl">持卡号订单比例</div>
     	 	  <bar-chart :dataBar='bar3Data'></bar-chart>
     	  </div>
        </el-col>
@@ -46,21 +46,45 @@ export default{
   	return{ 
   		  bar1Data:{
   		  	xdata:["累计订单笔数","持卡累计成功订单笔数","累计申诉笔数","累计支付失败订单笔数","累计成功订单笔数","累计未支付订单笔数"],
-  		  	ydata:[123,111,222,234,333,907]
+  		  	ydata:[]
   		  },
   		   bar2Data:{
   		  	xdata:["持卡支付失败订单比例","持卡未支付订单比例"],
-  		  	ydata:[123,111]
+  		  	ydata:[]
   		  },
   		     bar3Data:{
-  		  	xdata:["持卡行累计支付订单金额","累计未支付订单金额","累计支付失败订单金额","持卡行支付成功订单单均金额","持卡行支付失败订单单均金额","累计订单金额","累计申诉金额"],
-  		  	ydata:[1123,2111,1345,3133,3453,1321,1164]
-  		  }
+  		  	xdata:["持卡行累计成功订单金额","累计未支付订单金额","累计支付失败订单金额","持卡行支付成功订单单均金额","持卡行支付失败订单单均金额","累计订单金额","累计申诉金额"],
+  		  	ydata:[]
+		  },
+		
   	}
+  },
+  created(){
+     this.getData();
   },
  
   methods: {
- 
+      getData(){
+		  this.$store.dispatch('QrderStatistics').then((data) => {
+          if(data.code == 200){
+
+			var list = data.data;
+			for(var i in list){
+                if(i == 'bankFailPayOrderRate' || i == 'bankNoPayOrderRate'){
+                   this.bar2Data.ydata.push(list[i]);
+				}else if(i == "totalOrderNum" || i == "bankTotalSuccessOrderNum" || i == "totalAppealNum"||
+				  i == "totalFailPayOrderNum"||i=="totalSuccessOrderNum"|| i== "totalNoPayOrderNum"){
+                  this.bar1Data.ydata.push(list[i]);
+				}else if(i == "bankTotalSuccessOrderAmount"||i=="totalNoPayOrderAmount"||i=="totalFailPayOrderAmount"||
+				i=="bankTotalSuccessOrderAverageAmount"||i=="bankFailPayOrderAverageAmount"||i=="totalOrderAmount"||i=="totalAppealAmount"){
+					 this.bar3Data.ydata.push(list[i]);
+				}
+			}
+		
+		}
+        
+        })
+	  }
   }
 }
 </script>
@@ -81,10 +105,8 @@ export default{
   margin-bottom: 30px;
   color:white;
  }
- .greenStyl{
- 	 background: #A0D468;
- }
+
  .blueStyl{
- 	background: #45C1DD;
+ 	background: #0064d6;
  }
 </style>

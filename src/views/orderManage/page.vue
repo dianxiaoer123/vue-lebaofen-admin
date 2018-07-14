@@ -119,6 +119,11 @@
       <el-table-column
       property="settlementStatus"
       label="结算状态">
+      <template slot-scope="scope">
+          <div v-if="scope.row.settlementStatus == 1">已结算</div>
+          <div v-if="scope.row.settlementStatus == 2">未结算</div>
+          <div v-if="scope.row.settlementStatus == 3">结算失败</div>
+      </template>
     </el-table-column>
       <el-table-column
       label="操作">
@@ -181,7 +186,9 @@
         </el-form-item>
 
         <el-form-item label="订单状态">
-           <el-input v-model="sendForm.orderStatus"></el-input>
+           <el-input v-if='sendForm.orderStatus == 1' value="已冻结"></el-input>
+           <el-input v-if='sendForm.orderStatus == 2' value="未冻结"></el-input>
+           <el-input v-if='sendForm.orderStatus == 3' value="冻结失败"></el-input>
         </el-form-item>
 
         <el-form-item label="结算户名">
@@ -212,25 +219,15 @@
         </el-form-item>
 
          <el-form-item label="结算状态">
-           <el-input v-model="sendForm.settlementStatus"></el-input>
+           <el-input v-if="sendForm.settlementStatus == 1" value="已结算"></el-input>
+           <el-input v-if="sendForm.settlementStatus == 2" value="未结算"></el-input>
+           <el-input v-if="sendForm.settlementStatus == 3" value="结算失败"></el-input>
         </el-form-item>
 
       </el-form>
   </div>
   <span slot="footer" class="dialog-footer">
     <el-button type="success" @click="addVisible = false">返回</el-button>
-  </span>
-</el-dialog>
-
-<!--删除-->
-<el-dialog
-  title="删除"
-  :visible.sync="deleteVisible"
-  width="30%">
-  <span>确定要删除吗？</span>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteVisible = false">取 消</el-button>
-    <el-button type="primary" @click="deleteVisible = false">确定</el-button>
   </span>
 </el-dialog>
 
@@ -246,7 +243,6 @@ export default {
   data() {
     return {
        addVisible:false,
-  		 deleteVisible:false,
        funcName:'OrderList',
        searchData:{
           orderNo:'',settlementStatus:'',status:'',agentId:'',agentName:'',
