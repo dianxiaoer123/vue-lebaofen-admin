@@ -29,9 +29,10 @@
           </el-form-item>
        
           <el-form-item>
-             <router-link to="agree/add">
-               <el-button type="primary" icon="el-icon-edit">添加</el-button>
-             </router-link>
+             <!-- <router-link to="agree">
+              
+             </router-link> -->
+              <el-button type="primary" icon="el-icon-edit" @click="editForm(null)">添加</el-button>
              
           </el-form-item>
       </div>
@@ -61,20 +62,22 @@
       prop="outline"
       label="概要">
     </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
       property="content"
       label="协议内容">
-    </el-table-column>
+    </el-table-column> -->
       <el-table-column
       label="操作" width='150'>
       
        <template slot-scope="scope">
-         <router-link to="agree/edit">
+         <!-- <router-link to="agree/edit">
             <el-button
              size="mini"
-             type='success'
-            @click="editVisible = true">编辑</el-button>
-          </router-link>
+             type='success'>编辑</el-button>
+          </router-link> -->
+            <el-button
+             size="mini"
+             type='success' @click="editForm(scope.row.id)">编辑</el-button>
 
         <el-button
           size="mini"
@@ -125,7 +128,7 @@ export default{
   mixins: [mixin],
   data(){
   	return{ 
-  		    addVisible:false,
+  		  
   		    deleteVisible:false,
           funcName:'AgreementList',
           searchData:{
@@ -139,13 +142,21 @@ export default{
               backCycle:'',
               rate:''
           },
-          saveName:'ProductSave',
+          saveName:'AgreementSave',
           delName:'AgreementDel',
   	}
   },
  
   methods: {
- 
+   editForm(id){
+       this.$router.push({
+          path: 'agree',
+          name:'agreeCreate',
+          params: {
+            id: id
+          }
+        })
+   }
   }
 }
 </script>

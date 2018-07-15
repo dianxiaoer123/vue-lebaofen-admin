@@ -1,6 +1,6 @@
 <template>
   <div class="tinymce-container editor-container" :class="{fullscreen:fullscreen}">
-    <textarea class="tinymce-textarea" :id="tinymceId"></textarea>
+    <textarea class="tinymce-textarea" :id="tinymceId" value='textdata'></textarea>
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK"></editorImage>
     </div>
@@ -48,6 +48,7 @@ export default {
     }
   },
   watch: {
+
     value(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() =>
@@ -55,6 +56,7 @@ export default {
       }
     }
   },
+
   mounted() {
     this.initTinymce()
   },
@@ -85,13 +87,14 @@ export default {
         default_link_target: '_blank',
         link_title: false,
         init_instance_callback: editor => {
+
           if (_this.value) {
             editor.setContent(_this.value)
           }
           _this.hasInit = true
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true
-            this.$emit('input', editor.getContent())
+            this.$emit('tinymce', editor.getContent())
           })
         },
         setup(editor) {
@@ -99,39 +102,7 @@ export default {
             _this.fullscreen = e.state
           })
         }
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
+     
       })
     },
     destroyTinymce() {
@@ -150,7 +121,8 @@ export default {
       arr.forEach(v => {
         window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
       })
-    }
+    },
+  
   },
   destroyed() {
     this.destroyTinymce()

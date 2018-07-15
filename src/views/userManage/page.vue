@@ -135,7 +135,7 @@
   title=""
   :visible.sync="dialogVisible"
   width="30%">
-
+ <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
   <div>
       <el-checkbox-group v-model="checkedList">
         <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
@@ -208,7 +208,7 @@ export default {
            checked:true
         }]
      },
-     exportUrl:'/manageapi/agent/export2'
+     exportUrl:'/manageapi/agent/export'
     }
   },
 

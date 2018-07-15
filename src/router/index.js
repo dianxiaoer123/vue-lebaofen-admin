@@ -115,7 +115,8 @@ export const asyncRouterMap = [
         title: '协议管理',
       }
     },{
-      path: 'agree/:name',
+      // path: 'agree/:name',
+      path: 'agree',
       component: () => import('@/views/systemManage/agreeCreate'),
       name:'agreeCreate',
       meta: {

@@ -5,9 +5,12 @@ import {productList,productSave,productDel,productDetail,
 
 const agent = {
   state: {
-     
+     agreeObj:{}
   },
   mutations: {
+    setAgreeObj:(state, agreeObj) => {
+      state.agreeObj = agreeObj
+    },
     
   },
   actions: {
