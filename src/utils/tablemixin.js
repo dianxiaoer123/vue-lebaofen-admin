@@ -1,25 +1,49 @@
 
-import {Export} from '@/api/export'
+// import {Export} from '@/api/export'
 import { Message } from 'element-ui'
+import { getToken } from '@/utils/auth'
 export default {
   name: 'tablemixin',
- 
   data() {
     return {
-      currentPage:1,//当前页码
-      totalPage:1,//总页码
-      pageSize:20,//每页条数
+      currentPage: 1, //当前页码
+      totalPage: 1, //总页码
+      pageSize: 20, //每页条数
       tableData:[],
       loading:true,
       delId:'',
+      ticket:getToken()
     }
   },
-   methods:{
-     exportFile(){
-      let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
-      var obj = Object.assign(formdata, this.exportData, this.searchData);
-      Export(this.exportUrl,obj);      
-     },
+  watch:{
+    checkedList:function(val){
+        this.exportClick();
+        console.log(this.exportData);
+    }
+  },
+  methods:{
+    // 列数匹配
+    exportClick(){
+      var clist = this.checkedList;
+      var eplist = this.exportData;
+      clist.map((key) => {
+        var a = this.getName(key,this.matchObj);
+         this.exportData.cols.map((value, index, array) => {
+           if(value.name == a){
+              value.checked = true;
+           }
+        })    
+      })
+     
+    },
+    // 获取每个列的对应的英文名
+    getName(name,array){
+       for(var key in array){
+         if(key == name){
+           return array[key];
+         }
+       }
+    },
       getPage(){
         let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
      
@@ -35,9 +59,11 @@ export default {
        })
       },
       handleSizeChange(val) {
+        this.pageSize = val;
          this.getPage();
       },
       handleCurrentChange(val) {
+        this.currentPage = val;
          this.getPage();
       },
          // 打开添加
@@ -112,8 +138,10 @@ export default {
     },
     
   },
-  created(){
+  mounted(){
+    this.$nextTick(() => {
       this.getPage();
+     
+    })
   }
- 
 }

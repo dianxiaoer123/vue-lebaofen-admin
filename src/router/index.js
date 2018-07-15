@@ -60,19 +60,19 @@ export const asyncRouterMap = [
         title: '代理人管理',
       }
     },{
+      path: 'userpage',
+      component: () => import('@/views/userManage/userpage'),
+      name: 'userwrap',
+      meta: {
+        title: '消费者管理'
+      }
+    },{
       path: 'dataChart/:name',
       component: () => import('@/views/dataChart/dataChart'),
       name: 'dataChart',
       meta: {
         title: '数据统计'
       }, hidden:true 
-    },{
-      path: 'userpage',
-      component: () => import('@/views/userManage/userpage'),
-      name: 'userpage',
-      meta: {
-        title: '消费者管理'
-      }
     }
   
     ]

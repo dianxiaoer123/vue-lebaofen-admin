@@ -84,7 +84,7 @@
           <span class="jineIcon1"></span>
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">昨日新增订单金额</div>
+          <div class="card-panel-text">累计订单金额</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="panelData.total.orderAmount" :duration="2600"></count-to>
         </div>
       </div>

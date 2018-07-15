@@ -5,8 +5,8 @@
   	<el-form :inline="true" :model="searchData">
   		
   		<div>
-  			  <el-form-item label="用户ID" prop="id">
-           <el-input v-model="searchData.id" @keyup.enter.native="getPage"></el-input>
+  			  <el-form-item label="代理人ID" prop="agentCode">
+           <el-input v-model="searchData.agentCode" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
        <el-form-item label="姓名" prop="name">
@@ -59,8 +59,8 @@
       label="序号">
     </el-table-column>
     <el-table-column
-      property="id"
-      label="用户ID">
+      property="agentCode"
+      label="代理人ID">
     </el-table-column>
     <el-table-column
       property="createTime"
@@ -142,8 +142,31 @@
      </el-checkbox-group>
   </div>
   <span slot="footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>    
-    <el-button type="success" @click="exportClick">导出</el-button>
+     <form method="POST" :action="exportUrl">
+        <input type="hidden" name="Ticket" :value="ticket"/>
+        <input type="hidden" name="pageSize" :value="pageSize"/>
+        <input type="hidden" name="pageNo" :value="currentPage"/>
+
+        <!-- 查询条件 -->
+        <input type="hidden" name='agentCode' :value="searchData.agentCode">
+        <input type="hidden" name='status' :value="searchData.status">
+        <input type="hidden" name='name' :value="searchData.name">
+        <input type="hidden" name='company' :value="searchData.company">
+
+        <!-- 列数 -->
+        <div v-for="(item,index) in exportData.cols" :key="index">
+            <input type="hidden" :name="'cols['+index+'].name'" :value="item.name">
+            <input type="hidden" :name="'cols['+index+'].checked'" :value="item.checked">
+        </div>
+
+        <div>
+           <el-button @click="dialogVisible = false">取 消</el-button> 
+            <input value="导出" type="submit" class='excelBtn'/>   
+        </div>
+      
+    </form>
+   
+    <!-- <el-button type="success" @click="exportClick">导出</el-button> -->
   </span>
 
 
@@ -154,16 +177,17 @@
 
 <script>
 import mixin from '@/utils/tablemixin.js';
+
 export default {
-  name: 'productManage',
+  name: 'user',
   mixins: [mixin],
   
   data(){
     return{
-     checkedList:['用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态'],
-     nameList:['用户ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态'],
+     checkedList:[],
+     nameList:['代理人ID', '申请时间', '姓名', '手机', '所在公司','开启银行','银行账号','账户密码','状态'],
      matchObj:{
-       '用户ID':"id",
+       '代理人ID':"agentCode",
        '申请时间':"createTime",
        '姓名':"name",
        '手机':"mobile",
@@ -176,41 +200,43 @@ export default {
      dialogVisible:false,
      funcName:'AgentList',
      searchData:{
-       id:'',name:'',company:'',status:''
+       agentCode:'',name:'',company:'',status:''
      },
      exportData:{
         cols:[{
-          name:"id",
-          checked:true
+          name:"agentCode",
+          checked:false
         },{
            name:"createTime",
-           checked:true
+           checked:false
         },{
            name:"name",
-           checked:true
+           checked:false
         },{
            name:"mobile",
-           checked:true
+           checked:false
         },{
            name:"company",
-           checked:true
+           checked:false
         },{
            name:"bank",
-           checked:true
+           checked:false
         },{
            name:"cardNo",
-           checked:true
+           checked:false
         },{
            name:"accountPassword",
-           checked:true
+           checked:false
         },{
            name:"status",
-           checked:true
+           checked:false
         }]
      },
-     exportUrl:'/manageapi/agent/export'
+     exportUrl:process.env.BASE_API+'/manageapi/agent/export'
     }
   },
+
+
 
   methods:{
     changeStatus(status,id){
@@ -224,28 +250,7 @@ export default {
            }
        })
     },
-    // 导出文件
-    exportClick(){
-      var clist = this.checkedList;
-      var eplist = this.exportData;
-      clist.map((key) => {
-        var a = this.getName(key,this.matchObj);
-         this.exportData.cols.map((value, index, array) => {
-           if(value.name == a){
-              value.checked = true;
-           }
-        })    
-      })
-      this.exportFile();
-    },
-    // 获取每个列的对应的英文名
-    getName(name,array){
-       for(var key in array){
-         if(key == name){
-           return array[key];
-         }
-       }
-    }
+
   }
  
 }
