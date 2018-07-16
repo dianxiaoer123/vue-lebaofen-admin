@@ -34,9 +34,9 @@
           <el-form-item>
               <el-button type="primary" icon="el-icon-edit" @click="addForm()">添加</el-button>
           </el-form-item>
-           <el-form-item>
+           <!-- <el-form-item>
               <el-button type="primary" icon="el-icon-download">导出</el-button>
-          </el-form-item>
+          </el-form-item> -->
        
       </div>
   
@@ -170,6 +170,8 @@
     <el-button type="success" @click="deleteData">删除</el-button>
   </span>
 </el-dialog>
+
+
 
 
 </div>

@@ -10,14 +10,14 @@
            <el-input v-model="sendForm.outline"></el-input>
         </el-form-item>
         
-        <el-form-item label=''>
-           	<el-button type="warning" @click="sendAgree">发布</el-button>
-            <el-button type="success" @click="sendAgree">草稿</el-button>
-        </el-form-item>
-        
          <el-form-item label='内容' prop="content">
             <tinymce v-on:tinymce='getTinymce' :value='sendForm.content'></tinymce>
         </el-form-item>
+
+         <el-form-item label=''>
+           	<el-button type="warning" @click="sendAgree">发布</el-button>
+        </el-form-item>
+        
         
       </el-form>
   </div>

@@ -31,7 +31,7 @@
           </el-form-item>
 
            <el-form-item>
-              <el-button type="primary" icon="el-icon-download">导出</el-button>
+              <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
            <!-- <el-form-item>
               <el-button type="primary" @click="cashVisible = true">代理人提现</el-button>
@@ -42,6 +42,47 @@
   		
   	</div>
      
+     
+<!-- 导出弹窗 -->
+  <el-dialog
+  title=""
+  :visible.sync="dialogVisible"
+  width="30%">
+ <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
+  <div>
+      <el-checkbox-group v-model="checkedList">
+        <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
+     </el-checkbox-group>
+  </div>
+  <span slot="footer">
+     <form method="POST" :action="exportUrl">
+        <input type="hidden" name="Ticket" :value="ticket"/>
+        <input type="hidden" name="pageSize" :value="pageSize"/>
+        <input type="hidden" name="pageNo" :value="currentPage"/>
+
+        <!-- 查询条件 -->
+        <input type="hidden" name='id' :value="searchData.agentName">
+        <input type="hidden" name='name' :value="searchData.agentCode">
+        <input type="hidden" name='backCycle' :value="searchData.orderNo">
+        <input type="hidden" name='qs' :value="searchData.status">
+      
+
+        <!-- 列数 -->
+        <div v-for="(item,index) in exportData.cols" :key="index">
+            <input type="hidden" :name="'cols['+index+'].name'" :value="item.name">
+            <input type="hidden" :name="'cols['+index+'].checked'" :value="item.checked">
+        </div>
+
+        <div>
+           <el-button @click="dialogVisible = false">取 消</el-button> 
+            <input value="导出" type="submit" class='excelBtn'/>   
+        </div>
+      
+    </form>
+   
+  </span>
+</el-dialog>
+
  <el-table
     v-loading="loading"
     :data="tableData"
@@ -112,52 +153,6 @@
 
   </div>
 
-
-
-
-<!--提现-->
-<!-- <el-dialog
-  title="提现"
-  :visible.sync="cashVisible"
-  width="30%">
-  <div style="width:80%;">
-  	 <el-form  label-width="100px" :model="sendForm">
-  	 	  <el-form-item label="序号">
-          <el-input></el-input>
-        </el-form-item>
-  	 	
-        <el-form-item label="代理人ID">
-          <el-input></el-input>
-        </el-form-item>
-        
-        <el-form-item label="代理人姓名">
-           <el-input></el-input>
-        </el-form-item>
-        
-         <el-form-item label="提现时间">
-           <el-input></el-input>
-         </el-form-item>
-         
-          <el-form-item label="提现金额">
-           <el-input></el-input>
-         </el-form-item>
-         
-          <el-form-item label="操作">
-            <el-select v-model='sendForm.status' placeholder="">
-               <el-option label="通过" value="1"></el-option>
-               <el-option label="驳回" value="2"></el-option>
-           </el-select>
-          </el-form-item>
-      </el-form>
-  </div>
-  <span slot="footer" class="dialog-footer">
-    <el-button @click="cashVisible = false">取 消</el-button>
-    <el-button type="primary" @click="cashVisible = false">提现</el-button>
-  </span>
-</el-dialog>
- -->
-
-
 </div>
 </template>
 
@@ -169,7 +164,56 @@ export default{
    mixins: [mixin],
   data(){
   	return{ 
-  		   
+  		    checkedList:[],
+          nameList:['订单编号', '订单时间', '代理人姓名', '分期提成', '订单金额','直接推荐人','直接推荐奖励金额','间接推荐人','间接推荐奖励','结算状态'],
+          matchObj:{
+           '订单编号':"orderNo",
+           '订单时间':"orderTime",
+           '代理人姓名':"agentName",
+           '分期提成':"stageReward",
+           '订单金额':"orderAmount",
+           '直接推荐人':"directRcmdName",
+           "直接推荐奖励金额":"directRcmdReward",
+           "间接推荐人":"indirectRcmdName",
+           "间接推荐奖励":"indirectRcmdReward",
+           "结算状态":"status",
+
+         },
+         dialogVisible:false,
+       exportData:{
+        cols:[{
+          name:"orderNo",
+          checked:false
+        },{
+           name:"orderTime",
+           checked:false
+        },{
+           name:"agentName",
+           checked:false
+        },{
+           name:"stageReward",
+           checked:false
+        },{
+           name:"orderAmount",
+           checked:false
+        },{
+           name:"directRcmdName",
+           checked:false
+        },{
+           name:"directRcmdReward",
+           checked:false
+        },{
+           name:"indirectRcmdName",
+           checked:false
+        },{
+           name:"indirectRcmdReward",
+           checked:false
+        },{
+           name:"status",
+           checked:false
+        }]
+     },
+          exportUrl:process.env.BASE_API+'/manageapi/finance/agent/rcmdreward/export',
   		    funcName:'RcmdrewardList',
           searchData:{
             agentName:'',agentCode:'',orderNo:'',status:''
