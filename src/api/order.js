@@ -18,3 +18,30 @@ export function orderStatistics() {
   })
 }
 
+// 催收
+export function collectionOrder(data) {
+  return request({
+    url: '/manageapi/order/collection', 
+    method: 'post',
+    data
+  })
+}
+
+// 更换信用卡
+export function changeCard(data) {
+  return request({
+    url: '/manageapi/order/changeCreditCard', 
+    method: 'post',
+    data
+  })
+}
+
+// 逾期
+export function overdueCard(data) {
+  return request({
+    url: '/manageapi/order/overdue', 
+    method: 'post',
+    data
+  })
+}
+

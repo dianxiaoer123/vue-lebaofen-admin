@@ -18,11 +18,10 @@ export function logout() {
     method: 'post'
   })
 }
-export function getUserInfo(token) {
-return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
-})
+export function getUserInfo() {
+  return request({
+      url: '/manageapi/account/info',
+      method: 'post'
+  })
 }
 

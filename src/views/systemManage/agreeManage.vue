@@ -62,19 +62,17 @@
       prop="outline"
       label="概要">
     </el-table-column>
-      <!-- <el-table-column
-      property="content"
-      label="协议内容">
-    </el-table-column> -->
+     <el-table-column
+      property="status"
+      label="状态">
+        <template slot-scope="scope">
+         <span>{{scope.row.status==1?'启用':'停用'}}</span>
+      </template>
+    </el-table-column>
       <el-table-column
-      label="操作" width='150'>
+      label="操作" width='250'>
       
        <template slot-scope="scope">
-         <!-- <router-link to="agree/edit">
-            <el-button
-             size="mini"
-             type='success'>编辑</el-button>
-          </router-link> -->
             <el-button
              size="mini"
              type='success' @click="editForm(scope.row.id)">编辑</el-button>
@@ -83,6 +81,11 @@
           size="mini"
           type="danger"
           @click="deleteVisible = true">删除</el-button>
+
+            <el-button
+          size="mini"
+          :type="scope.row.status==1?'danger':'primary'"
+          @click="enableAgree(scope.row.id,scope.row.status)">{{scope.row.status==1?'停用':'启用'}}</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -156,6 +159,19 @@ export default{
             id: id
           }
         })
+   },
+   enableAgree(id,status){
+
+      var obj = {
+        id:id,
+        status:status==1?2:1
+      }
+      this.$store.dispatch('EnableAgree',obj).then((data) => {
+          if(data.code == 200){
+             this.getPage();
+          }
+       })
+
    }
   }
 }

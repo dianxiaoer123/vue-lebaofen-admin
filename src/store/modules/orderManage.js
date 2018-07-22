@@ -1,4 +1,4 @@
-import {orderList,orderStatistics} from '@/api/order'
+import {orderList,orderStatistics,collectionOrder,changeCard,overdueCard} from '@/api/order'
 
 
 const agent = {
@@ -19,6 +19,41 @@ const agent = {
           })
         })
       },
+
+      CollectionOrder({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          collectionOrder(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
+      // 逾期
+      OverdueCard({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          overdueCard(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
+      
+
+      ChangeCard({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          changeCard(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
+      
 
       //  订单统计
       QrderStatistics({ commit }, state) {

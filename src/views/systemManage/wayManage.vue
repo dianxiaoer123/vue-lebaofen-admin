@@ -35,7 +35,7 @@
               <el-button type="primary" icon="el-icon-edit" @click="addForm()">添加</el-button>
           </el-form-item>
            <el-form-item>
-              <el-button type="primary" icon="el-icon-download">导出</el-button>
+              <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
        
       </div>
@@ -79,6 +79,7 @@
          <span>{{scope.row.priorityLevel}}</span>
       </template>
     </el-table-column>
+    
       <el-table-column
       property="status"
       label="状态">
@@ -172,6 +173,50 @@
 </el-dialog>
 
 
+<!-- 导出弹窗 -->
+  <el-dialog
+  title=""
+  :visible.sync="dialogVisible"
+  width="30%">
+ <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
+  <div>
+      <el-checkbox-group v-model="checkedList">
+        <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
+     </el-checkbox-group>
+  </div>
+  <span slot="footer">
+     <form method="POST" :action="exportUrl">
+        <input type="hidden" name="Ticket" :value="ticket"/>
+        <input type="hidden" name="pageSize" :value="pageSize"/>
+        <input type="hidden" name="pageNo" :value="currentPage"/>
+
+        <!-- 查询条件 -->
+        <input type="hidden" name='id' :value="searchData.id">
+        <input type="hidden" name='type' :value="searchData.type">
+        <input type="hidden" name='status' :value="searchData.status">
+     
+
+
+        <!-- 列数 -->
+        <div v-for="(item,index) in exportData.cols" :key="index">
+            <input type="hidden" :name="'cols['+index+'].name'" :value="item.name">
+            <input type="hidden" :name="'cols['+index+'].checked'" :value="item.checked">
+        </div>
+
+        <div>
+           <el-button @click="dialogVisible = false">取 消</el-button> 
+            <input value="导出" type="submit" class='excelBtn'/>   
+        </div>
+      
+    </form>
+   
+    <!-- <el-button type="success" @click="exportClick">导出</el-button> -->
+  </span>
+
+
+</el-dialog>
+
+
 </div>
 </template>
 
@@ -183,7 +228,40 @@ export default{
   mixins: [mixin],
   data(){
   	return{ 
-  		    svalue:5,
+     checkedList:[],
+     nameList:['通道ID', '创建时间', '名称', '类型', '优先级','状态'],
+     matchObj:{
+       '通道ID':"id",
+       '创建时间':"createTime",
+       '名称':"name",
+       '类型':"type",
+       '优先级':"priorityLevel",
+       '状态':"status",
+     },
+     dialogVisible:false,
+   exportData:{
+        cols:[{
+          name:"id",
+          checked:false
+        },{
+           name:"createTime",
+           checked:false
+        },{
+           name:"name",
+           checked:false
+        },{
+           name:"type",
+           checked:false
+        },{
+           name:"priorityLevel",
+           checked:false
+        },{
+           name:"status",
+           checked:false
+        }]
+     },
+     exportUrl:process.env.BASE_API+'/manageapi/channel/export',
+         
   		    addVisible:false,
   		    deleteVisible:false,
   		    sendForm:{

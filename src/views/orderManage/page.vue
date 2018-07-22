@@ -54,7 +54,7 @@
               <el-button type="primary" icon="el-icon-search" @click="getPage">查询</el-button>
           </el-form-item>
            <el-form-item>
-              <el-button type="primary" icon="el-icon-download">导出</el-button>
+              <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
        
       </div>
@@ -75,6 +75,14 @@
     <el-table-column
       property="orderNo"
       label="订单号">
+    </el-table-column>
+     <el-table-column
+      property="insuranceNo"
+      label="保单号">
+    </el-table-column>
+    <el-table-column
+      property="insureSingleNumber"
+      label="投保单号">
     </el-table-column>
      <el-table-column
       property="settlementName"
@@ -126,13 +134,21 @@
       </template>
     </el-table-column>
       <el-table-column
-      label="操作">
+      label="操作" width='320'>
       
        <template slot-scope="scope">
         <el-button
           size="mini"
           type='success'
           @click="detailForm(scope.row)">详情</el-button>
+          <el-button
+          size="mini"
+          type="danger"
+          @click="collectionOrder(scope.row.orderNo)">催收</el-button>
+          <el-button
+          size="mini"
+          type="danger"
+          @click="showcard(scope.row.orderNo)">更换信用卡</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -231,17 +247,185 @@
   </span>
 </el-dialog>
 
+<!-- 导出弹窗 -->
+  <el-dialog
+  title=""
+  :visible.sync="dialogVisible"
+  width="30%">
+ <div style='margin-bottom:20px;'><img src="static/images/logo2.png" alt=""></div>
+  <div>
+      <el-checkbox-group v-model="checkedList">
+        <el-checkbox v-for="name in nameList" :label="name" :key="name">{{name}}</el-checkbox>
+     </el-checkbox-group>
+  </div>
+  <span slot="footer">
+     <form method="POST" :action="exportUrl">
+        <input type="hidden" name="Ticket" :value="ticket"/>
+        <input type="hidden" name="pageSize" :value="pageSize"/>
+        <input type="hidden" name="pageNo" :value="currentPage"/>
+
+        <!-- 查询条件 -->
+        <input type="hidden" name='orderNo' :value="searchData.orderNo">
+        <input type="hidden" name='settlementStatus' :value="searchData.settlementStatus">
+        <input type="hidden" name='status' :value="searchData.status">
+        <input type="hidden" name='agentId' :value="searchData.agentId">
+        <input type="hidden" name='agentName' :value="searchData.agentName">
+        <input type="hidden" name='consumerId' :value="searchData.consumerId">
+        <input type="hidden" name='consumerName' :value="searchData.consumerName">
+        <input type="hidden" name='currPayStatus' :value="searchData.currPayStatus">
+        <input type="hidden" name='sortName' :value="searchData.sortName">
+
+
+        <!-- 列数 -->
+        <div v-for="(item,index) in exportData.cols" :key="index">
+            <input type="hidden" :name="'cols['+index+'].name'" :value="item.name">
+            <input type="hidden" :name="'cols['+index+'].checked'" :value="item.checked">
+        </div>
+
+        <div>
+           <el-button @click="dialogVisible = false">取 消</el-button> 
+            <input value="导出" type="submit" class='excelBtn'/>   
+        </div>
+      
+    </form>
+   
+    <!-- <el-button type="success" @click="exportClick">导出</el-button> -->
+  </span>
+
+
+</el-dialog>
+
+
+<!-- 更换信用卡 -->
+<el-dialog
+  title="更换信用卡"
+  :visible.sync="changeVisible"
+  width="500">
+  <div>
+  	 <el-form label-width="200px" :model="chageForm" :rules="changerules" ref="chageForm">
+        <el-form-item label="卡号" prop="accNo">
+           <el-input v-model="chageForm.accNo"></el-input>
+        </el-form-item>
+
+        <el-form-item label="手机号" prop="phoneNo">
+          <el-input v-model="chageForm.phoneNo"></el-input>
+        </el-form-item>
+
+       <el-form-item label="卡背面的cvn2三位数字" prop="cvn2">
+           <el-input v-model="chageForm.cvn2"></el-input>
+        </el-form-item>
+        
+        <el-form-item label="有效期" prop="expired">
+             <el-date-picker
+               v-model="chageForm.expired"
+               type="date"
+               placeholder="选择有效期">
+             </el-date-picker>
+        </el-form-item>
+
+      </el-form>
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="success" @click="changeCard('chageForm')">确定</el-button>
+  </span>
+</el-dialog>
+
+
 
 </div>
 </template>
 
 <script>
 import mixin from '@/utils/tablemixin.js';
+import { Message } from 'element-ui'
 export default {
   name: "pageOrder",
   mixins: [mixin],
   data() {
     return {
+      ordernum:'',
+      chageForm:{
+        orderNo:'',
+        phoneNo:'',
+        cvn2:'',
+        expired:'',
+        accNo:''
+      },
+      changerules:{
+            orderNo: [{ required: true, message: '请输入订单号', trigger: 'change' }],
+            phoneNo: [{ required: true, message: '请输入手机号码', trigger: 'change' }],
+            cvn2: [{ required: true, message: '请输入卡背面的cvn2三位数字', trigger: 'change' }],
+            expired: [{ required: true, message: '请输入有效期', trigger: 'change' }],
+            accNo: [{ required: true, message: '请输入卡号', trigger: 'change' }],
+          },
+      changeVisible:false,
+        checkedList:[],
+     nameList:['订单号', '保单号', '投保单号', '结算户名', '电话','结算金额','分期期数','商品金额','结算卡号'
+     ,'身份证号码','信用卡号','开户银行','卡有效期','结算状态'],
+     matchObj:{
+       '订单号':"orderNo",
+       '保单号':"insuranceNo",
+       '投保单号':"insureSingleNumber",
+       '结算户名':"settlementName",
+       '电话':"mobile",
+       '结算金额':"settlementAmount",
+       '分期期数':"periods",
+       '商品金额':"goodsAmount",
+       '结算卡号':"settlementCardNo",
+       '身份证号码':"idCard",
+       '信用卡号':"creditCardNo",
+       '开户银行':"bank",
+       '卡有效期':"cardExpired",
+       '结算状态 ':"settlementStatus",
+     },
+     dialogVisible:false,
+   exportData:{
+        cols:[{
+          name:"orderNo",
+          checked:false
+        },{
+           name:"insuranceNo",
+           checked:false
+        },{
+           name:"insureSingleNumber",
+           checked:false
+        },{
+           name:"settlementName",
+           checked:false
+        },{
+           name:"mobile",
+           checked:false
+        },{
+           name:"settlementAmount",
+           checked:false
+        },{
+           name:"periods",
+           checked:false
+        },{
+           name:"goodsAmount",
+           checked:false
+        },{
+           name:"settlementCardNo",
+           checked:false
+        },{
+           name:"idCard",
+           checked:false
+        },{
+           name:"bank",
+           checked:false
+        },{
+           name:"cardExpired",
+           checked:false
+        },{
+           name:"settlementStatus",
+           checked:false
+        },{
+           name:"creditCardNo",
+           checked:false
+        }]
+     },
+     exportUrl:process.env.BASE_API+'/manageapi/order/export',
+
        addVisible:false,
        funcName:'OrderList',
        searchData:{
@@ -261,6 +445,46 @@ export default {
     detailForm(obj){
        this.addVisible = true;
        this.sendForm = obj;
+    },
+    collectionOrder(num){
+      var obj = {
+        orderNo:num
+      }
+       this.$store.dispatch('CollectionOrder',obj).then((data) => {
+          if(data.code == 200){
+             this.getPage();
+               Message({
+             message: '催收成功！',
+             type: 'success',
+             duration: 5 * 1000
+            })
+          }
+        
+       })
+    },
+    showcard(ordernum){
+      this.ordernum = ordernum;
+      this.changeVisible = true;
+    },
+    changeCard(formName){
+        this.chageForm.orderNo = this.ordernum;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$store.dispatch('ChangeCard',this.chageForm).then((data) => {
+            if(data.code == 200){
+              this.changeVisible = false;
+             this.getPage();
+               Message({
+                message: '更换信用卡成功！',
+                type: 'success',
+                duration: 5 * 1000
+              })
+            }    
+            })
+          } else {
+            return false;
+          }
+        });
     }
   }
 };

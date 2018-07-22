@@ -13,7 +13,7 @@ const user = {
     name: '',
     avatar: '',
     introduction: '',
-    roles: ['admin'],
+    roles: [],
     setting: {
       articlePlatform: []
     }
@@ -61,14 +61,27 @@ const user = {
         })
       })
     },
+
+     // 获取用户信息
+     GetUserInfo({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        getUserInfo().then(response => {
+          const data = response.data.data;
+          commit('SET_ROLES', [data.account]);
+          resolve(response.data)
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     
 //  获取主页数据
     GetCount({ commit }, state) {
-    
       return new Promise((resolve, reject) => {
         getCount().then(response => {
-       
-          resolve(response.data)
+          if(response){
+            resolve(response.data)
+          }
         }).catch(error => {
           reject(error)
         })

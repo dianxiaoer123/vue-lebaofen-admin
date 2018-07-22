@@ -1,6 +1,6 @@
 import {productList,productSave,productDel,productDetail,
   configSave,configList,channelList,channelSave,channelDel,channelDetail,
-  agreementList,agreementSave,agreementDel,agreementDetail} from '@/api/systemAdmin'
+  agreementList,agreementSave,agreementDel,agreementDetail,enableAgree} from '@/api/systemAdmin'
 
 
 const agent = {
@@ -84,6 +84,17 @@ const agent = {
           ChannelList({ commit }, data) {
             return new Promise((resolve, reject) => {
               channelList(data).then(response => {   
+                resolve(response.data)
+              }).catch(error => {
+                reject(error)
+              })
+            })
+          },
+
+          // 通道禁用，启用
+          EnableAgree({ commit }, data) {
+            return new Promise((resolve, reject) => {
+              enableAgree(data).then(response => {   
                 resolve(response.data)
               }).catch(error => {
                 reject(error)

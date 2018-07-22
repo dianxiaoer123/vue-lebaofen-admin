@@ -124,3 +124,14 @@ export function agreementDetail(id) {
     method: 'get'
   })
 }
+
+// 协议禁用、启用
+export function enableAgree(data) {
+  return request({
+    url: '/manageapi/agreement/enable', 
+    method: 'post',
+    data
+  })
+}
+
+
