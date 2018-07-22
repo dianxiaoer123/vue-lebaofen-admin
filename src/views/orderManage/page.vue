@@ -128,9 +128,7 @@
       property="settlementStatus"
       label="结算状态">
       <template slot-scope="scope">
-          <div v-if="scope.row.settlementStatus == 1">已结算</div>
-          <div v-if="scope.row.settlementStatus == 2">未结算</div>
-          <div v-if="scope.row.settlementStatus == 3">结算失败</div>
+         
       </template>
     </el-table-column>
       <el-table-column
@@ -202,9 +200,7 @@
         </el-form-item>
 
         <el-form-item label="订单状态">
-           <el-input v-if='sendForm.orderStatus == 1' value="已冻结"></el-input>
-           <el-input v-if='sendForm.orderStatus == 2' value="未冻结"></el-input>
-           <el-input v-if='sendForm.orderStatus == 3' value="冻结失败"></el-input>
+           <el-input v-model="sendForm.orderStatus"></el-input>
         </el-form-item>
 
         <el-form-item label="结算户名">
@@ -235,9 +231,7 @@
         </el-form-item>
 
          <el-form-item label="结算状态">
-           <el-input v-if="sendForm.settlementStatus == 1" value="已结算"></el-input>
-           <el-input v-if="sendForm.settlementStatus == 2" value="未结算"></el-input>
-           <el-input v-if="sendForm.settlementStatus == 3" value="结算失败"></el-input>
+           <el-input v-model="sendForm.settlementStatus"></el-input>
         </el-form-item>
 
       </el-form>
@@ -427,6 +421,7 @@ export default {
      exportUrl:process.env.BASE_API+'/manageapi/order/export',
 
        addVisible:false,
+  		 deleteVisible:false,
        funcName:'OrderList',
        searchData:{
           orderNo:'',settlementStatus:'',status:'',agentId:'',agentName:'',

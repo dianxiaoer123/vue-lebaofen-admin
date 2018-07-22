@@ -34,9 +34,15 @@
           <el-form-item>
               <el-button type="primary" icon="el-icon-edit" @click="addForm()">添加</el-button>
           </el-form-item>
+<<<<<<< HEAD
            <el-form-item>
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
+=======
+           <!-- <el-form-item>
+              <el-button type="primary" icon="el-icon-download">导出</el-button>
+          </el-form-item> -->
+>>>>>>> 9d706e089c5ce18fb9ec0a3bbc087b8e65aa9706
        
       </div>
   
@@ -173,6 +179,7 @@
 </el-dialog>
 
 
+<<<<<<< HEAD
 <!-- 导出弹窗 -->
   <el-dialog
   title=""
@@ -215,6 +222,8 @@
 
 
 </el-dialog>
+=======
+>>>>>>> 9d706e089c5ce18fb9ec0a3bbc087b8e65aa9706
 
 
 </div>
