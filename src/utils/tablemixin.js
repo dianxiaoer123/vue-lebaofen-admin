@@ -60,6 +60,18 @@ export default {
                 var t = new Date(value.createTime);
                  value.createTime=dateFormat(t);
               }
+
+              if(value.orderTime){
+                var t = new Date(value.orderTime);
+                 value.orderTime=dateFormat(t);
+              }
+
+              if(value.withDrawTime){
+                var t = new Date(value.withDrawTime);
+                 value.withDrawTime=dateFormat(t);
+              }
+
+              
               return value;
              
           });

@@ -12,7 +12,7 @@
 
     <div class="right-menu">
     	  <div class="elAlikLi">
-    	     <span>您好，王小明</span>
+    	     <span>您好，{{realname}}</span>
     	  </div>
     	  
     	  <div class="elAlikLi">
@@ -100,7 +100,8 @@ export default {
        },
      
       dialogVisible: false,
-      time:''
+      time:'',
+      realname:''
    }
 	},
 	mounted(){
@@ -109,7 +110,9 @@ export default {
 	    that.getnowTime();
 		setInterval(function(){
 			that.getnowTime();
-		},1000);
+    },1000);
+    
+     this.realname = localStorage.getItem('le_bao_fen_realName');
 	},
   components: {Hamburger},
   computed: {

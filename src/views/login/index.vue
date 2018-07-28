@@ -87,6 +87,7 @@ export default {
             this.loading = false;
             console.log(data);
             if(data.code == 200){
+               localStorage.setItem('le_bao_fen_realName',data.data.realName);
             	 that.$router.push({ path: '/' });
             }else{
             	that.loginTips = data.msg;
