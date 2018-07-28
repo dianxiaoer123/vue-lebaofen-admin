@@ -77,6 +77,40 @@
       label="订单号">
     </el-table-column>
      <el-table-column
+      property="agentId"
+      label="代理人ID">
+    </el-table-column>
+     <el-table-column
+      property="agentName"
+      label="代理人姓名">
+    </el-table-column>
+     <el-table-column
+      property="consumerId"
+      label="消费者ID">
+    </el-table-column>
+     <el-table-column
+      property="consumerName"
+      label="消费者姓名">
+    </el-table-column>
+     <el-table-column
+      property="orderStatus"
+      label="订单状态">
+        <template slot-scope="scope">
+           {{scope.row.orderStatus == 1?"已冻结":""}}
+           {{scope.row.orderStatus == 2?"未冻结":""}}
+           {{scope.row.orderStatus == 3?"冻结失败":""}}
+      </template>
+    </el-table-column>
+    <el-table-column
+      property="currPayStatus"
+      label="当前支付状态">
+        <template slot-scope="scope">
+           {{scope.row.currPayStatus == 1?"正常":""}}
+           {{scope.row.currPayStatus == 2?"扣款失败":""}}
+           {{scope.row.currPayStatus == 3?"逾期":""}}
+      </template>
+    </el-table-column>
+     <el-table-column
       property="insuranceNo"
       label="保单号">
     </el-table-column>
@@ -128,7 +162,9 @@
       property="settlementStatus"
       label="结算状态">
       <template slot-scope="scope">
-         
+           {{scope.row.settlementStatus == 1?"已结算":""}}
+           {{scope.row.settlementStatus == 2?"未结算":""}}
+           {{scope.row.settlementStatus == 3?"结算失败":""}}
       </template>
     </el-table-column>
       <el-table-column
@@ -354,10 +390,16 @@ export default {
           },
       changeVisible:false,
         checkedList:[],
-     nameList:['订单号', '保单号', '投保单号', '结算户名', '电话','结算金额','分期期数','商品金额','结算卡号'
+     nameList:['订单号', '代理人ID', '代理人姓名', '消费者ID', '消费者姓名', '当前支付状态', '订单状态', '保单号', '投保单号', '结算户名', '电话','结算金额','分期期数','商品金额','结算卡号'
      ,'身份证号码','信用卡号','开户银行','卡有效期','结算状态'],
      matchObj:{
        '订单号':"orderNo",
+       '代理人ID':"agentId",
+       '代理人姓名':"agentName",
+       '消费者ID':"consumerId",
+       '消费者姓名':"consumerName", 
+       '当前支付状态':"currPayStatus",
+       '订单状态':"orderStatus", 
        '保单号':"insuranceNo",
        '投保单号':"insureSingleNumber",
        '结算户名':"settlementName",
@@ -376,6 +418,24 @@ export default {
    exportData:{
         cols:[{
           name:"orderNo",
+          checked:false
+        },{
+          name:"agentId",
+          checked:false
+        },{
+          name:"agentName",
+          checked:false
+        },{
+          name:"consumerId",
+          checked:false
+        },{
+          name:"consumerName",
+          checked:false
+        },{
+          name:"currPayStatus",
+          checked:false
+        },{
+          name:"orderStatus", 
           checked:false
         },{
            name:"insuranceNo",

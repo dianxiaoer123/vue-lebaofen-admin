@@ -63,6 +63,8 @@ export default {
       this.chart.setOption({
       	color:['#f96e98','#3981d6'],
         xAxis: {
+          type : 'category',
+          boundaryGap : true,
           data: dateData,
           boundaryGap: false,
           axisTick: {
@@ -73,11 +75,16 @@ export default {
 		         color:'#000',
 		         width:1
 		       }
-		     }
+         },
+          axisLabel : {
+			      show:true,
+			      interval: 0
+			    } 
+
         },
         grid: {
           left: 10,
-          right: 10,
+          right: 50,
           bottom: 20,
           top: 30,
           containLabel: true

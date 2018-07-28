@@ -80,7 +80,11 @@ export default {
           data: xdata,
           axisTick: {
            show: false
+          },
+         axisLabel:{
+    		  interval: 0
           }
+
         }],
         yAxis: [{
           type: 'value',

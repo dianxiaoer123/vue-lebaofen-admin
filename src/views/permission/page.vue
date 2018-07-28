@@ -96,6 +96,10 @@
       property="orderNo"
       label="订单编号">
     </el-table-column>
+    <el-table-column
+      property="agentCode"
+      label="代理人ID">
+    </el-table-column>
      <el-table-column
       property="orderTime"
       label="订单时间">
@@ -165,11 +169,12 @@ export default{
   data(){
   	return{ 
   		    checkedList:[],
-          nameList:['订单编号', '订单时间', '代理人姓名', '分期提成', '订单金额','直接推荐人','直接推荐奖励金额','间接推荐人','间接推荐奖励','结算状态'],
+          nameList:['订单编号', '订单时间', '代理人姓名','代理人ID', '分期提成', '订单金额','直接推荐人','直接推荐奖励金额','间接推荐人','间接推荐奖励','结算状态'],
           matchObj:{
            '订单编号':"orderNo",
            '订单时间':"orderTime",
            '代理人姓名':"agentName",
+           '代理人ID':"agentCode",
            '分期提成':"stageReward",
            '订单金额':"orderAmount",
            '直接推荐人':"directRcmdName",
@@ -189,6 +194,9 @@ export default{
            checked:false
         },{
            name:"agentName",
+           checked:false
+        },{
+           name:"agentCode",
            checked:false
         },{
            name:"stageReward",

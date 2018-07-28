@@ -2,6 +2,7 @@
 // import {Export} from '@/api/export'
 import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
+import { dateFormat } from './formatDate.js'
 export default {
   name: 'tablemixin',
   data() {
@@ -18,7 +19,6 @@ export default {
   watch:{
     checkedList:function(val){
         this.exportClick();
-        console.log(this.exportData);
     }
   },
   methods:{
@@ -54,6 +54,15 @@ export default {
           if(data.code == 200){
             this.tableData = data.data.dataList;
             this.totalPage = data.data.total;
+           
+            this.tableData.map(function(value, index, array) {
+              if(value.createTime){
+                var t = new Date(value.createTime);
+                 value.createTime=dateFormat(t);
+              }
+              return value;
+             
+          });
           }
         
        })

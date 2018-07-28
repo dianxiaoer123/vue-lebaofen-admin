@@ -15,7 +15,7 @@
            <el-input v-model="searchData.agentName" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
 
-        <el-form-item label="消费者姓名">
+        <el-form-item label="消费者">
            <el-input v-model="searchData.consumerName" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       

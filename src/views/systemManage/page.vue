@@ -121,6 +121,15 @@
         <el-form-item label="产品名称" prop='name'>
            <el-input v-model="sendForm.name"></el-input>
         </el-form-item>
+
+           <el-form-item label="产品期数" prop="qs">
+         	 <el-tooltip class="item" effect="dark" content="期数不能冲突" placement="right-end">
+              <el-input v-model="sendForm.qs">
+               	<template slot="append"><span class="el-icon-question"></span></template>
+             </el-input>
+          </el-tooltip>
+          
+         </el-form-item>
         
          <el-form-item label="支付周期" prop="backCycle">
            <el-input v-model="sendForm.backCycle"></el-input>
@@ -130,14 +139,7 @@
            <el-input v-model="sendForm.rate"></el-input>
          </el-form-item>
          
-         <el-form-item label="产品期数" prop="qs">
-         	 <el-tooltip class="item" effect="dark" content="期数不能冲突" placement="right-end">
-              <el-input v-model="sendForm.qs">
-               	<template slot="append"><span class="el-icon-question"></span></template>
-             </el-input>
-          </el-tooltip>
-          
-         </el-form-item>
+      
          
        
       </el-form>

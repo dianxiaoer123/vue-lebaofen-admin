@@ -10,8 +10,12 @@
            <el-input v-model="searchData.id" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
-        <el-form-item label="日期" prop="createTime">
-           <el-date-picker v-model="searchData.createTime" type="date" placeholder="创建时间">
+        <el-form-item label="创建日期" prop="createTime">
+           <el-date-picker
+            v-model="searchData.createTime" 
+            value-format="timestamp"
+            type="date" 
+            placeholder="创建时间">
            </el-date-picker>
       </el-form-item>
       
@@ -62,10 +66,17 @@
       prop="outline"
       label="概要">
     </el-table-column>
+       <el-table-column
+      prop="createTime"
+      label="创建日期">
+     <template slot-scope="scope">
+         <span>{{scope.row.createTime}}</span>
+      </template>
+    </el-table-column>
      <el-table-column
       property="status"
       label="状态">
-        <template slot-scope="scope">
+      <template slot-scope="scope">
          <span>{{scope.row.status==1?'启用':'停用'}}</span>
       </template>
     </el-table-column>
@@ -168,11 +179,12 @@ export default{
       }
       this.$store.dispatch('EnableAgree',obj).then((data) => {
           if(data.code == 200){
-             this.getPage();
+             this.getPage();        
           }
        })
-
    }
+
+
   }
 }
 </script>

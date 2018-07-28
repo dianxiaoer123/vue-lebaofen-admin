@@ -5,15 +5,15 @@
   	<el-form :inline="true" :model="searchData">
   		
   		<div>
-  			  <el-form-item label="消费者ID:">
+  			  <el-form-item label="消费者ID">
            <el-input v-model="searchData.userCode" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
-       <el-form-item label="姓名:">
+       <el-form-item label="姓名">
            <el-input v-model="searchData.name" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
-       <el-form-item label="用户状态:">
+       <el-form-item label="用户状态">
             <el-select  v-model='searchData.status' placeholder="用户状态">
                 <el-option label="正常" value="1"></el-option>
                 <el-option label="黑名单" value="2"></el-option>
