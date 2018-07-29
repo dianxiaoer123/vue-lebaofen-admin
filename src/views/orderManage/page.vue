@@ -348,7 +348,7 @@
         <el-form-item label="有效期" prop="expired">
              <el-date-picker
                v-model="chageForm.expired"
-               type="date"
+               type="month"
                placeholder="选择有效期">
              </el-date-picker>
         </el-form-item>
@@ -412,7 +412,7 @@ export default {
        '信用卡号':"creditCardNo",
        '开户银行':"bank",
        '卡有效期':"cardExpired",
-       '结算状态 ':"settlementStatus",
+       '结算状态':"settlementStatus",
      },
      dialogVisible:false,
    exportData:{
@@ -494,6 +494,17 @@ export default {
        }
  
     };
+  },
+
+   mounted(){
+     this.$nextTick(() => {
+       var name = this.$route.params.name;
+       if(name != ":name"){
+        this.searchData.consumerName=name;
+        this.getPage();
+       }
+     
+    })
   },
 
   methods: {

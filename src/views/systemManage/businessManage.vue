@@ -4,11 +4,13 @@
   	    <el-form :inline="true" label-width="250px">
   		     <el-form-item :label="item.label" :key="item.key" v-for="item in busyConfig">
   		     	<el-input v-model="item.value"></el-input>
-             </el-form-item>
+           </el-form-item>
 
-             <el-form-item :label="item.label" :key="item.key" v-for="item in payConfig">
+          <div style="display:inline; margin-left:-4px;">
+              <el-form-item :label="item.label" :key="item.key" v-for="item in payConfig">
   		     	<el-input v-model="item.value"></el-input>
-             </el-form-item>
+           </el-form-item>
+          </div>
 
         </el-form>   
         

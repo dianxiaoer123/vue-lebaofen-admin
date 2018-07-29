@@ -15,7 +15,7 @@
            <el-input v-model="searchData.agentName" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
 
-        <el-form-item label="消费者">
+        <el-form-item label="消费者姓名">
            <el-input v-model="searchData.consumerName" @keyup.enter.native="getPage"></el-input>
       </el-form-item>
       
@@ -78,7 +78,7 @@
     
       <el-table-column
       property="consumerName"
-      label="消费者">
+      label="消费者姓名">
     </el-table-column>
       <el-table-column
       property="amount"
@@ -165,14 +165,14 @@ export default{
   data(){
   	return{ 
   	 checkedList:[],
-      nameList:['订单编号', '订单时间', '代理人ID', '代理人姓名', '订单金额','消费者','订单手续费','手续费状态'],
+      nameList:['订单编号', '订单时间', '代理人ID', '代理人姓名', '订单金额','消费者姓名','订单手续费','手续费状态'],
      matchObj:{
        '订单编号':"orderNo",
        '订单时间':"orderTime",
        '代理人ID':"agentCode",
        '代理人姓名':"agentName",
        '订单金额':"orderAmount",
-       '消费者':"consumerName",
+       '消费者姓名':"consumerName",
        '订单手续费':'amount',
        '手续费状态':'feeStatus'
      },

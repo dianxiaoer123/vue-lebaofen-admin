@@ -67,27 +67,32 @@
     <el-table-column
       property="name"
       label="姓名">
+      <template slot-scope="scope">
+       <router-link :to="'/orderManage/page/'+scope.row.name">
+          <span style='color:#409EFF'>{{scope.row.name}}</span>
+       </router-link> 
+      </template>
     </el-table-column>
       <el-table-column
       property="phone"
       label="手机">
     </el-table-column>
-      <el-table-column
-      property="bank"
-      label="开户银行">
-    </el-table-column>
-      <el-table-column
-      property="bankCardNo"
-      label="银行账号">
-    </el-table-column>
  
       <el-table-column
       property="initPaswordFlag"
       label="账户密码">
+        <template slot-scope="scope">
+         {{scope.row.initPaswordFlag == 1?"未设置":"已设置"}}
+      </template>
     </el-table-column>
         <el-table-column
       property="orderNum"
       label="已成交订单数量">
+      <template slot-scope="scope">
+       <router-link :to="'/orderManage/page/'+scope.row.name">
+          <span style='color:#409EFF'>{{scope.row.orderNum}}</span>
+       </router-link> 
+      </template>
     </el-table-column>
         <el-table-column
       property="repaidTotalAmount"
@@ -182,15 +187,13 @@ export default {
   data(){
     return{
      checkedList:[],
-     nameList:['消费者ID', '生成时间', '姓名', '手机', '开户银行','银行账号','账户密码','已成交订单数量',
+     nameList:['消费者ID', '生成时间', '姓名', '手机','账户密码','已成交订单数量',
 '订单已还款总额','订单未还款总额','状态','性别'],
      matchObj:{
         '消费者ID':"userCode",
        '生成时间':"createTime",
        '姓名':"name",
        '手机':"phone",
-       '开户银行':"bank",
-       '银行账号':"bankCardNo",
        '账户密码':"initPaswordFlag",
        '已成交订单数量':"orderNum",
        '订单已还款总额':"repaidTotalAmount",
@@ -215,12 +218,6 @@ export default {
            checked:false
         },{
            name:"phone",
-           checked:false
-        },{
-           name:"bank",
-           checked:false
-        },{
-           name:"bankCardNo",
            checked:false
         },{
            name:"initPaswordFlag",

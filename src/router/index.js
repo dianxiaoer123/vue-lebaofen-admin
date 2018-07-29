@@ -174,7 +174,7 @@ export const asyncRouterMap = [
       icon: 'component',
     },
     children: [{
-      path: 'page',
+      path: 'page/:name',
       component: () => import('@/views/orderManage/page'),
       name: 'orderList',
       meta: {

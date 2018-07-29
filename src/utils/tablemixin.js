@@ -19,6 +19,7 @@ export default {
   watch:{
     checkedList:function(val){
         this.exportClick();
+        console.log(this.exportData);
     }
   },
   methods:{

@@ -167,7 +167,7 @@ export default{
      matchObj:{
        '代理人ID':"agentCode",
        '代理人姓名':"agentName",
-       '提现时间':"name",
+       '提现时间':"withDrawTime",
        '类别':"type",
        '单笔佣金金额':"amount",
        '提现状态':"withDrawStatus",
