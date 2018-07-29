@@ -168,9 +168,13 @@
       </template>
     </el-table-column>
       <el-table-column
-      label="操作" width='320'>
+      label="操作" width='360'>
       
        <template slot-scope="scope">
+           <el-button
+          size="mini"
+          type='primary'
+          @click="talkForm(scope.row.orderNo)" v-if='scope.row.appealsStatus==1'>申诉通过</el-button>
         <el-button
           size="mini"
           type='success'
@@ -187,13 +191,20 @@
     </el-table-column>
   </el-table>
      
-<div class='pageBox'>
- <el-pagination
-  background
-  layout="prev, pager, next"
-  :total="100">
- </el-pagination>
-</div>
+ <div class='pageBox'>
+       <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[20, 40, 50, 100]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalPage">
+    </el-pagination>
+
+  </div>
+
 
 
 <!--添加-->
@@ -201,73 +212,89 @@
   title="详情"
   :visible.sync="addVisible"
   width="80%">
-  <div>
+  <div class='detailBoxFrame'>
   	 <el-form :inline="true" label-width="100px" :model="sendForm">
-        <el-form-item label="订单号">
-          <el-input v-model="sendForm.orderNo"></el-input>
+        <el-form-item label="订单号:">
+          <span>{{sendForm.orderNo}}</span>
         </el-form-item>
 
-       <el-form-item label="代理人ID">
-           <el-input v-model="sendForm.agentId"></el-input>
+       <el-form-item label="代理人ID:">
+          <span>{{sendForm.agentId}}</span>
         </el-form-item>
         
-        <el-form-item label="代理人姓名">
-           <el-input v-model="sendForm.agentName"></el-input>
+        <el-form-item label="代理人姓名:">
+          <span>{{sendForm.agentName}}</span>
         </el-form-item>
 
-        <el-form-item label="身份证号码">
-           <el-input v-model="sendForm.idCard"></el-input>
+        <el-form-item label="身份证号码:">
+          <span>{{sendForm.idCard}}</span>
         </el-form-item>
 
-        <el-form-item label="订单金额">
-           <el-input v-model="sendForm.orderAmount"></el-input>
+        <el-form-item label="订单金额:">
+           <span>{{sendForm.orderAmount}}</span>
+        
         </el-form-item>
 
-        <el-form-item label="消费者ID">
-           <el-input v-model="sendForm.consumerId"></el-input>
+        <el-form-item label="消费者ID:">
+          <span>{{sendForm.consumerId}}</span>
+       
         </el-form-item>
 
-         <el-form-item label="消费者名称">
-           <el-input v-model="sendForm.consumerName"></el-input>
+         <el-form-item label="消费者名称:">
+           <span>{{sendForm.consumerName}}</span>
+         
         </el-form-item>
 
-        <el-form-item label="信用卡号">
-           <el-input v-model="sendForm.creditCardNo"></el-input>
+        <el-form-item label="信用卡号:">
+          <span>{{sendForm.creditCardNo}}</span>
+        
         </el-form-item>
 
-        <el-form-item label="订单状态">
-           <el-input v-model="sendForm.orderStatus"></el-input>
+        <el-form-item label="订单状态:">
+          <span>{{sendForm.orderStatus == 1?"已冻结":""}}</span>
+          <span>{{sendForm.orderStatus == 2?"未冻结":""}}</span>
+          <span>{{sendForm.orderStatus== 3?"冻结失败":""}}</span>
+          
         </el-form-item>
 
-        <el-form-item label="结算户名">
-           <el-input v-model="sendForm.settlementName"></el-input>
+        <el-form-item label="结算户名:">
+          <span>{{sendForm.settlementName}}</span>
+          
         </el-form-item>
 
-        <el-form-item label="电话号">
-           <el-input v-model="sendForm.mobile"></el-input>
+        <el-form-item label="电话号:">
+          <span>{{sendForm.mobile}}</span>
+          
         </el-form-item>
-       <el-form-item label="结算金额">
-           <el-input v-model="sendForm.settlementAmount"></el-input>
-        </el-form-item>
-
-        <el-form-item label="分期期数">
-           <el-input v-model="sendForm.periods"></el-input>
+       <el-form-item label="结算金额:">
+         <span>{{sendForm.settlementAmount}}</span>
+        
         </el-form-item>
 
-        <el-form-item label="商品金额">
-           <el-input v-model="sendForm.goodsAmount"></el-input>
+        <el-form-item label="分期期数:">
+          <span>{{sendForm.periods}}</span>
+         
         </el-form-item>
 
-        <el-form-item label="开户银行">
-           <el-input v-model="sendForm.bank"></el-input>
+        <el-form-item label="商品金额:">
+          <span>{{sendForm.goodsAmount}}</span>
+        
         </el-form-item>
 
-         <el-form-item label="卡有效期">
-           <el-input v-model="sendForm.cardExpired"></el-input>
+        <el-form-item label="开户银行:">
+          <span>{{sendForm.bank}}</span>
+       
         </el-form-item>
 
-         <el-form-item label="结算状态">
-           <el-input v-model="sendForm.settlementStatus"></el-input>
+         <el-form-item label="卡有效期:">
+           <span>{{sendForm.cardExpired}}</span>
+         
+        </el-form-item>
+
+         <el-form-item label="结算状态:">
+           <span>{{sendForm.settlementStatus == 1?"已结算":""}}</span>
+           <span>{{sendForm.settlementStatus == 2?"未结算":""}}</span>
+           <span>{{sendForm.settlementStatus == 3?"结算失败":""}}</span>
         </el-form-item>
 
       </el-form>
@@ -360,6 +387,20 @@
   </span>
 </el-dialog>
 
+<!-- 申诉通过 -->
+<el-dialog
+  title=""
+  :visible.sync="talkVisible"
+  width="500">
+  <div>
+  	  是否确认申诉通过?
+  </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="talkVisible = false">取 消</el-button> 
+    <el-button type="success" @click="sureTalk">确定</el-button>
+  </span>
+</el-dialog>
+
 
 
 </div>
@@ -373,6 +414,8 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      talkId:'',
+      talkVisible:false,
       ordernum:'',
       chageForm:{
         orderNo:'',
@@ -508,6 +551,17 @@ export default {
   },
 
   methods: {
+    talkForm(id){
+      this.talkVisible = true;
+      this.talkId = id;
+    },
+    sureTalk(){
+      this.$store.dispatch('ConfirmAppealsOrder',{orderNo:this.talkId}).then((data)=>{
+         if(data.code == 200){
+           this.talkVisible = false;
+         }
+      })
+    },
     detailForm(obj){
        this.addVisible = true;
        this.sendForm = obj;
@@ -563,6 +617,10 @@ export default {
 }
 .app-container {
   min-height: 800px;
+}
+.detailBoxFrame span{
+  display: block;
+  width:200px;
 }
 
 </style>

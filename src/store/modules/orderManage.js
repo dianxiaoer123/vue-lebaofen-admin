@@ -1,4 +1,4 @@
-import {orderList,orderStatistics,collectionOrder,changeCard,overdueCard} from '@/api/order'
+import {orderList,orderStatistics,collectionOrder,changeCard,overdueCard,confirmAppealsOrder} from '@/api/order'
 
 
 const agent = {
@@ -40,6 +40,18 @@ const agent = {
           })
         })
       },
+
+      // 申诉通过
+      ConfirmAppealsOrder({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          confirmAppealsOrder(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
 
       
 

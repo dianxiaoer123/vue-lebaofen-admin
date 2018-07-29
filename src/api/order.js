@@ -45,3 +45,11 @@ export function overdueCard(data) {
   })
 }
 
+// 申诉通过
+export function confirmAppealsOrder(data) {
+  return request({
+    url: '/manageapi/order/confirmAppealsOrder', 
+    method: 'post',
+    data
+  })
+}

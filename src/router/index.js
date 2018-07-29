@@ -44,37 +44,61 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/userManage',
+    path: '/permission',
     component: Layout,
-    redirect: '/userManage/index',
+    redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
-      title: '用户管理',
-      icon: 'component',
+      title: '财务管理',
+      icon: 'lock',
     },
     children: [{
       path: 'page',
-      component: () => import('@/views/userManage/page'),
-      name: 'user',
+      component: () => import('@/views/permission/page'),
+      name: 'pagePermission',
       meta: {
-        title: '代理人管理',
+        title: '代理佣金管理',
       }
-    },{
-      path: 'userpage',
-      component: () => import('@/views/userManage/userpage'),
-      name: 'userwrap',
+    }, {
+      path: 'directive',
+      component: () => import('@/views/permission/directive'),
+      name: 'directivePermission',
       meta: {
-        title: '消费者管理'
+        title: '订单手续费管理'
       }
-    },{
-      path: 'dataChart/:name',
-      component: () => import('@/views/dataChart/dataChart'),
-      name: 'dataChart',
+    }, {
+      path: 'cash',
+      component: () => import('@/views/permission/cash'),
+      name: 'cashPermission',
       meta: {
-        title: '数据统计'
-      }, hidden:true 
+        title: '佣金提现'
+      }
+    }]
+  },
+  {
+    path: '/orderManage',
+    component: Layout,
+    redirect: '/orderManage/index',
+    meta: {
+      title: '订单管理',
+      icon: 'component',
+    },
+    children: [{
+      path: 'page/:name',
+      component: () => import('@/views/orderManage/page'),
+      name: 'orderList',
+      meta: {
+        title: '订单列表',
+      }
+    },
+    {
+      path: 'dataChart',
+      component: () => import('@/views/orderManage/dataChart'),
+      name: 'orderchart',
+      meta: {
+        title: '数据统计',
+      }
     }
-  
     ]
   },
   {
@@ -132,66 +156,43 @@ export const asyncRouterMap = [
     }
     ]
   },
+ 
+
+  
   {
-    path: '/permission',
+    path: '/userManage',
     component: Layout,
-    redirect: '/permission/index',
+    redirect: '/userManage/index',
     alwaysShow: true, // will always show the root menu
     meta: {
-      title: '财务管理',
-      icon: 'lock',
-    },
-    children: [{
-      path: 'page',
-      component: () => import('@/views/permission/page'),
-      name: 'pagePermission',
-      meta: {
-        title: '代理佣金管理',
-      }
-    }, {
-      path: 'directive',
-      component: () => import('@/views/permission/directive'),
-      name: 'directivePermission',
-      meta: {
-        title: '订单手续费管理'
-      }
-    }, {
-      path: 'cash',
-      component: () => import('@/views/permission/cash'),
-      name: 'cashPermission',
-      meta: {
-        title: '佣金提现'
-      }
-    }]
-  },
-  
-   {
-    path: '/orderManage',
-    component: Layout,
-    redirect: '/orderManage/index',
-    meta: {
-      title: '订单管理',
+      title: '用户管理',
       icon: 'component',
     },
     children: [{
-      path: 'page/:name',
-      component: () => import('@/views/orderManage/page'),
-      name: 'orderList',
+      path: 'page',
+      component: () => import('@/views/userManage/page'),
+      name: 'user',
       meta: {
-        title: '订单列表',
+        title: '代理人管理',
       }
-    },
-    {
-      path: 'dataChart',
-      component: () => import('@/views/orderManage/dataChart'),
-      name: 'orderchart',
+    },{
+      path: 'userpage',
+      component: () => import('@/views/userManage/userpage'),
+      name: 'userwrap',
       meta: {
-        title: '数据统计',
+        title: '消费者管理'
       }
+    },{
+      path: 'dataChart/:name',
+      component: () => import('@/views/dataChart/dataChart'),
+      name: 'dataChart',
+      meta: {
+        title: '数据统计'
+      }, hidden:true 
     }
+  
     ]
   },
-
 
 
   { path: '*', redirect: '/404', hidden: true }
