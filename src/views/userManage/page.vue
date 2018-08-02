@@ -71,7 +71,7 @@
       label="姓名">
     </el-table-column>
       <el-table-column
-      property="phone"
+      property="mobile"
       label="手机">
     </el-table-column>
       <el-table-column

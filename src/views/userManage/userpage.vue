@@ -150,7 +150,7 @@
         <input type="hidden" name="pageNo" :value="currentPage"/>
 
         <!-- 查询条件 -->
-        <input type="hidden" name='agentCode' :value="searchData.userCode">
+        <input type="hidden" name='userCode' :value="searchData.userCode">
         <input type="hidden" name='status' :value="searchData.status">
         <input type="hidden" name='name' :value="searchData.name">
 

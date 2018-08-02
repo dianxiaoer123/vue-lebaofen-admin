@@ -26,7 +26,10 @@ export default {
     // 列数匹配
     exportClick(){
       var clist = this.checkedList;
-      var eplist = this.exportData;
+      this.exportData.cols.map((value)=>{
+           value.checked = false;
+      });
+
       clist.map((key) => {
         var a = this.getName(key,this.matchObj);
          this.exportData.cols.map((value, index, array) => {
