@@ -12,8 +12,9 @@
       </el-form-item>
       
       
-        <el-form-item label="佣金状态">
-            <el-select  v-model='searchData.withDrawStatus' placeholder="佣金状态">
+        <el-form-item label="提现状态">
+            <el-select  v-model='searchData.withDrawStatus' placeholder="提现状态">
+               <el-option label="提现中" value="0"></el-option>
                 <el-option label="成功" value="1"></el-option>
                 <el-option label="失败" value="2"></el-option>
             </el-select>
@@ -27,9 +28,9 @@
            <el-form-item>
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
-           <!-- <el-form-item>
-              <el-button type="primary" @click="cashVisible = true">代理人提现</el-button>
-          </el-form-item> -->
+            <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
       </div>
   
     </el-form>

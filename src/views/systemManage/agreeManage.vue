@@ -2,7 +2,7 @@
   <div class="app-container">
   	
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="searchData">
+  	<el-form :inline="true" :model="searchData" ref='searchData'>
   		
   		<div>
 
@@ -33,11 +33,11 @@
           </el-form-item>
        
           <el-form-item>
-             <!-- <router-link to="agree">
-              
-             </router-link> -->
               <el-button type="primary" icon="el-icon-edit" @click="editForm(null)">添加</el-button>
-             
+          </el-form-item>
+
+           <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
           </el-form-item>
       </div>
   

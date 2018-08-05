@@ -1,4 +1,4 @@
-import {orderList,orderStatistics,collectionOrder,changeCard,overdueCard,confirmAppealsOrder} from '@/api/order'
+import {orderList,orderStatistics,collectionOrder,changeCard,overdueCard,confirmAppealsOrder,sendCode} from '@/api/order'
 
 
 const agent = {
@@ -77,6 +77,19 @@ const agent = {
           })
         })
       },
+
+      // 发送验证码
+      SendCode({ commit }, data) {
+        return new Promise((resolve, reject) => {
+          sendCode(data).then(response => {   
+            resolve(response.data)
+          }).catch(error => {
+            reject(error)
+          })
+        })
+      },
+
+      
 
       
       

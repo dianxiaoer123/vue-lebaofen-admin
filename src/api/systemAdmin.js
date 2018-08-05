@@ -134,4 +134,121 @@ export function enableAgree(data) {
   })
 }
 
+// 保险公司列表
+export function insuranceList(data) {
+  return request({
+    url: '/manageapi/insurance/list', 
+    method: 'post',
+    data
+  })
+}
+
+// 保险公司保存
+export function insuranceSave(data) {
+  return request({
+    url: '/manageapi/insurance/save', 
+    method: 'post',
+    data
+  })
+}
+
+// 保险公司详情
+export function insuranceDetail(id) {
+  return request({
+    url: '/manageapi/insurance/detail?id='+id, 
+    method: 'get'
+  })
+}
+
+// 保险公司删除
+export function insuranceDel(id) {
+  return request({
+    url: '/manageapi/insurance/save', 
+    method: 'post',
+    data:{
+      id:id,
+      status:0
+    }
+  })
+}
+
+// 代理保险公司列表
+export function insuranceAgencyList(data) {
+  return request({
+    url: '/manageapi/insurance/agency/list', 
+    method: 'post',
+    data
+  })
+}
+
+// 代理保险公司保存
+export function insuranceAgencySave(data) {
+  return request({
+    url: '/manageapi/insurance/agency/save', 
+    method: 'post',
+    data
+  })
+}
+
+// 代理保险公司详情
+export function insuranceAgencyDetail(id) {
+  return request({
+    url: '/manageapi/insurance/agency/detail?id='+id, 
+    method: 'get'
+  })
+}
+
+// 代理保险公司删除
+export function insuranceAgencyDel(id) {
+  return request({
+    url: '/manageapi/insurance/agency/save', 
+    method: 'post',
+    data:{
+      id:id,
+      status:0
+    }
+  })
+}
+
+// 保险产品列表
+export function insuranceProductList(data) {
+  return request({
+    url: '/manageapi/insurance/product/list', 
+    method: 'post',
+    data
+  })
+}
+
+// 保险产品保存
+export function insuranceProductSave(data) {
+  return request({
+    url: '/manageapi/insurance/product/save', 
+    method: 'post',
+    data
+  })
+}
+
+// 保险产品详情
+export function insuranceProductDetail(id) {
+  return request({
+    url: '/manageapi/insurance/product/detail?id='+id, 
+    method: 'get'
+  })
+}
+
+// 保险产品删除
+export function insuranceProductDel(id) {
+  return request({
+    url: '/manageapi/insurance/product/save', 
+    method: 'post',
+    data:{
+      id:id,
+      status:0
+    }
+  })
+}
+
+
+
+
 

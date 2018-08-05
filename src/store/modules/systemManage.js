@@ -1,6 +1,8 @@
 import {productList,productSave,productDel,productDetail,
   configSave,configList,channelList,channelSave,channelDel,channelDetail,
-  agreementList,agreementSave,agreementDel,agreementDetail,enableAgree} from '@/api/systemAdmin'
+  agreementList,agreementSave,agreementDel,agreementDetail,enableAgree,insuranceList,insuranceSave,
+  insuranceDetail,insuranceDel,insuranceAgencySave,insuranceAgencyList,insuranceAgencyDetail,insuranceAgencyDel,
+  insuranceProductList,insuranceProductSave,insuranceProductDetail,insuranceProductDel} from '@/api/systemAdmin'
 
 
 const agent = {
@@ -178,6 +180,140 @@ const agent = {
                     })
                   })
                 },
+
+                // 产品列表
+                InsuranceList({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceList(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 产品保存
+                InsuranceSave({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceSave(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 产品详情
+                InsuranceDetail({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceDetail(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 产品删除
+                InsuranceDel({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceDel(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 代理保险列表
+                InsuranceAgencyList({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceAgencyList(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 代理保险保存
+                InsuranceAgencySave({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceAgencySave(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+               // 代理保险详情
+                InsuranceAgencyDetail({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceAgencyDetail(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 代理保险删除
+                InsuranceAgencyDel({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceAgencyDel(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 保险产品列表
+                InsuranceProductList({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceProductList(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 保险产品保存
+                InsuranceProductSave({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceProductSave(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 保险产品详情
+                InsuranceProductDetail({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceProductDetail(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                // 保险产品删除
+                InsuranceProductDel({ commit }, data) {
+                  return new Promise((resolve, reject) => {
+                    insuranceProductDel(data).then(response => {   
+                      resolve(response.data)
+                    }).catch(error => {
+                      reject(error)
+                    })
+                  })
+                },
+
+                
       
   }
 }

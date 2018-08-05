@@ -56,6 +56,10 @@
            <el-form-item>
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
+
+               <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
        
       </div>
   
@@ -96,9 +100,9 @@
       property="orderStatus"
       label="订单状态">
         <template slot-scope="scope">
-           {{scope.row.orderStatus == 1?"已冻结":""}}
-           {{scope.row.orderStatus == 2?"未冻结":""}}
-           {{scope.row.orderStatus == 3?"冻结失败":""}}
+           {{scope.row.orderStatus == 0?"已冻结":""}}
+           {{scope.row.orderStatus == 1?"未冻结":""}}
+           {{scope.row.orderStatus == 2?"冻结失败":""}}
       </template>
     </el-table-column>
     <el-table-column
@@ -251,9 +255,9 @@
         </el-form-item>
 
         <el-form-item label="订单状态:">
-          <span>{{sendForm.orderStatus == 1?"已冻结":""}}</span>
-          <span>{{sendForm.orderStatus == 2?"未冻结":""}}</span>
-          <span>{{sendForm.orderStatus== 3?"冻结失败":""}}</span>
+          <span>{{sendForm.orderStatus == 0?"已冻结":""}}</span>
+          <span>{{sendForm.orderStatus == 1?"未冻结":""}}</span>
+          <span>{{sendForm.orderStatus == 2?"冻结失败":""}}</span>
           
         </el-form-item>
 
@@ -357,7 +361,7 @@
 <el-dialog
   title="更换信用卡"
   :visible.sync="changeVisible"
-  width="500">
+  width="650px">
   <div>
   	 <el-form label-width="200px" :model="chageForm" :rules="changerules" ref="chageForm">
         <el-form-item label="卡号" prop="accNo">
@@ -368,13 +372,23 @@
           <el-input v-model="chageForm.phoneNo"></el-input>
         </el-form-item>
 
+        <el-form-item label="手机验证码" prop="code">
+          <el-input v-model="chageForm.code" style='width:200px;'></el-input>
+           <el-button
+          size="mini"
+          type='primary'
+          @click="getCode()">获取验证码</el-button>
+        </el-form-item>
+
        <el-form-item label="卡背面的cvn2三位数字" prop="cvn2">
            <el-input v-model="chageForm.cvn2"></el-input>
         </el-form-item>
         
         <el-form-item label="有效期" prop="expired">
              <el-date-picker
-               v-model="chageForm.expired"
+              value-format="timestamp"
+              format='yyMM'
+               v-model="dateExp"
                type="month"
                placeholder="选择有效期">
              </el-date-picker>
@@ -409,11 +423,13 @@
 <script>
 import mixin from '@/utils/tablemixin.js';
 import { Message } from 'element-ui'
+import { dateFormat } from '@/utils/formatDate.js'
 export default {
   name: "pageOrder",
   mixins: [mixin],
   data() {
     return {
+      dateExp:'',
       talkId:'',
       talkVisible:false,
       ordernum:'',
@@ -422,7 +438,8 @@ export default {
         phoneNo:'',
         cvn2:'',
         expired:'',
-        accNo:''
+        accNo:'',
+        code:''
       },
       changerules:{
             orderNo: [{ required: true, message: '请输入订单号', trigger: 'change' }],
@@ -430,6 +447,7 @@ export default {
             cvn2: [{ required: true, message: '请输入卡背面的cvn2三位数字', trigger: 'change' }],
             expired: [{ required: true, message: '请输入有效期', trigger: 'change' }],
             accNo: [{ required: true, message: '请输入卡号', trigger: 'change' }],
+            code:[{ required: true, message: '请输入手机验证码', trigger: 'change' }],
           },
       changeVisible:false,
         checkedList:[],
@@ -550,7 +568,42 @@ export default {
     })
   },
 
+  watch:{
+    dateExp:function(value){
+      console.log(value);
+      var b = new Date(value);
+      var a = dateFormat(b);
+      this.chageForm.expired = a.substring(2,4)+a.substring(5,7);
+    }
+  },
+
   methods: {
+    getCode(){
+      var phone = this.chageForm.phoneNo;
+        if(phone.length != 11){
+          if(phone.length == 0){
+            Message({
+             message: '手机号不能为空',
+             type: 'error',
+             duration: 5 * 1000
+            })
+          }else{
+              Message({
+             message: '手机号格式不对！',
+             type: 'error',
+             duration: 5 * 1000
+            })
+          }
+         
+      }else{
+        this.$store.dispatch('SendCode',{phone:phone}).then((data)=>{
+          console.log(data);
+         if(data.code == 200){
+            console.log(data);
+         }
+      })
+      }
+    },
     talkForm(id){
       this.talkVisible = true;
       this.talkId = id;

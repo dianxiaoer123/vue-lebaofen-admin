@@ -38,6 +38,11 @@
            <el-form-item>
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
+
+         <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
+       
        
       </div>
   

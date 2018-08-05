@@ -153,6 +153,27 @@ export const asyncRouterMap = [
       meta: {
         title: '运营管理',
       }
+    },{
+      path: 'insuranceList',
+      component: () => import('@/views/systemManage/insuranceList'),
+      name:'insuranceList',
+      meta: {
+        title: '保险公司',
+      }
+    },{
+      path: 'insuranceAgencyList',
+      component: () => import('@/views/systemManage/insuranceAgencyList'),
+      name:'insuranceAgencyList',
+      meta: {
+        title: '代理保险公司',
+      }
+    },{
+      path: 'insuranceProductList',
+      component: () => import('@/views/systemManage/insuranceProductList'),
+      name:'insuranceProductList',
+      meta: {
+        title: '产品列表',
+      }, hidden: true
     }
     ]
   },

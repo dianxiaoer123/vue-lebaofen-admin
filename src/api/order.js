@@ -53,3 +53,12 @@ export function confirmAppealsOrder(data) {
     data
   })
 }
+
+// 发送短信
+export function sendCode(data) {
+  return request({
+    url: '/manageapi/order/changecard/sendsms', 
+    method: 'post',
+    data
+  })
+}

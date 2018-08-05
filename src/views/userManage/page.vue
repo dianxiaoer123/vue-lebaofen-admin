@@ -42,6 +42,10 @@
                 </router-link>
             
           </el-form-item>
+
+           <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
        
       </div>
   
@@ -71,7 +75,7 @@
       label="姓名">
     </el-table-column>
       <el-table-column
-      property="mobile"
+      property="phone"
       label="手机">
     </el-table-column>
       <el-table-column
@@ -190,7 +194,7 @@ export default {
        '代理人ID':"agentCode",
        '申请时间':"createTime",
        '姓名':"name",
-       '手机':"mobile",
+       '手机':"phone",
        '所在公司':"company",
        '开启银行':"bank",
        '银行账号':"cardNo",
@@ -213,7 +217,7 @@ export default {
            name:"name",
            checked:false
         },{
-           name:"mobile",
+           name:"phone",
            checked:false
         },{
            name:"company",

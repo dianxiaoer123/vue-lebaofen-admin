@@ -40,6 +40,10 @@
                 </router-link>
             
           </el-form-item>
+
+           <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
        
       </div>
   

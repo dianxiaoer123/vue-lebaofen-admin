@@ -2,7 +2,7 @@
   <div class="app-container">
   	
   	<div class='inputBox'>
-  	<el-form :inline="true" :model="searchData">
+  	<el-form :inline="true" :model="searchData" ref="searchData">
 
        <el-form-item label="订单编号">
            <el-input  v-model="searchData.orderNo" @keyup.enter.native="getPage"></el-input>
@@ -17,8 +17,8 @@
       </el-form-item>
       
       
-        <el-form-item label="佣金状态">
-            <el-select  v-model='searchData.withDrawStatus' placeholder="佣金状态">
+        <el-form-item label="结算状态">
+            <el-select  v-model='searchData.status' placeholder="结算状态">
                 <el-option label="" value=""></el-option>
                 <el-option label="已结算" value="1"></el-option>
                 <el-option label="待结算" value="2"></el-option>
@@ -33,9 +33,10 @@
            <el-form-item>
               <el-button type="primary" icon="el-icon-download" @click="dialogVisible = true">导出</el-button>
           </el-form-item>
-           <!-- <el-form-item>
-              <el-button type="primary" @click="cashVisible = true">代理人提现</el-button>
-          </el-form-item> -->
+          
+            <el-form-item>
+              <el-button type="primary" @click="resetForm('searchData')">重置</el-button>
+          </el-form-item>
       </div>
   
     </el-form>
@@ -168,6 +169,9 @@ export default{
    mixins: [mixin],
   data(){
   	return{ 
+         searchData:{
+            agentName:'',agentCode:'',orderNo:'',status:''
+          },
   		    checkedList:[],
           nameList:['订单编号', '订单时间', '代理人姓名','代理人ID', '分期提成', '订单金额','直接推荐人','直接推荐奖励金额','间接推荐人','间接推荐奖励','结算状态'],
           matchObj:{
@@ -223,15 +227,13 @@ export default{
      },
           exportUrl:process.env.BASE_API+'/manageapi/finance/agent/rcmdreward/export',
   		    funcName:'RcmdrewardList',
-          searchData:{
-            agentName:'',agentCode:'',orderNo:'',status:''
-          },
+        
   		     
   	}
   },
  
   methods: {
- 
+
   }
 }
 </script>

@@ -13,6 +13,7 @@ export default {
       tableData:[],
       loading:true,
       delId:'',
+      insuranceId:'',
       ticket:getToken()
     }
   },
@@ -49,8 +50,12 @@ export default {
        }
     },
       getPage(){
-        let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
-     
+        this.currentPage = 1;
+        let formdata = {pageNo:1,pageSize:this.pageSize};
+        this.getDataFunc(formdata);
+    
+      },
+      getDataFunc(formdata){
         var obj = Object.assign(formdata, this.searchData);
       
         this.$store.dispatch(this.funcName,obj).then((data) => {
@@ -75,6 +80,13 @@ export default {
                  value.withDrawTime=dateFormat(t);
               }
 
+              if(value.lastUpdateTime){
+                var t = new Date(value.lastUpdateTime);
+                 value.lastUpdateTime=dateFormat(t);
+              }
+
+              
+
               
               return value;
              
@@ -88,24 +100,33 @@ export default {
          this.getPage();
       },
       handleCurrentChange(val) {
-        this.currentPage = val;
-         this.getPage();
+         this.currentPage = val;
+         let formdata = {pageNo:this.currentPage,pageSize:this.pageSize};
+         this.getDataFunc(formdata);
       },
          // 打开添加
      addForm(){
         this.emptyObj(this.sendForm);
         this.addVisible = true;
      },
+
+     openEdit(id){
+       console.log(id);
+      this.addVisible = true;
+      this.$store.dispatch(this.editName,id).then((data) => {
+        if(data.code == 200){
+          this.sendForm=data.data;
+        }
+      })
+     },
      // 打开编辑
-     editForm(id){
+     editForm(){
         this.addVisible = true;
         this.$store.dispatch(this.editName,id).then((data) => {
           if(data.code == 200){
             this.sendForm=data.data;
           }
-        
         })
-        
      },
     //  提交表单 修改或添加
     submitForm(formName){
@@ -159,8 +180,10 @@ export default {
     },
     // 重置表单
     resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+      for (var prop in this.searchData) {
+        this.searchData[prop] = '';
+      }
+    }
     
   },
   mounted(){

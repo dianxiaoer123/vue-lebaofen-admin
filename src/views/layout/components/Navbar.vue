@@ -124,6 +124,7 @@ export default {
   },
   methods: {
     changePw:function(){
+       console.log(124);
        var form = this.pwForm;
        this.$refs.pwForm.validate(valid => {
            if(valid){
